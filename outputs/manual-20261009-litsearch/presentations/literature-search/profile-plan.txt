@@ -1,0 +1,8 @@
+task mode: create
+primary deck-profile: engineering-platform
+secondary gates: appendix-heavy for database comparison and practical checklist
+required proof objects: database comparison, query-building diagram, three-round workflow, quality rubric, applied near-infrared case, reproducible evidence package
+source requirements: user-provided teaching objectives; database names and general search practices
+brand assets: none required; use an editorial academic palette without logos
+QA gates: editable text/shapes, no text overflow, readable at thumbnail, distinct slide rhythm, rendered contact sheet inspection
+known missing inputs: institution-specific subscriptions, discipline-specific database access, exact class duration

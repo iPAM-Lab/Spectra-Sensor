@@ -1,0 +1,10 @@
+slide size: 1280x720
+backgrounds: warm paper #fbfaf6, cream #f4f0e6, deep ink #172c28
+typography: Aptos Display for claims; Aptos for body; Aptos Mono for labels
+palette: ink #172c28; amber #d8913f; cyan #b9d9d2; lime #dbe7bd; paper #fbfaf6
+chart grammar: authored editable shapes, direct labels, no unnecessary legends
+diagram grammar: horizontal workflows with numbered stages and semantic arrows
+container grammar: flat rectangles for real grouping only; no decorative rounded cards
+footer grammar: page markers and date labels kept minimal
+layout families: editorial cover, four-column comparison, four-step query anatomy, dark workflow, two-column rubric, sequential case study, evidence package, assignment checklist
+banned motifs: fake institutional logos, decorative pseudo-icons, dense dashboard grids

@@ -1,0 +1,13 @@
+thesis: 高质量文献检索是一套可复用的证据构建流程，而不是“会用某个数据库”。
+audience: 研究生，正在形成研究主题和阅读习惯。
+arc: 定义问题 → 选择数据库 → 构造检索式 → 三轮缩小 → 判断质量 → 近红外案例演练 → 留下可复盘证据包。
+slides:
+  1. 从搜到论文到找到证据 / cover / none
+  2. 好的检索从可检验问题开始 / problem decomposition / teaching objective
+  3. 四个数据库分工不同 / comparison matrix / general database roles
+  4. 自然语言要翻译成逻辑检索式 / query anatomy / Boolean logic
+  5. 先宽后窄，三轮检索减少噪声 / workflow / search process
+  6. 高质量论文是可核验的证据组合 / rubric / evaluation checklist
+  7. 近红外光谱案例从概念走到研究缺口 / step sequence / applied example
+  8. 每次检索留下一个证据包 / reproducibility workflow / practical handoff
+  9. 课后交付一份可复盘检索报告 / assignment / assessment

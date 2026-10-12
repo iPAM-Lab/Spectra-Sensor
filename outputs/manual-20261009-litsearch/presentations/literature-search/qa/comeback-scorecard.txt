@@ -1,0 +1,16 @@
+story: 4/5 — 从问题定义到数据库、检索式、质量判断、案例和作业，教学弧线完整。
+specificity: 5/5 — 数据库分工、布尔检索式、近红外案例和证据包都贴合研究生训练。
+rhythm: 4/5 — 使用封面、比较、流程、案例、深色总结等多种版式。
+whitespace: 4/5 — 文字密度适中，保留教师讲解空间。
+chart clarity: 4/5 — 采用可编辑的流程和比较图形，未使用难以维护的复杂图表。
+typography: 4/5 — Display/Sans/Mono 三层字体系统清晰。
+restraint: 5/5 — 没有伪 logo、装饰性图标或无意义卡片。
+precision: 4/5 — 数据库能力描述采用通用教学表述，未虚构机构权限或指标。
+coherence: 5/5 — 深墨绿、米白、琥珀和青绿贯穿全 deck。
+reference delta: n/a — 未提供参考 deck。
+
+primary profile: engineering-platform
+profile gate: pass — 重点是技术检索流程、布尔逻辑和可复盘证据包。
+package checks: pass — PPTX 44,847 bytes；9 个 slide XML；9 个 slide relationship 文件。
+render checks: partial — 直接 PPTX 导出成功；当前 Windows 演示文稿渲染依赖在 preview 阶段底层崩溃，因此未生成 PNG contact sheet。
+accepted caveat: 需要在 PowerPoint 或支持的演示文稿运行时中打开最终 PPTX 做最后的视觉确认。
