@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>常用近红外光谱预处理方法简介｜谱见</title>
+  <meta name="description" content="现代近红外光谱分析技术是利用化学物质在NIR光谱区内的光学特性，快速测定样品中一种或多种化学成分含量和特性的新物理测定技术，具有样品用量少，样品无损失，分析速度快，同时测定多指标，无废物污染以及成本低、利用率该等常规方法无法比拟的优点。   近红外光谱采集到的光谱信息中，除了所需的基本样品特性植物，经常还掺杂着不需要的无关信息和噪声，例如杂散光、较强的电噪声以及传输过程中...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2019.07.10</p>
+          <h1>常用近红外光谱预处理方法简介</h1>
+          <p class="article-deck">现代近红外光谱分析技术是利用化学物质在NIR光谱区内的光学特性，快速测定样品中一种或多种化学成分含量和特性的新物理测定技术，具有样品用量少，样品无损失，分析速度快，同时测定多指标，无废物污染以及成本低、利用率该等常规方法无法比拟的优点。   近红外光谱采集到的光谱信息中，除了所需的基本样品特性植物，经常还掺杂着不需要的无关信息和噪声，例如杂散光、较强的电噪声以及传输过程中...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2019.07.10</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;现代近红外光谱分析技术是利用化学物质在NIR光谱区内的光学特性，快速测定样品中一种或多种化学成分含量和特性的新物理测定技术，具有样品用量少，样品无损失，分析速度快，同时测定多指标，无废物污染以及成本低、利用率该等常规方法无法比拟的优点。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;近红外光谱采集到的光谱信息中，除了所需的基本样品特性植物，经常还掺杂着不需要的无关信息和噪声，例如杂散光、较强的电噪声以及传输过程中的人为噪声，常用的光谱预处理方法主要有数据增强变换、平滑、导数、光散射校正、傅里叶变换、矢量归一化、最大值与最小值归一化处理等，近年来，小波变换、正交信号校正与净信号分析等方法也得到广泛应用。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;（1）数据增强变换（Data Enhancement）：为有效提高所建模型的代表性和预测能力，在进行建模之前需要采用数据增强算法对所采集数据进行多余数据删除，来增强数据之间的差异，常用算法主要有：均值中心化（mean ceterning）、标准化（autoscaling）和归一化（normalization）。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）平滑算法（Smoothin ）：平滑算法是一种通过多次测量光谱信息数据求平均值来减低其自身所携带的随机误差、提高信噪比的方法，其主要方法有：厢车平均法、移动窗口平均平滑法、卷积平滑法。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （3）导数算法（Derivative）：在进行数据采集过程中，无法将由背景颜色或其他因素引起的误差减少到零，但是通过导数算法可以消除由基线漂移或平缓背景引起的干扰，分辨重叠峰，提高分辨率和灵敏度，但在此过程中也会引入部分误差，根据不同的波长采样点数可分为直接差分法和Savitzky-Golay卷积法两种。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （4）光散射校正（Light Scattering Correction）：光散射校正主要针对漫反射数据采集过程中因样品粒径大小分布不均匀导致的光谱差异，目前主要用于消除此差异的方法有：多元散射校正MSC（Multiplicative Scatter Correction）和标准正态变量变换SNV（Standard Normal Variate Transformation），其中多元散射校正主要用于消除因颗粒分布不均匀及颗粒大小产生的散射现象，标准正态变量变换则是用于消除由固体颗粒大小、表面散射及光程变换对漫反射的影响。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （5）傅里叶变换（Fourier Transform）：在光谱信息处理中，FT作为信号处理技术不仅可以将光谱信号分解成许多不同频率的正弦波的叠加，同样可以进行原始光谱数据的平滑、插值、滤波、拟合及提高分辨率运算以及进行平滑去燥、数据压缩及信息提取。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （6）小波变换（Wavelet Transform）：WT是根据频率的不同，将化学信号分解成多种尺度成分，并对不同的尺度成分采取相应粗细的取样步长，从而能够聚焦于信号中的任何部分，达到对信号数据的完全提取。 &nbsp;&nbsp;&nbsp;实质是利用信号x投影到小波上，获取相对较容易处理的小波系数，最终得到的信号根据不同的需求选择对小波系数不同的处理，再进行反变换得到的信号，其与FT变换的最大区别在于FT可利用的函数较少，通常只有三角函数，而WT可利用的函数较多，且不同的函数得到的结果截然不同，根据不同的使用环境和要求选择不同的小波函数，就能得到离理想结果最近的实验结果，其关键就是选取小波变换函数。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;（7）正交信号校正（Orthogonal Signal Correction）：上述几种预处理方法只是单纯地从谱图数据处理角度来思考，但未考虑化学组分浓度值矩阵在整个过程的影响，因为进行完谱图处理之后需要将谱图数据与化学组分浓度进行线性或非线性处理，这就间接地将化学浓度值中的误差带入到数据中，正交信号校正则可以实现滤除无关信号的作用，其基本原理是：在建立定量校正模型之前将光谱矩阵和浓度矩阵正交，再进行多元校正，这样能够有效简化模型数据处理过程及提高模型预测能力。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;上述几种方法主要是针对掺杂在谱图中的噪声、杂散光等干扰的处理，但是在实践的谱图处理中，除了这些干扰之外，还存在着信息采集过程的基线漂移和平缓背景干扰，针对基线漂移，单纯地谱图数据处理不能有效的地剔除干扰信息，而导数光谱法能够有效地消除基线漂移和平缓背景干扰，提供比原谱图更高的分辨率和更清晰的光谱轮廓变化，其基本原理就是进行谱图信息求导，具体实现方法可根据不同需要进行一阶或二阶求导处理，常用的求导方法主要有：直接差分法、Savitzky-Golay窗口移动多项式最小二乘拟合法及以及窗口优化选择的二阶导数法，下面就三种方法主要原理进行介绍：</p>
+
+<p>&nbsp; &nbsp;（1）直接差分法</p>
+
+<p>直接差分法是最简单的处理方法，可以通过调用matlab中的deriv函数直接进行处理，具体数学计算方法公式如下：</p>
+
+<p>一阶导数 &nbsp;&nbsp;&nbsp;<em>dx</em><em>dλ</em><em>=</em><em>x</em><em>i+1</em><em>-</em><em>x</em><em>i</em>Δ<em>λ</em><img alt="" height="27" src="https://i-blog.csdnimg.cn/blog_migrate/3bf98cad3612707a00934e6a264b2de3.png" width="77" loading="lazy"> &nbsp;或<em>dx</em><em>dλ</em><em>=</em><em>x</em><em>i+1</em><em>-</em><em>x</em><em>i-1</em>2Δ<em>λ</em><img alt="" height="27" src="https://i-blog.csdnimg.cn/blog_migrate/c505d6fd513398d6d6f7fece4be37ec8.png" width="90" loading="lazy"></p>
+
+<p>二阶导数&nbsp;&nbsp;&nbsp; <em>d</em><em>2</em><em>x</em><em>d</em><em>λ</em><em>2</em>=<em>x</em><em>i+1</em><em>-</em><em>2x</em><em>i+</em><em>x</em><em>i-1</em><em>△</em><em>λ2</em><img alt="" height="30" src="https://i-blog.csdnimg.cn/blog_migrate/9a2cb5e8d3730fde205e3ce2cd346368.png" width="120" loading="lazy"></p>
+
+<p>（2）Savitzky-Golay窗口移动多项式最小二乘拟合法</p>
+
+<p>Savitzky-Golay的窗口移动多项式最小二乘拟合法，就是通过多项式对窗口之内的波谱点进行多项式最小二乘拟合，将窗口内的N=2m+1 个等距离点的数据拟合成k阶多项式，即</p>
+
+<p><em>x</em><em>j</em><em>i</em><em>=</em><em>a</em><em>0</em><em>+</em><em>a</em><em>1</em><em>j+</em><em>a</em><em>2</em><em>j</em><em>2</em><em>+…+</em><em>a</em><em>k</em><em>jk</em><img alt="" height="23" src="https://i-blog.csdnimg.cn/blog_migrate/961a17f25e132dd94ac68b7ea0914664.png" width="223" loading="lazy"> (-m&lt;j&lt;m,i&lt;=n)</p>
+
+<p>一般情况下采用以下通式来表示窗口移动多项式最小二乘拟合法：</p>
+
+<p><em>x</em><em>0</em><em>i</em><em>=</em><em>1</em><em>A</em><em>j=-m</em><em>m</em><em>ω</em><em>j</em><em>xi+j</em><img alt="" height="54" src="https://i-blog.csdnimg.cn/blog_migrate/974523ffb8f7d99ff6cc24f9c278f81d.png" width="133" loading="lazy"></p>
+
+<p>式中,A称为归一化常数，（2m+1）为窗口宽度，为相应的权重系数，Savitzky-Golay一阶卷积求导公式为</p>
+
+<p><em>d(</em><em>x</em><em>j</em><em>i+j</em><em>)</em><em>d</em><em>j</em><em>=</em><em>a</em><em>1</em><em>+2</em><em>a</em><em>2</em><em>j+…+k</em><em>a</em><em>k</em><em>jk-1</em><img alt="" height="25" src="https://i-blog.csdnimg.cn/blog_migrate/9e1dfcdecd9e8276a1e5451f4b9a1ef5.png" width="282" loading="lazy"></p>
+
+<p></p>
+
+<p>二阶导数公式为：</p>
+
+<p><em>d</em><em>2</em><em>(</em><em>x</em><em>j</em><em>i+j</em><em>)</em><em>d</em><em>j</em><em>=2</em><em>a</em><em>2</em><em>+…+(k-1)k</em><em>a</em><em>k</em><em>jk-2</em><img alt="" height="25" src="https://i-blog.csdnimg.cn/blog_migrate/eab1d40333b6904452b4477a97de414d.png" width="299" loading="lazy"></p>
+
+<p>以此类推，可以得到该多项式的k阶导数，在实际使用过程中只使用到其中心点的信息。</p>
+
+<p>（3）基于窗口优化选择的二阶导数法</p>
+
+<p>导数法可以消除基线漂移和平缓背景干扰，但是在求导过程中会将误差引入到谱图中，同时在进行求导是窗口大小的选取存在最优问题，在实际的计算过程中，二阶导数比一阶导数更多使用，因此提出基于窗口最优的二阶导数法，</p>
+
+<p>&nbsp; &nbsp; &nbsp; 欢迎关注微信公众号《光谱学与光谱分析》，或联系个人邮箱yql025@foxmail.com，欢迎加入光谱交流群。</p>
+
+<p><img alt="" height="359" src="https://i-blog.csdnimg.cn/blog_migrate/d155bd54f90cabeebcad06d463223f47.jpeg" width="300" loading="lazy"></p>
+
+<p>&nbsp;</p>
+
+<p></p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/95366543" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

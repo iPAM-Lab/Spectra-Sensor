@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习系列1---VC维问题｜谱见</title>
+  <meta name="description" content="VC维是机器学习中用于表示机器学习能力的一个重要指标，其大小表示函数集或学习机的复杂性。在介绍一个模型VC维之前需要简要介绍一下数据“Shater（打散）”概念：Lemma 1: 对于一个函数集S，如果存在 h 个样本，能够被S中的函数以所有可能的形式分为两类，则称该函数集能够把 h 个样本打散。Lemma 2: 一个函数集的VC维是指它能够打散的最大样本数 h ，即能够被集...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.04.27</p>
+          <h1>机器学习系列1---VC维问题</h1>
+          <p class="article-deck">VC维是机器学习中用于表示机器学习能力的一个重要指标，其大小表示函数集或学习机的复杂性。在介绍一个模型VC维之前需要简要介绍一下数据“Shater（打散）”概念：Lemma 1: 对于一个函数集S，如果存在 h 个样本，能够被S中的函数以所有可能的形式分为两类，则称该函数集能够把 h 个样本打散。Lemma 2: 一个函数集的VC维是指它能够打散的最大样本数 h ，即能够被集...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.04.27</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp;VC维是机器学习中用于表示机器学习能力的一个重要指标，其大小表示函数集或学习机的复杂性。在介绍一个模型VC维之前需要简要介绍一下数据“Shater（打散）”概念：</p>
+
+<p>Lemma 1: 对于一个函数集S，如果存在 h 个样本，能够被S中的函数以所有可能的&nbsp;<img alt="2^h" src="https://private.codecogs.com/gif.latex?2%5Eh" loading="lazy">&nbsp;形式分为两类，则称该函数集能够把 h 个样本打散。</p>
+
+<p>Lemma 2: 一个函数集的VC维是指它能够打散的最大样本数 h ，即能够被集合中函数以所有可能的&nbsp;<img alt="2^h" src="https://private.codecogs.com/gif.latex?2%5Eh" loading="lazy">&nbsp;种方式分为两类的向量的最大数目。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;如果对于任意数目的样本都可用该函数集中的函数将其打散，则称该函数集的 VC 维无穷大。函数集VC维越大，表示其构建的学习机学习能力越强（函数学习方式越多），模型越复杂、运算量越大（产生过拟合现象）。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;关于VC维的求解问题目前没有统一的计算方法，但是在设计一个机器学习系统时，应尽量使用VC维较少的算法，或者通过优化设计减少学习机的VC维，这个推论主要来源与系统经验误差和真实误差之间的关系，具体推导请看下一节。</p>
+
+<p>写于2020-4-27</p>
+
+<p>加油！</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105793402" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

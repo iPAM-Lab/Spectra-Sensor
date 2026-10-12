@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习系列3---相关向量机（RVM）｜谱见</title>
+  <meta name="description" content="本期介绍一种重要的稀疏表示方法：相关向量机（Relevance Vector Machine, RVM）。RVM是有著名学者Michael E. Tipping于2001年提出的，相关论文发表在著名国际期刊《Journal of machine learning research》(该期刊的影响力大不如以前了)，论文题目为：Sparse Bayesian Learning and t...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.04.30</p>
+          <h1>机器学习系列3---相关向量机（RVM）</h1>
+          <p class="article-deck">本期介绍一种重要的稀疏表示方法：相关向量机（Relevance Vector Machine, RVM）。RVM是有著名学者Michael E. Tipping于2001年提出的，相关论文发表在著名国际期刊《Journal of machine learning research》(该期刊的影响力大不如以前了)，论文题目为：Sparse Bayesian Learning and t...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.04.30</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;本期介绍一种重要的稀疏表示方法：相关向量机（Relevance Vector Machine, RVM）。RVM是有著名学者Michael E. Tipping于2001年提出的，相关论文发表在著名国际期刊《Journal of machine learning research》(该期刊的影响力大不如以前了)，论文题目为：Sparse Bayesian Learning and the Relevance Vector Machine，主要介绍了传统分类算法支持向量机（SVM）的应用限制，然后基于贝叶斯框架提出基于稀疏表示的特征变量分析方法，即相关向量机，最后根据数据分析对比说明相关向量机的有效性。</p> 
+<p>一、支持向量机的局限性</p> 
+<p>&nbsp; &nbsp; &nbsp; 支持向量机是经典的机器学习算法，自提出至今备受大家关注，至今仍是相关领域的研究热点，关于支持向量机的介绍请看这位博主的作品：<a href="https://blog.csdn.net/lyxleft/article/details/82880860" target="_blank" rel="noreferrer">https://blog.csdn.net/lyxleft/article/details/82880860</a>（至今看到很不错的博文）。但是SVM在实际应用中存在以下缺点：</p> 
+<p>1. SVM支持向量个数随训练集样本个数增大呈线性增长，导致在进行核函数计算之前需要某种处理减少计算复杂度；</p> 
+<p>2. SVM无法计算输出结果的后验概率分布，导致无法判断计算结果的可靠性；</p> 
+<p>3. 需要交叉验证确定超参数，计算过程复杂；</p> 
+<p>4. SVM 不太适合用于多分类问题，虽然目前有针对多分类的Libsvm工具包，但是计算的主要思路还是2分类，通过集成多个分类器的计算结果实现多分类问题；</p> 
+<p>5. SVM的核函数必须满足Mercer条件，限制了SVM的应用范围。</p> 
+<p>二、相关向量机分析过程</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;类似于SVM，假设模型为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small t_n=\Phi (x_n)w_n+\varepsilon _n\; \; \;\; \; \; (1)" src="https://private.codecogs.com/gif.latex?%5Csmall%20t_n%3D%5CPhi%20%28x_n%29w_n&amp;plus;%5Cvarepsilon%20_n%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%281%29" loading="lazy">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p> 
+<p>&nbsp;其中&nbsp;<img alt="\small \Phi (x_n)=K(\boldsymbol{\mathbf{x}},x_n)" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5CPhi%20%28x_n%29%3DK%28%5Cboldsymbol%7B%5Cmathbf%7Bx%7D%7D%2Cx_n%29" loading="lazy">&nbsp;表示核函数，假设噪声服从零均值、<img alt="\small \sigma^2" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Csigma%5E2" loading="lazy">的高斯分布，则这个数据服从：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="\small p(\mathbf{t}|\mathbf{w},\sigma^2)=(2\pi \sigma ^2)^{-N/2}exp{-\frac{1}{2\sigma ^2}\left \| \mathbf{t}-\Phi \mathbf{w} \right \|^2}\; \; \;\; \; \; (2)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28%5Cmathbf%7Bt%7D%7C%5Cmathbf%7Bw%7D%2C%5Csigma%5E2%29%3D%282%5Cpi%20%5Csigma%20%5E2%29%5E%7B-N/2%7Dexp%7B-%5Cfrac%7B1%7D%7B2%5Csigma%20%5E2%7D%5Cleft%20%5C%7C%20%5Cmathbf%7Bt%7D-%5CPhi%20%5Cmathbf%7Bw%7D%20%5Cright%20%5C%7C%5E2%7D%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%282%29" loading="lazy">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p> 
+<p>对于超参数&nbsp;<img alt="\small w" src="https://private.codecogs.com/gif.latex?%5Csmall%20w" loading="lazy">&nbsp;和&nbsp;<img alt="\small \beta =\sigma^{-2}" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Cbeta%20%3D%5Csigma%5E%7B-2%7D" loading="lazy">&nbsp;取先验分布：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small p(w|\alpha )=\prod_{i=0}^{N}N(w_i|0,\alpha _i^{-1}) \; \; \;\; \; \; (3)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28w%7C%5Calpha%20%29%3D%5Cprod_%7Bi%3D0%7D%5E%7BN%7DN%28w_i%7C0%2C%5Calpha%20_i%5E%7B-1%7D%29%20%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%283%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="\small p(\alpha )=\prod _{i=0}^N Gamma(\alpha |a,b) \; \; \;\; \; \; (4)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28%5Calpha%20%29%3D%5Cprod%20_%7Bi%3D0%7D%5EN%20Gamma%28%5Calpha%20%7Ca%2Cb%29%20%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%284%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small p(\beta )=Gamma(\beta |c,d)\; \; \;\; \; \; (5)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28%5Cbeta%20%29%3DGamma%28%5Cbeta%20%7Cc%2Cd%29%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%285%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;根据分层概率分布，</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small p(\mathbf{w}|\mathbf{t},\mathbf{\alpha} ,\sigma ^2)=\frac{p(\mathbf{t}|\mathbf{w},\sigma ^2)p(\mathbf{w}|\mathbf{\alpha} )}{p(\mathbf{t}|\mathbf{\alpha} ,\sigma ^2)} =N(\mathbf{\mu} ,\mathbf{\Sigma} ) \; \; \;\; \; \; (6)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28%5Cmathbf%7Bw%7D%7C%5Cmathbf%7Bt%7D%2C%5Cmathbf%7B%5Calpha%7D%20%2C%5Csigma%20%5E2%29%3D%5Cfrac%7Bp%28%5Cmathbf%7Bt%7D%7C%5Cmathbf%7Bw%7D%2C%5Csigma%20%5E2%29p%28%5Cmathbf%7Bw%7D%7C%5Cmathbf%7B%5Calpha%7D%20%29%7D%7Bp%28%5Cmathbf%7Bt%7D%7C%5Cmathbf%7B%5Calpha%7D%20%2C%5Csigma%20%5E2%29%7D%20%3DN%28%5Cmathbf%7B%5Cmu%7D%20%2C%5Cmathbf%7B%5CSigma%7D%20%29%20%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%286%29" loading="lazy"></p> 
+<p>其中，</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small \mathbf{\Sigma} =(\sigma ^{-2}\mathbf{\Phi} ^T\mathbf{\Phi} +\mathbf{A})^{-1}\; \; \;\; \; \; (7)" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Cmathbf%7B%5CSigma%7D%20%3D%28%5Csigma%20%5E%7B-2%7D%5Cmathbf%7B%5CPhi%7D%20%5ET%5Cmathbf%7B%5CPhi%7D%20&amp;plus;%5Cmathbf%7BA%7D%29%5E%7B-1%7D%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%287%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="\small \mathbf{\mu} =\sigma ^{-2}\mathbf{\Sigma} \mathbf{\Phi }^T\mathbf{t}\; \; \;\; \; \; (8)" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Cmathbf%7B%5Cmu%7D%20%3D%5Csigma%20%5E%7B-2%7D%5Cmathbf%7B%5CSigma%7D%20%5Cmathbf%7B%5CPhi%20%7D%5ET%5Cmathbf%7Bt%7D%5C%3B%20%5C%3B%20%5C%3B%5C%3B%20%5C%3B%20%5C%3B%20%288%29" loading="lazy"></p> 
+<p>对于新样本，对应的预测输出为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="\small p(t_*|\mathbf{t},\mathbf{\alpha} _MP,\sigma _{MP}^2)=\int p(t_*|\mathbf{w},\sigma _{MP}^2)p(\mathbf{w}\mathbf{t},\mathbf{\alpha} _MP,\sigma _{MP}^2)d\mathbf{w}\;\;\;\;\;\;\;\;\;(9)" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28t_*%7C%5Cmathbf%7Bt%7D%2C%5Cmathbf%7B%5Calpha%7D%20_MP%2C%5Csigma%20_%7BMP%7D%5E2%29%3D%5Cint%20p%28t_*%7C%5Cmathbf%7Bw%7D%2C%5Csigma%20_%7BMP%7D%5E2%29p%28%5Cmathbf%7Bw%7D%5Cmathbf%7Bt%7D%2C%5Cmathbf%7B%5Calpha%7D%20_MP%2C%5Csigma%20_%7BMP%7D%5E2%29d%5Cmathbf%7Bw%7D%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%289%29" loading="lazy"></p> 
+<p>对于超参数&nbsp;<img alt="\small \mathbf{\alpha }" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Cmathbf%7B%5Calpha%20%7D" loading="lazy">&nbsp;和&nbsp;<img alt="\small \sigma ^2" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Csigma%20%5E2" loading="lazy">&nbsp;的迭代计算方法为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="\small \alpha _i^{new}=\frac{r_i}{\mu _i^2}\;\;\;\;\;\;\;\;(10)" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Calpha%20_i%5E%7Bnew%7D%3D%5Cfrac%7Br_i%7D%7B%5Cmu%20_i%5E2%7D%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%2810%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\small r_i=1-\alpha _{i}\Sigma _{ii}\;\;\;\;\;\;\;\;(11)" src="https://private.codecogs.com/gif.latex?%5Csmall%20r_i%3D1-%5Calpha%20_%7Bi%7D%5CSigma%20_%7Bii%7D%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%2811%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img alt="\small (\sigma ^2)^{new}=\frac{\left \| \mathbf{t}-\mathbf{\Phi}\mathbf{ \mu } \right \|^2}{N-\Sigma _i\gamma _i}\;\;\;\;\;\;\;(12)" src="https://private.codecogs.com/gif.latex?%5Csmall%20%28%5Csigma%20%5E2%29%5E%7Bnew%7D%3D%5Cfrac%7B%5Cleft%20%5C%7C%20%5Cmathbf%7Bt%7D-%5Cmathbf%7B%5CPhi%7D%5Cmathbf%7B%20%5Cmu%20%7D%20%5Cright%20%5C%7C%5E2%7D%7BN-%5CSigma%20_i%5Cgamma%20_i%7D%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%5C%3B%2812%29" loading="lazy"></p> 
+<p>在上述迭代求解过程中，发现大部分的&nbsp;<img alt="\small \mathbf{\alpha }_i" src="https://private.codecogs.com/gif.latex?%5Csmall%20%5Cmathbf%7B%5Calpha%20%7D_i" loading="lazy">&nbsp;为无限大，这意味着参数控制变量&nbsp;<img alt="\small p(w_i )=N(0,\alpha _i^{-1})" src="https://private.codecogs.com/gif.latex?%5Csmall%20p%28w_i%20%29%3DN%280%2C%5Calpha%20_i%5E%7B-1%7D%29" loading="lazy">&nbsp;服从零均值、零方差的高斯正态分布，则大部分&nbsp;<img alt="\small w" src="https://private.codecogs.com/gif.latex?%5Csmall%20w" loading="lazy"> 分布在 0 附近，即实现了变量的稀疏表示，对于不为零的变量，则称为“相关向量”。</p> 
+<p>MATLAB实现RVM请查看：<a href="https://blog.csdn.net/qq_35667901/article/details/105880699" target="_blank" rel="noreferrer">https://blog.csdn.net/qq_35667901/article/details/105880699</a></p> 
+<p>写于2020.4.30</p> 
+<p>加油！</p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105848028" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB经典代码实现---LASSO和Elastic net｜谱见</title>
+  <meta name="description" content="作为正则化约束或者变量稀疏筛选相关领域的经典分析方法，最小绝对收缩和选择方法（Least Absolute Shrinkage and Selection Operator, LASSO）和弹性网络（Elastic net）已被广泛应用到各行各业，其中较为常见的有食品、化工、医药及通信行业，两种的基本思路是在最小二乘的基础上添加变量约束实现特征筛选或变量稀疏。 （注：前期认...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 04 / 学习随记 · 2020.04.10</p>
+          <h1>MATLAB经典代码实现---LASSO和Elastic net</h1>
+          <p class="article-deck">作为正则化约束或者变量稀疏筛选相关领域的经典分析方法，最小绝对收缩和选择方法（Least Absolute Shrinkage and Selection Operator, LASSO）和弹性网络（Elastic net）已被广泛应用到各行各业，其中较为常见的有食品、化工、医药及通信行业，两种的基本思路是在最小二乘的基础上添加变量约束实现特征筛选或变量稀疏。 （注：前期认...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.04.10</span></div>
+        </header>
+        <div class="article-body">
+                    <p></p> 
+<p>&nbsp; &nbsp; &nbsp;作为正则化约束或者变量稀疏筛选相关领域的经典分析方法，最小绝对收缩和选择方法（Least Absolute Shrinkage and Selection Operator, LASSO）和弹性网络（Elastic net）已被广泛应用到各行各业，其中较为常见的有食品、化工、医药及通信行业，两种的基本思路是在最小二乘的基础上添加变量约束实现特征筛选或变量稀疏。</p> 
+<p>&nbsp; &nbsp;（注：前期认为正则化约束后的变量为特征变量，但是现在分析发现这个说法不一定正确，当分析对象变量维度远大于样本变量数时，LASSO只能选择样本大小的变量数，这个主要因为LASSO于1996年被Robert Tibshirani提出，当时的测量信号或检测信号维度较低，不存在现在所谓的“维度灾难”一说，结合岭回归和LASSO，Zou等于2005年提出Elastic nets算法（论文题目：Addendum: Regularization and variable selection via the elastic net&nbsp; 链接：<a href="http://stanford.edu/~hastie/Papers/B67.2%20%282005%29%20301-320%20Zou%20%26%20Hastie.pdf" title="http://stanford.edu/~hastie/Papers/B67.2%20(2005)%20301-320%20Zou%20%26%20Hastie.pdf" rel="noreferrer" target="_blank">http://stanford.edu/~hastie/Papers/B67.2%20(2005)%20301-320%20Zou%20%26%20Hastie.pdf</a>），相比于LASSO，Elastic net分析性能更优）。</p> 
+<p>&nbsp; &nbsp; MATLAB中通过参数Alpha来选择LASSO、岭回归和Elastic net三种算法，具体表示为：</p> 
+<pre><code>[b,fitinfo] = lasso(x,y,'CV',10,'Alpha',0.2); % 参数初始化
+axTrace = lassoPlot(b,fitinfo); 交叉验证训练轨迹
+axCV = lassoPlot(b,fitinfo,'PlotType','CV');
+lam = fitinfo.IndexMinMSE;  % 最小MSE对应lambda
+mat = b(:,lam);             % 最优lambda对应的稀疏系数
+[row, ] = find(b(:,lam)~=0);% 非零系数对应的行
+Xla = X1(:, row');           % 筛选稀疏变量</code></pre> 
+<ol><li>x：为输入自变量，y为因变量；CV表示交叉验证（Cross-Validation）,Alpha表示惩罚参数&nbsp;<img alt="\alpha" src="https://private.codecogs.com/gif.latex?%5Calpha" loading="lazy">&nbsp;<img alt="(0\leq \alpha\leq 1)" src="https://private.codecogs.com/gif.latex?%280%5Cleq%20%5Calpha%5Cleq%201%29" loading="lazy">,当<img alt="\alpha = 1" src="https://private.codecogs.com/gif.latex?%5Calpha%20%3D%201" loading="lazy">&nbsp;时，该代码表示LASSO, 当<img alt="\alpha=0" src="https://private.codecogs.com/gif.latex?%5Calpha%3D0" loading="lazy">&nbsp; 时表示岭回归，其他值表示Elastic net;</li><li>对于稀疏系数的确定，主要有两个指标（MSE和SE），如果选择MSE作为最佳参数指标的话，那么稀疏系数的确定点在MinMSE,具体表现为第四至六行。</li></ol>
+<p>仿真结果：</p> 
+<p><img alt="" height="538" src="https://i-blog.csdnimg.cn/blog_migrate/9df2ab45349cd1f32e2d2590597c619b.png" width="615" loading="lazy"></p> 
+<p>训练轨迹，绿线上方表示最佳参数MinMSE对应的非零变量个数;</p> 
+<p><img alt="" height="594" src="https://i-blog.csdnimg.cn/blog_migrate/b65e5f674c28a773b1c2152085cdec3f.png" width="724" loading="lazy"></p> 
+<p>MSE变化曲线，其中绿色表示MinMSE点，蓝色表示MinSE，一般选择MinMSE。</p> 
+<p></p> 
+<p>（好累，晚上10点半，写不动了，撤了）</p> 
+<p><span><strong>个人新建立的weixin公众号，光谱学与光谱分析，欢迎大家关注</strong></span></p> 
+<p></p> 
+<p></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105442946" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分析数据正态分布检验方法｜谱见</title>
+  <meta name="description" content="在对特定分析对象进行建模分析时，一般假设该模型变量服从正态分布，然后采用符合该变量的分析方法建立相关的分析模型。此外，根据熵定理，自然参数一般服从正态分布（高斯分布），因此，在进行建模之前，需要对所分析的数据进行正态分布检验分析，根据数据正态分布特性判断数据采集策略及模型性能优化方法。目前数据正态分布检验方法主要分为3类：1. 图形分析方法（graphical methods）该类方法主要通过对分析数据建立直观图形判断是否服从正态分布，常用的图形分析方法主要有：直方图、Q-Q图及箱形图；2.">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2020.09.29</p>
+          <h1>分析数据正态分布检验方法</h1>
+          <p class="article-deck">在对特定分析对象进行建模分析时，一般假设该模型变量服从正态分布，然后采用符合该变量的分析方法建立相关的分析模型。此外，根据熵定理，自然参数一般服从正态分布（高斯分布），因此，在进行建模之前，需要对所分析的数据进行正态分布检验分析，根据数据正态分布特性判断数据采集策略及模型性能优化方法。目前数据正态分布检验方法主要分为3类：1. 图形分析方法（graphical methods）该类方法主要通过对分析数据建立直观图形判断是否服从正态分布，常用的图形分析方法主要有：直方图、Q-Q图及箱形图；2.</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.09.29</span></div>
+        </header>
+        <div class="article-body">
+                    <p>在对特定分析对象进行建模分析时，一般假设该模型变量服从正态分布，然后采用符合该变量的分析方法建立相关的分析模型。此外，根据熵定理，自然参数一般服从正态分布（高斯分布），因此，在进行建模之前，需要对所分析的数据进行正态分布检验分析，根据数据正态分布特性判断数据采集策略及模型性能优化方法。</p>
+
+<p>目前数据正态分布检验方法主要分为3类：</p>
+
+<p>1. 图形分析方法（graphical methods）</p>
+
+<p>该类方法主要通过对分析数据建立直观图形判断是否服从正态分布，常用的图形分析方法主要有：直方图、Q-Q图及箱形图；</p>
+
+<p>2. 数值方法（numerical methods）</p>
+
+<p>该类方法通过检测分析数据的偏度（skewness）和峰度（kurtosis）实现正态测试；</p>
+
+<p>3. formal normality test（应该翻译为正式正态检测）</p>
+
+<p>主要包含经典正态分布检测方法：Shapiro(SW)，Kolmogorov-Smirnov(KS)，Lillefors(LF) test 和Aderson-Darling (AD)，这4种方法是目前较广的分析方法，此外，在MATLAB中还有Jarque-Bera (JB)测试也用于数据正态分布测定。上述方法的数据公式表达依次为：</p>
+
+<p><img alt="W=\frac{\sum_{i=1}^n (a_iy_i )^2)}{\sum_{i=1}^n(y_i-\bar{y_i})^2}" src="https://private.codecogs.com/gif.latex?W%3D%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28a_iy_i%20%29%5E2%29%7D%7B%5Csum_%7Bi%3D1%7D%5En%28y_i-%5Cbar%7By_i%7D%29%5E2%7D" loading="lazy"></p>
+
+<p><img alt="T=sup_x\left | F^*(X)-F_n(x) \right |" src="https://private.codecogs.com/gif.latex?T%3Dsup_x%5Cleft%20%7C%20F%5E*%28X%29-F_n%28x%29%20%5Cright%20%7C" loading="lazy"></p>
+
+<p><img alt="D=max_x\left | F^*(X)-S_n(x) \right |" src="https://private.codecogs.com/gif.latex?D%3Dmax_x%5Cleft%20%7C%20F%5E*%28X%29-S_n%28x%29%20%5Cright%20%7C" loading="lazy"></p>
+
+<p><img alt="W_n^2=n\int \left [ F_n(x)-F^*(x) \right ]^2\psi (F^*(x))dF^*(x)" src="https://private.codecogs.com/gif.latex?W_n%5E2%3Dn%5Cint%20%5Cleft%20%5B%20F_n%28x%29-F%5E*%28x%29%20%5Cright%20%5D%5E2%5Cpsi%20%28F%5E*%28x%29%29dF%5E*%28x%29" loading="lazy"></p>
+
+<p>公式中各个变量含义及泛函表示请参考文献《Power comparisons of Shapiro-Wilk, Kolmogorov-Smirnov,Lilliefors and Anderson-Darling tests》。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/108875514" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱特征选择、特征提取区别及稀疏表示｜谱见</title>
+  <meta name="description" content="近红外光谱分析技术已经在很多领域得到了广泛应用，但是实际分析过程中所采集的数据都是高维、复杂的数据信号，如何从复杂的信号中选择出建模所需要的基本数据就是所谓的近红外光谱数据特征筛选或特征选择，特征提取和特征选择从数学角度来讲是两种不同的方法。   特征选择是通过选择特征变量相对集中的区间进行组合处理，然后对所筛选的变量进行下一步操作，这种方法简单、易操作，对于含有稀疏变量...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2019.11.29</p>
+          <h1>近红外光谱特征选择、特征提取区别及稀疏表示</h1>
+          <p class="article-deck">近红外光谱分析技术已经在很多领域得到了广泛应用，但是实际分析过程中所采集的数据都是高维、复杂的数据信号，如何从复杂的信号中选择出建模所需要的基本数据就是所谓的近红外光谱数据特征筛选或特征选择，特征提取和特征选择从数学角度来讲是两种不同的方法。   特征选择是通过选择特征变量相对集中的区间进行组合处理，然后对所筛选的变量进行下一步操作，这种方法简单、易操作，对于含有稀疏变量...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2019.11.29</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;近红外光谱分析技术已经在很多领域得到了广泛应用，但是实际分析过程中所采集的数据都是高维、复杂的数据信号，如何从复杂的信号中选择出建模所需要的基本数据就是所谓的近红外光谱数据特征筛选或特征选择，特征提取和特征选择从数学角度来讲是两种不同的方法。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;特征选择是通过选择特征变量相对集中的区间进行组合处理，然后对所筛选的变量进行下一步操作，这种方法简单、易操作，对于含有稀疏变量，即特征峰相对集中的数据而言计算成本低，可操作性强。但是对于复杂数据，例如茶叶检测而言，简单的优势反而致使该方法产生较差的分析性能，主要原因是特征变量分布分散，选择少量区间无法解释分析对象特性。一些传统的特征选择算法包括基于信息熵(联合熵)的选择、基于分形维数的最佳波段指数选择、基于波段相关度、离散度或B距离等的选择等。这些方法往往试图对所有波段选择最优组合，但研究表明，以最佳波段指数、联合信息熵等对全部波段进行搜索计算的最优搜索方法在高光谱数据中因为计算量太大的原因难以得到应用，因此往往要研究次优算法。最常用的次优选择算法有顺序前向选择法、顺序后向选择法和最速上升搜索算法。随着计算智能、进化计算等理论的发展，粗糙集、遗传算法和蚁群优化等新方法在光谱数据的降维处理中也陆续得到了应用。但是，由于特征选择受搜索方法和决策准则的显著影响，无论如何选择都必然会损失大量信息，因此更多的研究工作倾向于特征提取，目前应用较广的特征选择方法有子区间最小二乘法（iPLS）及无信息变量筛除法（UVE）。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;通过特征提取技术，原始高维光谱数据被映射或变换至低维空间(同时仍保留原始数据的某些必要特征)，从而可在很大程度上避免维数灾难，使得后续分类或聚类等任务不仅更加稳定、高效、易于处理，而且更为重要的是，产生更优的泛化性能。目前，已有众多特征提取方法先后被提出并应用于光谱数据的降维，如最小噪声分离(Minimum Noise Fraction，MNF)、投影寻踪、小波变换、主成分分析(PCA)、线性判别分析、独立成分分析(Independent Component Analysis，ICA)等。这些方法具有坚实的理论基础，易于执行和分析，得到了许多成功的应用。但是，它们均为(全局的)线性方法，无法揭示数据内在的非线性结构，而光谱数据是本质非线性的。为了实现光谱数据的非线性特征提取，可以借助于核技巧或核技术，将传统的线性技术核化，如Yang等提出的核Fisher判别分析、Fauvel等提出的核PCA以及Bai等提出的核ICA。另一类重要的非线性特征提取技术是基于局部特性的流形学习方法，该方法在简单光谱分析中的效果优于PCA等传统方法，很多研究文章都讨论了该方法在近红外光谱分析领域的应用，并由部分学者提出了多种改进方法，如Chen等给出了基于局部保持投影(Locality Preserving Projection，LPP)的光谱数据特征提取算法。LPP本质上是拉普拉斯特征映射的线性化版本，既具有线性方法简单、快捷、可延展的优点，又具有一般线性方法所不具备的非线性流形学习能力，在光谱数据特征提取领域得到了较好的应用。但是，LPP需要付出参数选择的额外代价，并且最近的研究表明，参数的微小变化将导致最终结果大相径庭。虽然交叉验证是常用的参数选择技术，但往往只适合于监督学习，并且耗费大量训练样本，导致高的计算开销。事实上，当训练样本(特别是有标记训练样本)较少时，目前尚无可靠的方法进行参数选择。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;除了上述两个思路之外，基于稀疏表示的近红外光谱特征选择是目前该领域讨论最多的话题，也是除了发表针对光谱SCI论文最多的领域。稀疏表示(Sparse Representation，SR)是近年来信号处理和模式识别领域的一个研究热点，是对多维数据进行线性分解的一种表示方法。它的稀疏性表现在对每个输入的信号，只有少数几个基函数具有较大的响应输出，而其它基函数的输出接近于零。因此，稀疏表示在图像降噪、修复、超分辨率处理、压缩感知等经典的图像和信号处理问题上表现出了优越的性能。近年，随着机器学习和模式识别领域的发展，考虑到稀疏表示具有自然的判别能力，能获得相互独立的特征，同时系数的稀疏分布能更好地拉开各类特征之间的距离，稀疏表示被推广到降维、分类、目标探测等相关领域。另外，降维算法的主要目的是：在保证一定学习性能的前提下提取尽可能少的特征数目。因此，降维算法在某种意义上说也是一种稀疏学习方式。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;目前，求解稀疏表示方法主要有 Lasso、Lars、Elastic Net。Zou等人在原始PCA上引入Lasso和Elastic Net稀疏方法，提出稀疏主成分分析(Sparse PCA)，值得一提的是LASSO和Elastic net方法用于范围很广，2年前我听一个讲座，台湾清华大学化工系的一位老师利用LASSO和Elastic net进行文物修复过程中有关潜在损坏区域的检测，结果很漂亮，并在4年期间发表了60多篇SCI(不一定都是基于该算法的)。类似的，Clemmensen等提出稀疏判别分析，Qiao等提出稀疏线性判别分析，Zheng等提出稀疏局部保持嵌入。而Moghaddam等将谱边界和稀疏子空间学习融合在一个框架中，即利用贪婪算法和广义谱边界的系数主成分分析和稀疏线性判别分析两种算法。随之，Cai等将谱回归方法融入到经典的子空间学习中，如PCA、LDA和LPP，提出一种新的降维框架统一稀疏子空间学习方法。次年，Cai等在AAAI国际会议上发表了基于图的稀疏投影方法。在此基础上，Lai等提出在保持稀疏关系的同时最大化不同样本间距离的稀疏局部判别投影。Zhou等提出流形弹性网络(Manifold Elastic Net，MEN)方法，并利用MEN提出稀疏降维的一种框架。Wright等、Cheng等、Huang等和Qiao等研究员先后利用稀疏表示构建<em>L1</em>图，并应用到子空间学习方法的中，即寻找一个能保留原始高维数据稀疏关系的低维子空间，此处统称稀疏保持投影(Sparsity&nbsp; Preserving&nbsp; Projections，SPP)。随后，Qiao等将半监督判别分析(Semi-Supervised Discriminant Analysis，SDA)中正则项用SPP代替，提出稀疏保持判别分析(Sparsity Preserving Discriminant Analysis，SPDA)的半监督方法。Wong在SPP基础上引入非负矩阵分解，提出具有自然判别信息的非负稀疏保持嵌入(Non-negative Sparseness Preserving Embeding,NSPE)。Gui等和Lu等在SPP基础上已引入判别信息分别提出判别稀疏近邻保持嵌入两种监督方法。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;值得一提的是，特征提取和数据降维之间存在交叉区域，有的方法既叫数据降维，又叫特征选择，但是数据降维不等于特征提取或者特征选择，特别是针对高光谱数据处理时，数据降维是信号重建的关键一步，但是并不是特征选择，特征选择需要构建稀疏字典，通过最小化目标函数进行变量选择。</p>
+
+<p>常用特征选择方法：CARS、GA、iPLS、UVE、PSO、SPA、VIP、PCA等MATLAB代码已在我的博客下载文件中更新，欢迎下载，具体代码调试和后期咨询欢迎随时交流（<strong><span>前期上传代码有误，CSDN现有版本不支持修改，已经下载的同学联系我，无偿提供更新代码</span></strong>）。</p>
+
+<p>于2019年11月29</p>
+
+<p><span><strong>个人新建立的weixingongzhonghao，光谱学与光谱分析，欢迎大家关注，光谱交流群！</strong></span></p>
+
+<p></p>
+
+<p><img alt="" height="359" src="https://i-blog.csdnimg.cn/blog_migrate/d155bd54f90cabeebcad06d463223f47.jpeg" width="300" loading="lazy"></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/103304627" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

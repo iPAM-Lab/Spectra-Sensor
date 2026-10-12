@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB 检验数据正态分布及代码实现｜谱见</title>
+  <meta name="description" content="上篇简要介绍了正态分布检测的必要性和主要分析方法，此篇主要介绍如何通过MATLAB判断分析数据正态特性。1. 主要方法MATLAB检测数据正态特性主要通过数值测定和图形分析，其中数值测定指通过JB等假设检验方法进行测定分析数据，图形分析方法是指通过分析数据正态拟合程度判断数是否符合正态分布，主要有Q-Q图、直方图以及normplot工具箱。2.代码实现（1）假设检验JB: H= jbtest (X)H = jbtest (X,alpha)[h, p, jbstat, cv] = ">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2020.09.30</p>
+          <h1>MATLAB 检验数据正态分布及代码实现</h1>
+          <p class="article-deck">上篇简要介绍了正态分布检测的必要性和主要分析方法，此篇主要介绍如何通过MATLAB判断分析数据正态特性。1. 主要方法MATLAB检测数据正态特性主要通过数值测定和图形分析，其中数值测定指通过JB等假设检验方法进行测定分析数据，图形分析方法是指通过分析数据正态拟合程度判断数是否符合正态分布，主要有Q-Q图、直方图以及normplot工具箱。2.代码实现（1）假设检验JB: H= jbtest (X)H = jbtest (X,alpha)[h, p, jbstat, cv] = </p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.09.30</span></div>
+        </header>
+        <div class="article-body">
+                    <p>上篇简要介绍了正态分布检测的必要性和主要分析方法，此篇主要介绍如何通过MATLAB判断分析数据正态特性。</p>
+
+<p>1. 主要方法</p>
+
+<p>MATLAB检测数据正态特性主要通过数值测定和图形分析，其中数值测定指通过JB等假设检验方法进行测定分析数据，图形分析方法是指通过分析数据正态拟合程度判断数是否符合正态分布，主要有Q-Q图、直方图以及normplot工具箱。</p>
+
+<p>2.代码实现</p>
+
+<p>（1）假设检验</p>
+
+<p>JB: H= jbtest (X)</p>
+
+<p>H = jbtest (X,alpha)</p>
+
+<p>[h, p, jbstat, cv] = jbtest (X,alpha)</p>
+
+<p>其中，alpha为显著水平（默认0.005）</p>
+
+<p>h 为测试结果，如果h=0，则认为X服从正态分布，如果 h=1，则否定 X服从正态分布；</p>
+
+<p>p 为接受假设的概率，p越接近于0，可拒绝正态分布假设；</p>
+
+<p>CV为是否拒绝原假设的临界值</p>
+
+<p>其他检验方法为：</p>
+
+<ul><li><em><strong>kstest</strong></em>（Kolmogorov-Smirnow）</li><li><em><strong>lillietest</strong></em>（Lilliefors test）</li></ul><p>对于其他方法不再分析。</p>
+
+<p>（2）图形分析</p>
+
+<ul><li>直方图：hist(X,M)</li></ul><p>直方图hist函数中X为被分析数据，可以是单列也可以是多多列，为方便分析显示一般为单列，M表示将X有序划分入标量M所指定数目的矩形图中。</p>
+
+<ul><li>normplot函数: normplot(X)</li></ul><p>normplot函数直接绘制分析数据的正态概率图形，其中样本数据用蓝色“+”表示，标准正态线用红色“-”，判断标准为：数据越接近于红色线，其符合正态分布程度越高，一般情况不会和直线重合。</p>
+
+<ul><li>qqplot：qqplot(x)</li></ul><p>qqplot（x）显示样本数据x的分位数与正态分布的理论分位数之间的分位数图。 如果x的分布是正态的，则数据图显示为线性。后面有学者提出可用于判断不同分布类型的gqqplot工具箱，其实现代码为：gqqplot(X,'normal')，其中 normal表示正态分布，也可跟根据分析要求选择 'gamma'等常见分析类型（博客已提供gqqplot工具箱.m文件，欢迎下载）。</p>
+
+<p>3.举例分析</p>
+
+<p>首先为直方图，图中数据为一批样本某指标含量分布，所得直方图横轴为变量区间、纵轴为设定箱形区间变量个数，由图可知该指标含量不符合正态分布。</p>
+
+<p><img alt="" height="317" src="https://i-blog.csdnimg.cn/blog_migrate/97daa0b93697cad09239c1c457c56f2e.png" width="431" loading="lazy"></p>
+
+<p>第二个为normplot，其中横轴为变量区间，纵轴为累计概率分布（CDF），红色点划线为根据分析数据均值和方差构建的<span>正式</span>正态分布线，蓝色点为分析样本点，越接近于直线说明样本正态特性越好，由图可知，分析数据尾部远离直线，且中间大量样本分布处（14.5）样本低于直线，因此该分析数据正态性差，或者不服从正态分布。</p>
+
+<p><img alt="" height="431" src="https://i-blog.csdnimg.cn/blog_migrate/c913b1cea648f1554314eae834bd6830.png" width="458" loading="lazy"></p>
+
+<p>第三个为qqplot，该图的横轴表示理论分位变量分布，纵轴辨识实际输入变量分位数分布，直线为y=x，对比方法为蓝色点分布在直线上表示服从正态分布，由图可知该数据不服从正态分布，结合上图发现，qqplot检验正态分布更加直观，但是具体接近程度还需要结合数值检测方法实现。</p>
+
+<p><img alt="" height="425" src="https://i-blog.csdnimg.cn/blog_migrate/fb5653d63371276098f6a12703f8b7de.png" width="511" loading="lazy"></p>
+
+<p>4. 后续</p>
+
+<p>对于非正态分布，目前有部分方法可以将非正态分布数据转换为近似正态分布，后期有机会再写一下个人学习结果。</p>
+
+<p>&nbsp;</p>
+
+<p>完---2020.9.30</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/108876046" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

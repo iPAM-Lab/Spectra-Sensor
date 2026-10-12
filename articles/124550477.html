@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱预处理方法综述及分析策略选择｜谱见</title>
+  <meta name="description" content="化学计量学方法及计算机技术的快速发展促进了以近红外光谱分析为代表的无损检测技术的广泛应用，建立准确的分析预测模型是近红外分析的核心工作。其中，感兴趣信息的提取是数据分析和模型解释的基础，也直接决定了模型的泛化性和稳定性。但实际分析过程获取的光谱数据在包含有效信息的同时，还包含大量的冗余、干扰信息，作为数据“清洗”的关键一步，数据预处理对光谱分析过程至关重要，不同预处理方法及其组合对数据分析影响不同，如何根据预处理方法的适用性选择合适的方法及其组合是近红外分析的首要任务。预处理主要用于调整每个测量变量的可">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2022.05.03</p>
+          <h1>光谱预处理方法综述及分析策略选择</h1>
+          <p class="article-deck">化学计量学方法及计算机技术的快速发展促进了以近红外光谱分析为代表的无损检测技术的广泛应用，建立准确的分析预测模型是近红外分析的核心工作。其中，感兴趣信息的提取是数据分析和模型解释的基础，也直接决定了模型的泛化性和稳定性。但实际分析过程获取的光谱数据在包含有效信息的同时，还包含大量的冗余、干扰信息，作为数据“清洗”的关键一步，数据预处理对光谱分析过程至关重要，不同预处理方法及其组合对数据分析影响不同，如何根据预处理方法的适用性选择合适的方法及其组合是近红外分析的首要任务。预处理主要用于调整每个测量变量的可</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2022.05.03</span></div>
+        </header>
+        <div class="article-body">
+                    <p>化学计量学方法及计算机技术的快速发展促进了以近红外光谱分析为代表的无损检测技术的广泛应用，建立准确的分析预测模型是近红外分析的核心工作。其中，感兴趣信息的提取是数据分析和模型解释的基础，也直接决定了模型的泛化性和稳定性。但实际分析过程获取的光谱数据在包含有效信息的同时，还包含大量的冗余、干扰信息，作为数据“清洗”的关键一步，数据预处理对光谱分析过程至关重要，不同预处理方法及其组合对数据分析影响不同，如何根据预处理方法的适用性选择合适的方法及其组合是近红外分析的首要任务。</p>
+
+<p>预处理主要用于调整每个测量变量的可变性及其关系，使其更好地符合数据分析的目标，但预处理方法及其组合依赖于数据的不同特征和数据分析的目标，特别是针对高维测量数据分析。在这期内容中，我们首先介绍一下近红外光谱中存在的主要干扰及其对应的分析方法，然后给出常用的分析策略，最后给出几点个人的建议（可能不是很准确）。</p>
+
+<p>1. 噪声</p>
+
+<p>几乎所有的分析信号都含有噪声，并且每种信号的分析背景均不相同，去噪过程需要结合信号特征选择合适的方法，常用的分析方法主要是平滑去噪，例如小波变换和Savitzky-Golay方法，其中小波变换通过将分析信号进行分解，再通过高频滤波实现去噪，SG方法通过窗口多项式拟合实现去噪，其中窗口大小和多项式阶数都是可选择的，平滑去噪方法可通过Matlab编程实现，以下资料较为详细的介绍了平滑去噪并给出了对应代码。</p>
+
+<p>https://blog.csdn.net/weixin_42943114/article/details/107693068</p>
+
+<p>2.&nbsp;基线漂移</p>
+
+<p>基线漂移是一个很常见但是很少被分析的问题，但是分析过程中存在的基线漂移问题使得检测到的光谱数据存在测量误差和特征变量弱化等问题，为减少误差对模型精度的影响，提高实际不同官能团的特征信息表征能力，我们在：</p>
+
+<p>&nbsp;https://blog.csdn.net/qq_35667901/article/details/115354279；</p>
+
+<p>进行了详细介绍。现有基线漂移分析方法主要有去趋势和基线校正，其中基线校正主要包括airPLS、arPL、SSBCP和求导等，我们在以下网页给出了详细的介绍和对应的代码：</p>
+
+<p>https://blog.csdn.net/qq_35667901/article/details/103317482</p>
+
+<p>https://blog.csdn.net/qq_35667901/article/details/105231305</p>
+
+<p>https://blog.csdn.net/qq_35667901/article/details/105763809</p>
+
+<p>3.光源散射</p>
+
+<p>除了上述基线漂移的干扰外，我们现在所考虑的预处理大多都是针对散射校正的，散射主要是指采集数据中存在因样本大小以及环境等因素带来的谱线偏移。常用近红外光谱预处理方法包含SNV，MSC，SG，FT以及求导等操作，目前应用最广的是MSC和SNV。我们在以下链接中给出了具体公式和对应的分析结果：</p>
+
+<p>https://mp.weixin.qq.com/s?__biz=Mzg4NTc1Mjg2Mg==&amp;mid=2247483694&amp;idx=1&amp;sn=2c68610306bbbee495f772d60dff40a9&amp;chksm=cfa5545ff8d2dd498647af555b1b6b6bfd9ef025a4a72015b3db813a56949d848749a0ed7d10#rd</p>
+
+<p>4.&nbsp;光谱波长与吸光度偏差</p>
+
+<p>在实际分析中，可能会出现波长和吸光度偏差问题：特定波长位置及其吸光度出现异常或离群现象，主要原因包括测量误差和传输过程信号干扰，此类现象在测量初期一般都被当做异常样本或异常值被剔除了，但是对于小样本分析，通常需要对其进行对齐处理，包括参数时间对齐和相关优化对齐，主要思想是通过片段划分，然后进行对齐操作，因为近红外光谱分析中很少用这类分析策略，此处就不再对其进行探究。</p>
+
+<p>5. 标准化、放缩和变换</p>
+
+<p>标准化主要针对幅值漂移和量纲差异问题，其中幅值漂移是指由于基线和散射干扰导致的光谱纵向漂移，而量纲差异则是针对多指标响应变量的幅值差异，此类差异主要解决“大数吃小数”的现象，对实际分析过程比较重要，现有标准化有两种，一种是最大-最小值标准化，也称极值标准化，另外一种是z-score标准化，也称Z标准化，区别是前者的变量范围为[0, 1]，而后者处理后数据符合标准正态分布，即均值为0，标准差为1，简单的代码为：</p>
+
+<pre><span>%&nbsp;极值标准化</span>
+<code>n=size(X,1);%获取行数minX = min(X); %获取极小值</code><code>maxX&nbsp;=&nbsp;max(X);%获取极大值</code><code>out = (X-repmat(minX,n,1))./repmat(maxX-minX,n,1);</code>
+<code>% Z标准化</code><code>temp = [];</code><code>demesion = size(X);</code><code>meanX = mean(X);</code><code>stdX = std(X);</code><code>for i = 1:numel(X)</code><code>temp&nbsp;=&nbsp;[temp(X(i)-meanX)/stdX];</code><code>end</code><code>out=reshape(temp,demesion);</code><code>%&nbsp;直接的方式是调用函数</code><code>XZ = zscore(X);</code></pre>
+
+<p><br>
+6.&nbsp;预处理分析策略</p>
+
+<p>上面讲了这么多的预处理方法，我们怎么去组合使用并确定其最优选择呢？通常有以下3种方法：</p>
+
+<p>1）试错法：试错是我们现在使用最多的分析方法，通过基于处理后数据的预测结果来判断该方法及其组合的有效性，这种方法计算量比较大，而且对组合的顺序很敏感，后面我会分析一个个人的心得体会。</p>
+
+<p>2）可视化：可视化主要是通过判断预处理方法是否有效去除预设的误差或干扰，比如噪声、基线、去趋势等，通过看噪声及基线是否被有效滤除来判断方法有效性，因为未进行建模分析，该类方法的适用性较低。</p>
+
+<p>3）数据质量量化分析：此类分析主要通过计算预处理分析前后数据集相关量化指标的变化来判断有效性，比如预处理前后不同类样本的PC第一主成分解释率，样本间的相关性等指标，跟可视化分析类似，由于未建立对应的分析模型，很难判断方法的适用性，此外，需要注意的是PCA和样本相似性等仅依赖于光谱数据的统计指标并不能代表所用方法的有效性或者所选特征的代表性，这个问题我们有机会再单独讨论。</p>
+
+<p>最后，我就预处理的基本过程及相关收获跟大家进行分享，首先是我们的基本分析流程：</p>
+
+<p><img alt="" height="1" src="https://i-blog.csdnimg.cn/blog_migrate/12cf006de7caf060f4e69e2e09511f27.png" width="1" loading="lazy"></p>
+
+<p>数据分析前的关键就是预处理，但是预处理及其组合并不是随意的，以下为个人的几点体会：</p>
+
+<p>1）一般单一的预处理方法效果有限，通常会结合不同的方法；</p>
+
+<p>2）先去噪再进行其他操作，不去噪直接求导可能得到一团乱谱线；</p>
+
+<p>3）尽量不要用SNV或MSC去做基线校正，很多文献中写SNV和MSC能够实现基线校正，但是仔细分析发现上述方法并没有去掉背景基线，只是把不同样本的基线设定为一样的；</p>
+
+<p>4）求导后的两端谱线尽量不用于数据建模，这个主要是因为信号采集过程中两端噪声较大，在去噪能力有限的条件下求导后谱线吸光度差异过大，容易引起干扰；</p>
+
+<p>5）高维数据先去噪再间隔采样，且对窗口大小不敏感；</p>
+
+<p>6）预处理方法跟建模方法有关联性，对于分类和回归问题不难相同看待，分类求差异，回归求分布。</p>
+
+<p><img alt="" height="289" src="https://i-blog.csdnimg.cn/blog_migrate/3b15b10513f208c0de10d7c69e2c1764.png" width="233" loading="lazy"></p>
+
+<p></p>
+
+<p></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/124550477" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

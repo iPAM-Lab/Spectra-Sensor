@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱基线校正---arPLS｜谱见</title>
+  <meta name="description" content="本期主要介绍由韩国Sung-June Baek教授于2015年提出的一种基线校正方法：Baseline correction using asymmetrically reweighted penalized least squares smoothing (非对称加权惩罚最小二乘平滑基线校正)，文章由高质量期刊《Analyst》出版。   该文章首先简要介绍基线校正分析...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2020.03.31</p>
+          <h1>近红外光谱基线校正---arPLS</h1>
+          <p class="article-deck">本期主要介绍由韩国Sung-June Baek教授于2015年提出的一种基线校正方法：Baseline correction using asymmetrically reweighted penalized least squares smoothing (非对称加权惩罚最小二乘平滑基线校正)，文章由高质量期刊《Analyst》出版。   该文章首先简要介绍基线校正分析...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.03.31</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;本期主要介绍由韩国Sung-June Baek教授于2015年提出的一种基线校正方法：Baseline correction using asymmetrically reweighted penalized least squares smoothing (非对称加权惩罚最小二乘平滑基线校正)，文章由高质量期刊《Analyst》出版。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;该文章首先简要介绍基线校正分析过程，然后阐述了asLS和airPLS两种经典基线校正方法，最后根据常用方法的缺点提出自己的看法。主要观点是：</p>
+
+<p><img alt="" height="204" src="https://i-blog.csdnimg.cn/blog_migrate/edd013745d4b5541db365c7bbcd5ac7c.png" width="399" loading="lazy"></p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 根据权重更新策略 (weighting strategy)，基线区域根据误差更新权重，峰区直接置零，但是当分析信号含有噪声时，低于拟合基线部分的更新策略会重新计算减少correction difference，而对于因噪声影响高于基线的部分直接置零，这样的结果是导致基线区域被低估而特征峰值则被高估；最后一句话主要分析了基于指数加权策略在基线区域校正时权重更新大小问题：赋值接近于1等于全区间保持同一个值，这与airPLS的出发点就产生了矛盾，然后作者提出了自己的观点：</p>
+
+<p><img alt="" height="115" src="https://i-blog.csdnimg.cn/blog_migrate/3c1cdd8ea6f1ac695d5b34fbf97e178a.png" width="403" loading="lazy"></p>
+
+<p>对应的策略函数为：</p>
+
+<p><img alt="" height="225" src="https://i-blog.csdnimg.cn/blog_migrate/df201ca5dabb6e19bd920e59a379f790.png" width="418" loading="lazy"></p>
+
+<p>当分析信号低于等于拟合基线时，其权重系数为1，相反则根据 logistic函数进行更新（代码在论文中，或可根据公式自己编写）。作者根据此想法做了几个实验对比，阐述了所提算法的优异性。</p>
+
+<p>&nbsp; &nbsp; &nbsp; 但是，需要注意的是作者所对比的仿真数据有以下几个特点：</p>
+
+<p>&nbsp; &nbsp; &nbsp; 1.基线简单，有linear和sin两种，且sin的变化幅度较小；</p>
+
+<p>&nbsp; &nbsp; &nbsp; 2,.simulated data 和 real data 的峰值只有single and double peak；</p>
+
+<p>&nbsp; &nbsp; &nbsp; 3. 没有考虑实际分析过程中多为指数基线的情况。</p>
+
+<p>虽然仿真结果还不错，但是我认为该方法可能不具有可行性，理由主要有：</p>
+
+<p>&nbsp; &nbsp; &nbsp;考虑噪声在基线上下均分布这一点存在矛盾，在考虑基线平滑的前提下，幅值较小噪声不影响基线校正，幅值较大噪声可通过降噪等预处理实现平滑，因此在权重更新中logistic函数权重赋值在基线区域和峰区域都接近于1，这在实际迭代过程中存在严重的过拟合和欠拟合现象（复杂信号仿真证明）。</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105231305" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

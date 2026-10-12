@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习系列5---偏差和方差分解｜谱见</title>
+  <meta name="description" content="机器学习的目的就是通过选择合适的算法确定输入和输出变量之间的映射关系，不同学习算法的对比指标一般是对应模型的泛化性能，但是在实际分析过程中模型泛化性能不是单一成分，不同数据集划分或者样本选择均会对泛化性能的不同部分产生影响，一般将学习算法对应模型的泛化误差分为两部分：偏差（预测集）+方差（训练集），具体推导过程如下：   假设对于测试样本，令对应变量标记为，真实输出为；训练集 D 的模型输出为，则对于测试样本，基于训练集模型的期望输出为：       ...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.05.28</p>
+          <h1>机器学习系列5---偏差和方差分解</h1>
+          <p class="article-deck">机器学习的目的就是通过选择合适的算法确定输入和输出变量之间的映射关系，不同学习算法的对比指标一般是对应模型的泛化性能，但是在实际分析过程中模型泛化性能不是单一成分，不同数据集划分或者样本选择均会对泛化性能的不同部分产生影响，一般将学习算法对应模型的泛化误差分为两部分：偏差（预测集）+方差（训练集），具体推导过程如下：   假设对于测试样本，令对应变量标记为，真实输出为；训练集 D 的模型输出为，则对于测试样本，基于训练集模型的期望输出为：       ...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.05.28</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;机器学习的目的就是通过选择合适的算法确定输入和输出变量之间的映射关系，不同学习算法的对比指标一般是对应模型的泛化性能，但是在实际分析过程中模型泛化性能不是单一成分，不同数据集划分或者样本选择均会对泛化性能的不同部分产生影响，一般将学习算法对应模型的泛化误差分为两部分：偏差（预测集）+方差（训练集），具体推导过程如下：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;假设对于测试样本&nbsp;<img alt="x" src="https://private.codecogs.com/gif.latex?x" loading="lazy">&nbsp;，令对应变量标记为&nbsp;<img alt="\hat{y}" src="https://private.codecogs.com/gif.latex?%5Chat%7By%7D" loading="lazy">，真实输出为&nbsp;<img alt="y" src="https://private.codecogs.com/gif.latex?y" loading="lazy">；训练集 D 的模型输出为&nbsp;<img alt="f" src="https://private.codecogs.com/gif.latex?f" loading="lazy">，则对于测试样本，基于训练集模型的期望输出为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="\tilde{f}(x)=E_D[f(x;D)] \ \ \ \ \ \ (1)" src="https://private.codecogs.com/gif.latex?%5Ctilde%7Bf%7D%28x%29%3DE_D%5Bf%28x%3BD%29%5D%20%5C%20%5C%20%5C%20%5C%20%5C%20%5C%20%281%29" loading="lazy"></p> 
+<p>使用相同大小的不同训练集产生的预测方差为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="var(x)=E_D[(f-\tilde{f}(x))^2]\ \ \ \ \ (2)" src="https://private.codecogs.com/gif.latex?var%28x%29%3DE_D%5B%28f-%5Ctilde%7Bf%7D%28x%29%29%5E2%5D%5C%20%5C%20%5C%20%5C%20%5C%20%282%29" loading="lazy"></p> 
+<p>定义期望输出和真实输出之差为偏差（bias）：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="bias^2(x)=(\tilde{f}(x)-y)^2\ \ \ \ \ (3)" src="https://private.codecogs.com/gif.latex?bias%5E2%28x%29%3D%28%5Ctilde%7Bf%7D%28x%29-y%29%5E2%5C%20%5C%20%5C%20%5C%20%5C%20%283%29" loading="lazy"></p> 
+<p>预测输入变量和真实变量之差定为为噪声，假设噪声服从均值为0，方差为&nbsp;<img alt="\varepsilon ^2" src="https://private.codecogs.com/gif.latex?%5Cvarepsilon%20%5E2" loading="lazy">&nbsp;的分布，则有：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img alt="\varepsilon ^2=(\hat{y}-y)^2 \ \ \ \ \(4)" src="https://private.codecogs.com/gif.latex?%5Cvarepsilon%20%5E2%3D%28%5Chat%7By%7D-y%29%5E2%20%5C%20%5C%20%5C%20%5C%20%5C%284%29" loading="lazy"></p> 
+<p>对于学习算法的期望泛化误差（预测输出和真实输出）：</p> 
+<p><img alt="" height="412" src="https://i-blog.csdnimg.cn/blog_migrate/f594ce7e3b6b32a558ec0849a8b9b86d.png" width="521" loading="lazy"></p> 
+<p>于是，&nbsp;</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="E(f;D)=bias^2(x)+var(x)+\varepsilon ^2\ \ \ \ \ (6)" src="https://private.codecogs.com/gif.latex?E%28f%3BD%29%3Dbias%5E2%28x%29&amp;plus;var%28x%29&amp;plus;%5Cvarepsilon%20%5E2%5C%20%5C%20%5C%20%5C%20%5C%20%286%29" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 可以发现，模型泛化误差可分解为偏差、方差和噪声之和。根据定义可知，偏差度量学习算法的期望预测和真实结果的偏离程度，即表示学习算法本身的拟合能力；方差度量了在相同样本尺度不同样本组成训练集下的学习性能变化，即表示数据扰动所造成的影响；噪声表达了当前任务上任何学习算法所能达到的泛化误差下届，及表示学习问题本身的难度（所有数据的期望输出和真实输出之差）。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;“偏差-方差分解”表明模型泛化性能是由学习算法的能力（偏差）、数据的充分性（方差）及学习任务本身的难度（噪声）共同决定的。对于给定学习任务，在无法改变分析对象本身难度的情况下（噪声），为取得好的泛化性能，则需要对应模型能够充分学习数据降低偏差，并且合理选择模型数据使得由数据扰动导致的方差较小。</p> 
+<p>&nbsp; &nbsp; 为直观分析方差和偏差的区别，通过采用论文《Understanding the bias-variance tradeoff》中的图形进行表示：</p> 
+<p><img alt="" height="466" src="https://i-blog.csdnimg.cn/blog_migrate/448fb6af17f4e7891d3996eea9e45ba9.png" width="521" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;假设图中红色区域是学习算法理想的正确预测值，蓝色点为基于训练集模型的样本预测值，当蓝色点远离中心红色区域时，模型预测性能变差。可以发现，左边一列中模型预测值分别较为集中，而右边则相对分散，根据方差（不同数据集预测与期望预测之差）的定义，可知分布比较集中的图像（左边）对应方差较小，而分布分散（右边）的属于方差较大的情况，通俗的理解就是不同训练集模型的预测样本分布。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;对于偏差（期望输出和真实标记之间的差距），预测样本距离中心点越近，对应偏差越小，上图中右上对应偏差小于左下偏差。</p> 
+<p>&nbsp; &nbsp; &nbsp;总结来说：偏差针对单个模型，表述期望输出和真实输出的差距，表示了模型对于单一训练集的拟合程度。方差针对多个模型，表述相同分布的不同数据集训练模型的输出值差异，表示了数据扰动对模型的影响。个人理解是：方差表示不同训练集模型预测结果的一致程度；而偏差表示一个确定模型预测结果和真实结果之间的差异。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 在无法改变数据本身难度（噪声）的情况下可通过减小方差和偏差降低模型的泛化误差，但是实际过程中存在着 偏差-方差窘境（Bias-variance dilemma）如图（图片来自百度）。对于给定的学习任务，当模型训练程度不足时，学习器未能完全学习数据特性，数据的扰动不足以使学习器发生显著变化，此时偏差主导了泛化误差；当训练程度不断加深，学习器能够拟合数据时，微小的扰动导致学习器发生显著变化，此时方差主导了模型泛化误差。</p> 
+<p><img alt="" height="339" src="https://i-blog.csdnimg.cn/blog_migrate/9dc8ab69d3f926960f3204a93f56c520.png" width="462" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;结合实际分析过程，模型的偏差-方差分布对应于实际分析过程的欠拟合-过拟合现象。对于训练不充分的简单模型，未能有效学习分析对象特性，导致欠拟合现象，此时有较大的偏差和较小的方差；而当模型过于拟合训练数据时，训练数据自身的、非全局的特性也被学习，此时会产生训练集泛化性能较佳，而预测集结果较差，即模型对于扰动敏感，存在较大方差。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;在其他文章中会讨论泛化误差、方差-偏差和模型复杂度的关系，在实际分析过程中，一般情况下三者之间的变化分布如下图所示：</p> 
+<p><img alt="" height="324" src="https://i-blog.csdnimg.cn/blog_migrate/5d5ef1b4b67dd050c81a509fd63f31c6.png" width="486" loading="lazy"></p> 
+<p>复杂度高的模型对于训练数据的拟合能力越高，但是当较高复杂度模型容易拟合非全局特性，导致对应模型在预测集上表现性能不佳，而复杂度太低又无法很好地学习训练数据，则无法有效的分析预测数据产生理想分析结果。</p> 
+<p>&nbsp; &nbsp; &nbsp; 需要区别的是模型复杂度和训练程度之间的差异，训练程度对应于固定复杂程度模型的学习深度，例如模型训练次数或者数据集划分；而复杂度表示用于拟合数据学习算法本身的复杂程度，例如线性（1次）和高阶非线性（2及以上次）。</p> 
+<p><strong>对应确定的学习算法，如何有效减小偏差和方差</strong>？</p> 
+<p>&nbsp; &nbsp; &nbsp; 首先需要明确的是任何学习算法是无法避免偏差和方差，在结合分析数据特性的基础上，我们只能应用合理的方法减少对应的方差和偏差：</p> 
+<p>&nbsp; &nbsp; （1）对于偏差，需要选择正确的模型；数据分布的特点决定了不同学习方法的有效性；</p> 
+<p>&nbsp; &nbsp; （2）数据集的大小和划分；通常数据集越大越好，但实际分析过程数据采集需要成本代价，在分析过程中过大数据在增加计算量的同时容易导致过拟合，此外，有限数据情况下的训练集和测试集数据划分对模型泛化性能产生直接影响。</p> 
+<p>&nbsp; &nbsp; （3）模型复杂度。</p> 
+<p>对于偏差、方差不同的特性，一般选择一下方法：</p> 
+<p>偏差（欠拟合）：</p> 
+<p>&nbsp; &nbsp; （1）选择更多具有代表性的数据；</p> 
+<p>&nbsp; &nbsp; （2）应用样本特征数据进行建模分析。</p> 
+<p>方差（过拟合）：</p> 
+<p>&nbsp; &nbsp; （1）正则化方法；</p> 
+<p>&nbsp; &nbsp; （2）交叉验证确定数据集；</p> 
+<p>&nbsp; &nbsp; （3）使用特征数据进行建模，减少模型复杂度。</p> 
+<p>&nbsp;</p> 
+<p>参考文献：</p> 
+<p>1.&nbsp;《Understanding the bias-variance tradeoff》；</p> 
+<p>2.&nbsp;偏差与方差&nbsp;&nbsp;<a href="https://zhuanlan.zhihu.com/p/38853908" rel="noreferrer" target="_blank">https://zhuanlan.zhihu.com/p/38853908</a></p> 
+<p>3. 《机器学习》周志华</p> 
+<p>&nbsp;</p> 
+<p>于2020.05.28</p> 
+<p>学习永无止境，而我永远奔跑在路上！</p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/106363846" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

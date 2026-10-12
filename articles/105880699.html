@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习系列4---RVM（相关向量机）MATLAB实现｜谱见</title>
+  <meta name="description" content="上期主要介绍了相关向量机的提出及主要计算过程，本期主要介绍MATLAB实现RVM，并就相关分析结果展开讨论。相关论文及代码下载网站：http://www.miketipping.com/sparsebayes.htm；RVM分为定量和定性分析两种类型，首先介绍定量分析：定量分析通过随机产sinc函数数据点进行稀疏表示学习，然后将拟合结果和真实数据进行对比，计算RMSE判定分析性能。...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 04 / 学习随记 · 2020.05.01</p>
+          <h1>机器学习系列4---RVM（相关向量机）MATLAB实现</h1>
+          <p class="article-deck">上期主要介绍了相关向量机的提出及主要计算过程，本期主要介绍MATLAB实现RVM，并就相关分析结果展开讨论。相关论文及代码下载网站：http://www.miketipping.com/sparsebayes.htm；RVM分为定量和定性分析两种类型，首先介绍定量分析：定量分析通过随机产sinc函数数据点进行稀疏表示学习，然后将拟合结果和真实数据进行对比，计算RMSE判定分析性能。...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.05.01</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;上期主要介绍了相关向量机的提出及主要计算过程，本期主要介绍MATLAB实现RVM，并就相关分析结果展开讨论。相关论文及代码下载网站：<a href="http://www.miketipping.com/sparsebayes.htm" title="miketipping.com :: Sparse Bayesian Models (and the RVM)" rel="noreferrer" target="_blank">miketipping.com :: Sparse Bayesian Models (and the RVM)</a>；RVM分为定量和定性分析两种类型，首先介绍定量分析：定量分析通过随机产sinc函数数据点进行稀疏表示学习，然后将拟合结果和真实数据进行对比，计算RMSE判定分析性能。</p> 
+<p>1.RVM定量分析MATLAB代码</p> 
+<pre><code>%% Set verbosity of output (0 to 4)
+setEnvironment('Diagnostic','verbosity',3);
+% Set file ID to write to (1 = stdout)
+setEnvironment('Diagnostic','fid',1);
+
+%% 设置模型和数据参数
+useBias	= true;
+randn('state',1)
+if nargin==0
+  N		= 100;
+  noise		= 0.1;
+  kernel_	= 'gauss';
+  width		= 3;
+  maxIts	= 1200;
+end
+monIts		= round(maxIts/10);
+
+%% 产生sinc数据
+x	= 10*[-1:2/(N-1):1]';
+y	= sin(abs(x))./abs(x);
+t	= y + noise*randn(N,1);
+
+%% 设置绘图参数
+COL_data	= 'k';
+COL_sinc	= 'g';
+% COL_sinc	= 0.5*ones(1,3);
+COL_rv		= 'r';
+COL_pred	= 'r';
+
+% 绘制sinc数据
+figure(1)
+whitebg(1,'w')
+clf
+h_y = plot(x,y,'--','LineWidth',3,'Color',COL_sinc);
+hold on
+plot(x,t,'.','MarkerSize',16,'Color',COL_data)
+box = [-10.1 10.1 1.1*[min(t) max(t)]];
+axis(box)
+set(gca,'FontSize',12)
+drawnow
+
+%% 设置超参数初始值 
+initAlpha	= (1/N)^2;
+epsilon		= std(t) * 10/100; % Initial guess of 10% noise-to-signal
+initBeta	= 1/epsilon^2;
+
+%% 产生RVM 模型
+ 
+[weights, used, bias, marginal, alpha, beta, gamma] = ...
+    SB1_RVM(x,t,initAlpha,initBeta,kernel_,width,useBias,maxIts,monIts);
+
+%% 模型测试
+PHI	= SB1_KernelFunction(x,x,kernel_,width);
+y_rvm	= PHI(:,used)*weights + bias;
+
+%% 对比分析结果
+h_yrvm	= plot(x,y_rvm,'-','LineWidth',3,'Color',COL_pred);
+h_rv	= plot(x(used),t(used),'o','LineWidth',2,'MarkerSize',10,...
+	       'Color',COL_rv);
+legend([h_y h_yrvm h_rv],'sinc function','RVM predictor','RVs')
+hold off
+title('Sparse Bayesian regression with noisy ''sinc'' data','FontSize',14)
+
+SB1_Diagnostic(1,'Sparse Bayesian regression test error (RMS): %g\n', ...
+	sqrt(mean((y-y_rvm).^2)))
+SB1_Diagnostic(1,'Estimated noise level: %.4f (true: %.4f)\n', ...
+	sqrt(1/beta), noise)
+</code></pre> 
+<p>2. RVM定量分析结果</p> 
+<p><img alt="" height="535" src="https://i-blog.csdnimg.cn/blog_migrate/5b36cbdb4fe8b2a181a24a6bd982d497.png" width="605" loading="lazy"></p> 
+<p><span><strong>超参数分析结果</strong></span><span>:</span></p> 
+<p>1.非零参数<span>: </span><span>6</span><span> (全部:100)；</span></p> 
+<p>2.似然函数最小最大值<span>:&nbsp; -0.13/1.</span><span>91；</span></p> 
+<p>3.RMSE<span>: </span><span>0.0424557；</span></p> 
+<p>4.噪声估计<span>: </span><span>0.0933 </span><span>(真实值: 0.1000</span><span>)。</span></p> 
+<p></p> 
+<p><span>3. RVM定性分析MATLAB代码</span></p> 
+<pre><code>% The MATLAB demo for RVMclassificaion
+% first version: 2020/5/01
+clc;clear;
+%%
+% Set verbosity of output (0 to 4)
+setEnvironment('Diagnostic','verbosity',3);
+% Set file ID to write to (1 = stdout)
+setEnvironment('Diagnostic','fid',1);
+
+%% Set default values for data and model
+useBias	= true;
+rand('state',1)
+% Some acceptable defaults
+N		= 100;
+kernel_	= 'gauss';
+width		= 0.5;
+maxIts	= 1000;
+monIts		= round(maxIts/10);
+N		= min([250 N]); % training set has fixed size of 250
+Nt		= 1000;
+%% Load Ripley's synthetic training data (see reference in doc)
+load synth.tr
+synth	= synth(randperm(size(synth,1)),:);
+X	= synth(1:N,1:2);
+t	= synth(1:N,3);
+%%
+COL_data1	= 'k';
+COL_data2	= 0.75*[0 1 0];
+COL_boundary50	= 'r';
+COL_boundary75	= 0.5*ones(1,3);
+COL_rv		= 'r';
+% Plot the training data 
+figure(1)
+whitebg(1,'w')
+clf
+h_c1	= plot(X(t==0,1),X(t==0,2),'.','MarkerSize',18,'Color',COL_data1);
+hold on
+h_c2	= plot(X(t==1,1),X(t==1,2),'.','MarkerSize',18,'Color',COL_data2);
+box	= 1.1*[min(X(:,1)) max(X(:,1)) min(X(:,2)) max(X(:,2))];
+axis(box)
+set(gca,'FontSize',12)
+drawnow
+%% Set up initial hyperparameters - precise settings should not be critical
+initAlpha	= (1/N)^2;
+% Set beta to zero for classification
+initBeta	= 0;	
+% "Train" a sparse Bayes kernel-based model (relevance vector machine) 
+[weights, used, bias, marginal, alpha, beta, gamma] = ...
+    SB1_RVM(X,t,initAlpha,initBeta,kernel_,width,useBias,maxIts,monIts);
+%% Load Ripley's test set 
+load synth.te
+synth	= synth(randperm(size(synth,1)),:);
+Xtest	= synth(1:Nt,1:2);
+ttest	= synth(1:Nt,3);
+%% Compute RVM over test data and calculate error 
+PHI	= SB1_KernelFunction(Xtest,X(used,:),kernel_,width);
+y_rvm	= PHI*weights + bias;
+errs	= sum(y_rvm(ttest==0)&gt;0) + sum(y_rvm(ttest==1)&lt;=0);
+SB1_Diagnostic(1,'RVM CLASSIFICATION test error: %.2f%%\n', errs/Nt*100)
+%% Visualise the results over a grid
+gsteps		= 50;
+range1		= box(1):(box(2)-box(1))/(gsteps-1):box(2);
+range2		= box(3):(box(4)-box(3))/(gsteps-1):box(4);
+[grid1 grid2]	= meshgrid(range1,range2);
+Xgrid		= [grid1(:) grid2(:)];
+%% Evaluate RVM 
+PHI		= SB1_KernelFunction(Xgrid,X(used,:),kernel_,width);
+y_grid		= PHI*weights + bias;
+% apply sigmoid for probabilities
+p_grid		= 1./(1+exp(-y_grid)); 
+% Show decision boundary (p=0.5) and illustrate p=0.25 and 0.75
+[c,h05]		= ...
+    contour(range1,range2,reshape(p_grid,size(grid1)),[0.5],'-');
+set(h05, 'Color',COL_boundary50,'LineWidth',3);
+[c,h075]	= ...
+    contour(range1,range2,reshape(p_grid,size(grid1)),[0.25 0.75],'--');
+set(h075,'Color',COL_boundary75,'LineWidth',2);
+
+% Show relevance vectors
+h_rv	= plot(X(used,1),X(used,2),'o','LineWidth',2,'MarkerSize',10,...
+	       'Color',COL_rv);
+legend([h_c1 h_c2 h05 h075(1) h_rv],...
+       'Class 1','Class 2','Decision boundary','p=0.25/0.75','RVs',...
+       'Location','NorthWest')
+hold off
+title('RVM Classification of Ripley''s synthetic data','FontSize',14)
+</code></pre> 
+<p>4. RVM定性分析结果</p> 
+<p><img alt="" height="523" src="https://i-blog.csdnimg.cn/blog_migrate/cda9075286a55ba2e872b277b0bef84a.png" width="583" loading="lazy"></p> 
+<p><span><strong>分析结果</strong></span><span>:</span></p> 
+<p>1.非零变量<span>:&nbsp; </span><span>4；</span></p> 
+<p>2.似然函数最小最大值<span>:&nbsp; -1.86/-0.99；</span></p> 
+<p>3.<span>RVM </span><span>分类错误率: </span><span>8.60%。</span></p> 
+<p><span>&nbsp; &nbsp; &nbsp; &nbsp;</span>通过上面的例子可以实现简单的RVM分析，具体的实际分析例子会后续更新。</p> 
+<p>写于2020.5.1</p> 
+<p>加油。</p> 
+<p></p> 
+<p><span><strong>个人新建立的weixin公众号，光谱学与光谱分析，欢迎大家关注</strong></span></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105880699" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

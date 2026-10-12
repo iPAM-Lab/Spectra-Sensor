@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱基线校正---drPLS｜谱见</title>
+  <meta name="description" content="本期介绍的近红外光谱基线校正算法来自于 中南大学的阳春华老师 于2019年发表的论文，题目是：Baseline correction method based on doubly reweighted penalized least squares ，论文下载链接百度文库或者《applied optics》官网。1. 算法基本原理  针对自适应迭代加权最小二乘 （adaptiv...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2020.04.26</p>
+          <h1>近红外光谱基线校正---drPLS</h1>
+          <p class="article-deck">本期介绍的近红外光谱基线校正算法来自于 中南大学的阳春华老师 于2019年发表的论文，题目是：Baseline correction method based on doubly reweighted penalized least squares ，论文下载链接百度文库或者《applied optics》官网。1. 算法基本原理  针对自适应迭代加权最小二乘 （adaptiv...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.04.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; 本期介绍的近红外光谱基线校正算法来自于 中南大学的阳春华��师 于2019年发表的论文，题目是：Baseline correction method based on doubly reweighted penalized least squares ，论文下载链接百度文库或者《applied optics》官网。</p>
+
+<p>1. 算法基本原理</p>
+
+<p>&nbsp; &nbsp; 针对自适应迭代加权最小二乘 （adaptive iteratively reweighted penalized least）在基线校正过程中权重更新公式的缺点，提出一种双加权（doubly reweighted penalized least squares）策略，主要内容是在考虑校正误差一阶导数的基础上，通过使用softsign函数同时实现权重系数和惩罚系数更新。目标函数为(我不太习惯用Latex，出来的结果不是很好，先贴一张原文中的公式，我再好好学习Latex)：</p>
+
+<p><img alt="" height="102" src="https://i-blog.csdnimg.cn/blog_migrate/779e1b4d43258d3ae5ff23558ba3c2ef.png" width="483" loading="lazy"></p>
+
+<p>首先分析上式，与常见惩罚最小二乘相比，该算法考虑惩罚参数（penality parameter）或平滑参数（smoothing parameter）</p>
+
+<p>的变化，通过结合权重系数的更新过程间接更新惩罚参数，即式（1）第二项。与此同时，作者基于softsign函数提出了一种新的权重函数，softsign函数具体公式为：</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="softsign(x)=softsign(e^{t}\times \frac{d_{i}-(m^{-1}+2\sigma ^{-1})}{\sigma ^{-1}})" src="https://private.codecogs.com/gif.latex?softsign%28x%29%3Dsoftsign%28e%5E%7Bt%7D%5Ctimes%20%5Cfrac%7Bd_%7Bi%7D-%28m%5E%7B-1%7D&amp;plus;2%5Csigma%20%5E%7B-1%7D%29%7D%7B%5Csigma%20%5E%7B-1%7D%7D%29" loading="lazy">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (2)</p>
+
+<p>所提权重系数更新公式为：</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="w_i^t=\frac{1}{2}(1- \frac{e^{t}\times(d_{i}-(-m^{-}+2\sigma ^{-})/\sigma^{-}}{1+\left | e^{t}\times(d_{i}-(-m^{-}+2\sigma ^{-})/\sigma^{-} \right |})" src="https://private.codecogs.com/gif.latex?w_i%5Et%3D%5Cfrac%7B1%7D%7B2%7D%281-%20%5Cfrac%7Be%5E%7Bt%7D%5Ctimes%28d_%7Bi%7D-%28-m%5E%7B-%7D&amp;plus;2%5Csigma%20%5E%7B-%7D%29/%5Csigma%5E%7B-%7D%7D%7B1&amp;plus;%5Cleft%20%7C%20e%5E%7Bt%7D%5Ctimes%28d_%7Bi%7D-%28-m%5E%7B-%7D&amp;plus;2%5Csigma%20%5E%7B-%7D%29/%5Csigma%5E%7B-%7D%20%5Cright%20%7C%7D%29" loading="lazy">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;(3)</p>
+
+<p>2. 方法有效性</p>
+
+<p>&nbsp; &nbsp; &nbsp;因无法编程复现，未验证算法的有效性。&nbsp; &nbsp;&nbsp;</p>
+
+<p>值得一提的是，中南大学的梁逸曾先生、张志敏教授及阳春华教授等是在基线校正领域比较权威的专家，相关算法研究一直处于国内前列，中南大学的桂卫华院士更是控制流域的大佬，跟我师爷是好朋友。就算法本身，该方法的提出确实显示了一个新的想法：<strong>根据不同区间调节惩罚系数，间接控制平滑度</strong>。这篇文章里面没有给出相关MATLAB或者其他语言程序，我自己基于算法公式写了一个MATLAB仿真代码，但是chro函数显示非正定，主要原因可能是自己的编程有问题，但是我认为还有一个关键因素就是逐点调节权重系数或导致基线计算过程中相关矩阵非正定，直接结果是计算过程不收敛，无法确定最优解。此外，基于权重系数的逐点平滑参数调节计算量较大，<img alt="\eta" src="https://private.codecogs.com/gif.latex?%5Ceta" loading="lazy">参数的设置直接影响区间平滑度。</p>
+
+<p>后续有时间及时更新具体相关分析。</p>
+
+<p>写于2020-4-26.</p>
+
+<p>共同进步！</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/105763809" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

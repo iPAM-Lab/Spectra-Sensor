@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>博基计划（5）---模型交叉验证方法讨论｜谱见</title>
+  <meta name="description" content="对于多变量软测量建模分析，在避免模型过拟合或欠拟合情况下确定最佳模型复杂度或确定关键变量（包括主成分和潜变量）是建立稳定模型的关键，本节主要讨论用于模型子集选择的交叉验证方法。相比于测试集验证，交叉验证只采用校正数据进行模型验证，因此对于检测成本较高的分析过程十分有利，其基本过程三步：（1）划分校正样本子集（训练集、测试集）；（注：子集并不一定是当个样本，其样本数大于等于1）（2）基于训练集建立校正模型；（3）校正模型进行预测分析。重复上述步骤，直至所有划分子集验证完成，对不同子集的预测">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2021.04.24</p>
+          <h1>博基计划（5）---模型交叉验证方法讨论</h1>
+          <p class="article-deck">对于多变量软测量建模分析，在避免模型过拟合或欠拟合情况下确定最佳模型复杂度或确定关键变量（包括主成分和潜变量）是建立稳定模型的关键，本节主要讨论用于模型子集选择的交叉验证方法。相比于测试集验证，交叉验证只采用校正数据进行模型验证，因此对于检测成本较高的分析过程十分有利，其基本过程三步：（1）划分校正样本子集（训练集、测试集）；（注：子集并不一定是当个样本，其样本数大于等于1）（2）基于训练集建立校正模型；（3）校正模型进行预测分析。重复上述步骤，直至所有划分子集验证完成，对不同子集的预测</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.04.24</span></div>
+        </header>
+        <div class="article-body">
+                    <p>对于多变量软测量建模分析，在避免模型过拟合或欠拟合情况下确定最佳模型复杂度或确定关键变量（包括主成分和潜变量）是建立稳定模型的关键，本节主要讨论用于模型子集选择的交叉验证方法。</p>
+
+<p>相比于测试集验证，交叉验证只采用校正数据进行模型验证，因此对于检测成本较高的分析过程十分有利，其基本过程三步：</p>
+
+<p>（1）划分校正样本子集（训练集、测试集）；（注：子集并不一定是当个样本，其样本数大于等于1）</p>
+
+<p>（2）基于训练集建立校正模型；</p>
+
+<p>（3）校正模型进行预测分析。</p>
+
+<p>重复上述步骤，直至所有划分子集验证完成，对不同子集的预测值进行交叉验证均方根误差计算（RMSECV）：</p>
+
+<p><img alt="RMSECV=\sqrt{\frac{\sum ^N_{i=1}\left ( \hat{y}_{i,CV} -y_i\right )^2}{NCV}}" src="https://latex.csdn.net/eq?RMSECV%3D%5Csqrt%7B%5Cfrac%7B%5Csum%20%5EN_%7Bi%3D1%7D%5Cleft%20%28%20%5Chat%7By%7D_%7Bi%2CCV%7D%20-y_i%5Cright%20%29%5E2%7D%7BNCV%7D%7D" loading="lazy"></p>
+
+<p>式中，<img alt="\hat{y}_{i,CV}" src="https://latex.csdn.net/eq?%5Chat%7By%7D_%7Bi%2CCV%7D" loading="lazy">表示测试集样本的预测值，后一项则表示真实值，<img alt="NCV" src="https://latex.csdn.net/eq?NCV" loading="lazy">表示交叉验证中的样本总数（注：需要注意一点，次数的子集数目通常不等于样本数）。通过比较不同子集的RMSE大小，即可实现相对较优子集选择。不同交叉验证方法的差异在于如何选择样本子集，应用化学计量学的典型交叉验证方法主要有：</p>
+
+<p>（1）自定义子集：通过手动方法从校正数据中选择子集样本；</p>
+
+<p>（2）留一法：校正数据的每一个数据均被选择一次，遍历N个样本；</p>
+
+<p>（3）随机法：首先定义训练集和测试集比例，然后随机选择样本子集，所选不同测试子集通常不允许样本重复；</p>
+
+<p>（4）连续块方法：从校正样本中选择连续块作为测试集，其余作为训练集；</p>
+
+<p>（5）软百叶法：从校正样本中进行间隔取样；</p>
+
+<p>影响交叉验证结果及其参数的因素主要包括校正样本的数量、校正集中样本的排列顺序、样本的代表性、是否存在重复样本等等。此外，需要特别注意以下两点：</p>
+
+<p>（1）界外子集选择陷阱：所选测试子集样本无法代表训练子集样本，导致不同子集数据分布空间不同，进而容易产生较差的交叉验证结果；</p>
+
+<p>（2）重复样本陷阱：同一样本或强相关样本重复出现在不同子集中，导致子集样本的代表性下降，进而容易产生RMSV较低但不具有解释意义的交叉验证结果。</p>
+
+<p>上述总结了目前常见的交叉验证方法，但是不同方法具有一定的适用范围，下面对不同方法的特性进行简单阐述：</p>
+
+<p>一般来说，留一交叉验证最简单，软百叶窗法和连续块方法相对容易和快捷，而自定义子集最灵活。对于小样本自然数据集，通常采用留一交叉验证（实验设计数据集不适用）；对于实验设计数据集或具有明显样本分布差异的数据，一般使用自定义子集法；对于大数据集，随机法比留一交叉验证更具有优势（后者计算成本太高）；对于时间序列数据，连续块法更适合进行模型稳定分析，软百叶窗法对于非时间序列的大数据适用性更好。</p>
+
+<p>总结来说，交叉验证的目的是确定最佳子集或模型最佳复杂度，因此需要结合数据特点（大数据、时间序列、间歇数据等等）选择合适的交叉验证方法，特别需要注意的是需要保证所选不同子集中样本的代表性和完整性。</p>
+
+<p>2021年4月24日</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/116089325" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

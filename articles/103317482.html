@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱基线校正---airPLS｜谱见</title>
+  <meta name="description" content="实际采集的近红外光谱数据成分复杂，除了基本的特征变量之外，还有背景基线、噪声等信号，通过分析实际近红外光谱分析技术发现，检测对象近红外光谱数据的主要成分来源于采集环境和设备所导致的基线，或者是所谓的背景，所以在分析建模之前，只有将背景基线从高维的、非零变量的复杂数据中滤除，才能从获得纯光谱数据中选择出分析对象对应的特征数据，目前使用最广的基线校正方法是由中南大学化工学院梁逸曾教授和张志敏老师于...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2019.11.29</p>
+          <h1>近红外光谱基线校正---airPLS</h1>
+          <p class="article-deck">实际采集的近红外光谱数据成分复杂，除了基本的特征变量之外，还有背景基线、噪声等信号，通过分析实际近红外光谱分析技术发现，检测对象近红外光谱数据的主要成分来源于采集环境和设备所导致的基线，或者是所谓的背景，所以在分析建模之前，只有将背景基线从高维的、非零变量的复杂数据中滤除，才能从获得纯光谱数据中选择出分析对象对应的特征数据，目前使用最广的基线校正方法是由中南大学化工学院梁逸曾教授和张志敏老师于...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2019.11.29</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; 实际采集的近红外光谱数据成分复杂，除了基本的特征变量之外，还有背景基线、噪声等信号，通过分析实际近红外光谱分析技术发现，检测对象近红外光谱数据的主要成分来源于采集环境和设备所导致的基线，或者是所谓的背景，所以在分析建模之前，只有将背景基线从高维的、非零变量的复杂数据中滤除，才能从获得纯光谱数据中选择出分析对象对应的特征数据，目前使用最广的基线校正方法是由中南大学化工学院梁逸曾教授和张志敏老师于2010年提出的迭代自适应加权惩罚最小二乘法（adaptive iteratively reweighted penalized least squares, airPLS）.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;目前针对基线校正很多，但是应用最广、效果最好的还是airPLS，除此之外，很多改进方法存在很大缺陷，例如扩展性差等问题，此处只介绍airPLS。关于惩罚最小二乘在另外一篇文章中会介绍，在airPLS方法中，采用了基于误差的迭代加权策略，每一个点的权重更新基于上一次循环拟合的基线和原始信号之间的差异，具体表达如下：</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="" height="127" src="https://i-blog.csdnimg.cn/blog_migrate/da293ee52eaf7262b708525a36c46839.png" width="307" loading="lazy"></p>
+
+<p>其中t表示第t次迭代，y表示原始信号，z表示拟合基线，<img alt="d^-" src="https://private.codecogs.com/gif.latex?d%5E-" loading="lazy">表示<img alt="y_i-z_i" src="https://private.codecogs.com/gif.latex?y_i-z_i" loading="lazy">中小于变量的绝对值之和。如式所示，在特征区域，airPLS迭代的权重为0，而对于非特征区域，即基线区域，其权重系数的更新均基于迭代过程中的误差。具体MATLAB代码如下所示：</p>
+
+<pre><code>function [Xc,Z]= airPLS(X,lambda,order,wep,p,itermax)
+[m,n]=size(X);
+wi = [1:ceil(n*wep) floor(n-n*wep):n];
+D = diff(speye(n), order); DD = lambda*D'*D;
+for i=1:m
+    w=ones(n,1);
+    x=X(i,:);
+    for j=1:itermax
+        W=spdiags(w, 0, n, n);
+        C = chol(W + DD);
+        z = (C\(C'\(w .* x')))';
+        d = x-z;
+        dssn= abs(sum(d(d&lt;0)));
+        if(dssn&lt;0.001*sum(abs(x))) 
+            break;
+        end
+        w(d&gt;=0) = 0; w(wi)   = p;
+        w(d&lt;0)  = j*exp(abs(d(d&lt;0))/dssn);
+    end
+    Z(i,:)=z;
+end
+Xc=X-Z;
+</code></pre>
+
+<p>最后贴一张自己利用airPLS做的基线校正结果：</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="344" src="https://i-blog.csdnimg.cn/blog_migrate/0d7e130f55826285194fddc749eb62ef.png" width="569" loading="lazy"></p>
+
+<p><span><strong>个人新建立的weixin公众号，光谱学与光谱分析，欢迎大家关注</strong></span></p>
+
+<p></p>
+
+<p><img alt="" height="359" src="https://i-blog.csdnimg.cn/blog_migrate/d155bd54f90cabeebcad06d463223f47.jpeg" width="300" loading="lazy"></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/103317482" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱特征选择---非信息变量剔除UVE｜谱见</title>
+  <meta name="description" content="作为光谱分析的经典算法之一，非信息变量剔除（Uninformative Variables Elimination, UVE）自1996年提出后一直被广泛应用于光谱分析领域，至今相关的研究论文都在使用或者对比UVE算法，因此有必要对UVE的原理、使用及绘图进行分享，作者的原文题目为 Elimination of Uninformative Variables for Multivariate Calibration，可在学术网站上下载查阅。1. UVE算法的原理...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2022.05.21</p>
+          <h1>光谱特征选择---非信息变量剔除UVE</h1>
+          <p class="article-deck">作为光谱分析的经典算法之一，非信息变量剔除（Uninformative Variables Elimination, UVE）自1996年提出后一直被广泛应用于光谱分析领域，至今相关的研究论文都在使用或者对比UVE算法，因此有必要对UVE的原理、使用及绘图进行分享，作者的原文题目为 Elimination of Uninformative Variables for Multivariate Calibration，可在学术网站上下载查阅。1. UVE算法的原理...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2022.05.21</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作为光谱分析的经典算法之一，非信息变量剔除（Uninformative Variables Elimination, UVE）自1996年提出后一直被广泛应用于光谱分析领域，至今相关的研究论文都在使用或者对比UVE算法，因此有必要对UVE的原理、使用及绘图进行分享，作者的原文题目为 Elimination of Uninformative Variables for Multivariate Calibration，可在学术网站上下载查阅。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. UVE算法的原理</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UVE算法的核心是利用噪声的无关变量变量信息统计去选择光谱自身的特征变量，其中一个很重要的点是噪声的利用或者加入，此处不得不提一下：噪声的存在不一定都是坏的方面，它的存在深刻影响我们的正常生活，例如基因的表达过程、信息加密、国防建设等重要领域都需要噪声的存在。UVE在添加噪声后，根据光谱变量+噪声组成的自变量矩阵对目标矩阵的回归系数的统计分布进行变量判断，其中回归系数的统计分布以均值和标准差的比值表示，通过确定上下限并提出对应范围内的变量，最终确定特征变量，其流程图如下所示：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/d606a18cf761fbf0e2697a1136d6beb1.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;代码验证</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目前网页有很多UVE代码的版本，或者mcuvepls的代码，基本上都是错的，此处简要介绍一下错误的原因：UVE的核心是添加噪声进行建模统计，如果没有添加或者生成噪声，那就是简单的LOOCV过程，或者MCPLS，希望大家在购买或者下载时注意。此处我们以公开数据集Corn数据进行分析，首先为噪声生成：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/4053ce43ac49aad5b5820685618cafa4.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图1&nbsp;组合光谱（左侧为光谱，右侧为噪声）</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对组合光谱进行LOOCV-PLS建模，并统计各变量回归系数的标准值，对应分布如图2所示，其中可通过上下限确定光谱特征变量（红色）：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/07c100b0ba05994f4c87bdc6d3be775c.png" loading="lazy"></p>
+
+<p>图2 各变量回归系数统计分布</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对应于实际的光谱数据，所选特征变量的分布为，基于此随机数所选的特征变量并不是很完美，原因是左侧端点的变量也被选入，但其在实际分析过程中不符合化学计量学认知，可能需要重新进行噪声生成：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/a5ac4e628b4b56fc2352990955dacbf6.png" loading="lazy"></p>
+
+<p>图3&nbsp;所选特征变量分布</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于上述特征变量所建PLS模型的预测结果为：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/e0bd2d0e9d42413de3c31c71ea1224f0.png" loading="lazy"></p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/b5d325354898354e72f69264e489a8bd.png" loading="lazy"></p>
+
+<p>图4 特征变量PLS模型</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由图4可知，UVE方法能够提高PLS模型精度（原始数据：0.9715，0.9686），所选变量能够包含主要光谱特征区域，这也能够说明该方法目前仍被广泛使用。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后，我们简要的介绍了UVE的原理，分析过程和主要事项，自己完整的实现了UVE-PLS的编程，欢迎大家交流。</p>
+
+<p><img alt="" height="363" src="https://i-blog.csdnimg.cn/blog_migrate/e9d3b5eea73c921983b2b95db62fb5d2.png" width="300" loading="lazy"></p>
+
+<p></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/124905050" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

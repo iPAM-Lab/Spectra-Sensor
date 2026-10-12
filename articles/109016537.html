@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB实现多分类预测结果混淆矩阵（Confusion matrix）可视化｜谱见</title>
+  <meta name="description" content="对于多分类问题，如何对预测结果进行可视化是对比分析的关键一步，在实际多分类问题，除了简单展示模型预测精度外，如何分别不同类别之间的预测结果对于分析样本相关性和属性区别具有重要意义，在MATLAB中一般通过混淆矩阵confusion matrix对分析结果进行可视化分析，其基本实现函数为：1. plotconfusion(targets,outputs)2.plotconfusion(targets,outputs， name)其中 targets为样本对应实际标签，outputs为所建模型.">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2020.10.11</p>
+          <h1>MATLAB实现多分类预测结果混淆矩阵（Confusion matrix）可视化</h1>
+          <p class="article-deck">对于多分类问题，如何对预测结果进行可视化是对比分析的关键一步，在实际多分类问题，除了简单展示模型预测精度外，如何分别不同类别之间的预测结果对于分析样本相关性和属性区别具有重要意义，在MATLAB中一般通过混淆矩阵confusion matrix对分析结果进行可视化分析，其基本实现函数为：1. plotconfusion(targets,outputs)2.plotconfusion(targets,outputs， name)其中 targets为样本对应实际标签，outputs为所建模型.</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.10.11</span></div>
+        </header>
+        <div class="article-body">
+                    <p>对于多分类问题，如何对预测结果进行可视化分析是性能对比的关键，在实际多分类问题，除了简单展示模型预测精度外，如何理解不同类别之间的预测结果对于分析样本相关性和属性区别具有重要意义，在MATLAB中一般通过混淆矩阵confusion matrix进行可视化分析，</p>
+
+<p>基本实现函数为：</p>
+
+<p>1. plotconfusion(targets,outputs)</p>
+
+<p>2.&nbsp;plotconfusion(targets,outputs， name)</p>
+
+<p>其中 targets为样本对应实际标签，outputs为所建模型预测样本标签，name为混淆矩阵名称，并非对应属性名称（譬如产地等）,除上述两种方式为，还有一种表达方式是通过单独属性表示预测结果的，没什么应用价值，此处不再介绍。</p>
+
+<p>需要说明的是：targets和outputs两个矩阵不是实际预测模型的1xN矩阵，而是MxN矩阵，其中N表示样本数目，M表示样本属性个数，即类别数或标签数等。常规模型所得1xN预测属性无法直接进行混淆矩阵绘制，需要对单样本属性进行多属性扩展，具体为建立MxN矩阵，该矩阵行表示属性特性，列表示样本，对于单个样本，仅在对应属性对应行向量进行标注（1），该列向量其余位置均为0，这样，原先的矩阵1xN矩阵转换为MxN矩阵。</p>
+
+<p>官方给出的二分类问题为：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/10e2eaf6a3e4d0f87c01440ea6e1ba46.png" loading="lazy"></p>
+
+<p>其中横轴表示真实样本标签、纵轴表示样本预测标签，下、右四块浅灰色表示TP、TN、FP、FN等有关不平衡分布样本评价指标参数。</p>
+
+<p>官方给出的多分类问题为：&nbsp;</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/f1c162349eb94070a2a206de7f603e51.png" loading="lazy"></p>
+
+<p>&nbsp;可以看到，每一个橙色方块内部表示预测错误样本数，主对角线表示预测正确样本数，下、右浅灰色矩形框表示对应样本属性预测准确率。</p>
+
+<p>最后再贴一张自己对太平猴魁茶产地鉴别结果的可视化：</p>
+
+<p>&nbsp;</p>
+
+<p><img alt="" height="456" src="https://i-blog.csdnimg.cn/blog_migrate/e3de795f6525648b2d3b1e13e2ba975b.png" width="500" loading="lazy"></p>
+
+<p>&nbsp;我对图中的字体和框图颜色进行了调整。</p>
+
+<p>完结，加油，我的博士梦！</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/109016537" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

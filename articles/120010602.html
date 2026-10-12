@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python学习（2）---Python列表、Numpy数组和矩阵的区别｜谱见</title>
+  <meta name="description" content="（一）基本定义    1.Python列表：列表由一系列按特定顺序排列的元素组成，可以将不同类型的元素加入到列表中，其中各元素之间可以没有任何关系，并且不存在优先级。在Python中，用方括号（[ ]）表示列表（list），并用逗号隔开其中的元素，主要用于顺序存储元素。列如：bicycles = [&#39;trek&#39;, &#39;cannondale&#39;, &#39;redline&#39;, &#39;specialized&#39;, 1, 2, 3]    2.Numpy数组通常是指ndarray(N-...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 04 / 学习随记 · 2021.08.31</p>
+          <h1>Python学习（2）---Python列表、Numpy数组和矩阵的区别</h1>
+          <p class="article-deck">（一）基本定义    1.Python列表：列表由一系列按特定顺序排列的元素组成，可以将不同类型的元素加入到列表中，其中各元素之间可以没有任何关系，并且不存在优先级。在Python中，用方括号（[ ]）表示列表（list），并用逗号隔开其中的元素，主要用于顺序存储元素。列如：bicycles = [&#39;trek&#39;, &#39;cannondale&#39;, &#39;redline&#39;, &#39;specialized&#39;, 1, 2, 3]    2.Numpy数组通常是指ndarray(N-...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.08.31</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;（一）基本定义</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.Python列表：列表由一系列按特定顺序排列的元素组成，可以将不同类型的元素加入到列表中，其中各元素之间可以没有任何关系，并且不存在优先级。在Python中，用方括号（[ ]）表示列表（list），并用逗号隔开其中的元素，主要用于顺序存储元素。列如：</p> 
+<pre><code>bicycles = ['trek', 'cannondale', 'redline', 'specialized', 1, 2, 3]</code></pre> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 2.Numpy数组通常是指ndarray(N-dimensional array)，该多维数组中所有元素的数据类型是相同的，并且存在优先级问题，其中字符型 &gt; 浮点型 &gt; 整形。</p> 
+<pre><code>a = np.array([[0,1,2,3],[4,5,6,7],[8,9,10,11]])
+print(a)
+array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11]])</code></pre> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;3. Numpy矩阵是2维的ndarray，属于包含于数组的分支，因此矩阵具有数组的所有特性。</p> 
+<p><img alt="" height="109" src="https://i-blog.csdnimg.cn/blog_migrate/261b5d581355e8285b82944d40a30eb8.png" width="270" loading="lazy"></p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（二）区别与联系</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1. 数组、列表和矩阵均可通过索引获取元素；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 2. 列表中元素不支持数学运算，数组和矩阵均支持；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 3. 数组遵循逐个元素运算，不主持矩阵乘法运算；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 4. 矩阵运算支持较多数学运算操作，列如转置，共轭以及求逆等；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 5. 在进行归约运算时，数组的维度会发生变化，但矩阵不会；</p> 
+<p><img alt="" height="492" src="https://i-blog.csdnimg.cn/blog_migrate/bd3d911e747c6998c3ff98f1deada73a.png" width="437" loading="lazy"></p> 
+<p>&nbsp;倒数第四行：数据的维度发生了变化。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6. nadarray要比list节省存储空间，效率更高，主要原因是list存放的是对象的引用，调用是通过引用找到具体的对象，而且这些对象所在的物理地址不是连续的，具体示意如下：</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/c9832d09d80883c333c41114efd2d591.png" loading="lazy"></p> 
+<p>&nbsp;相比于数组，列表在访问数据时需要多跳转一次，并且对具体数据的访问不是按秩访问的，故此效率以及空间利用率均低于数组。</p> 
+<p>参考资料：</p> 
+<p>1.<a href="https://blog.csdn.net/wyl1813240346/article/details/79806207" target="_blank" rel="noreferrer">https://blog.csdn.net/wyl1813240346/article/details/79806207</a></p> 
+<p>2.<a href="https://blog.csdn.net/woshisunyizhen/article/details/105101083" target="_blank" rel="noreferrer">https://blog.csdn.net/woshisunyizhen/article/details/105101083</a></p> 
+<p>3.<a href="https://www.cnblogs.com/yibeimingyue/p/13762874.html" rel="noreferrer" target="_blank">https://www.cnblogs.com/yibeimingyue/p/13762874.html</a></p> 
+<p>4. 《python编程从入门到实践第2版》第3章</p> 
+<p></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/120010602" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

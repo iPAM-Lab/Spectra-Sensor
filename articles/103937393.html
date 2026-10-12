@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB读取结构体中的数据｜谱见</title>
+  <meta name="description" content="近期做做一个数据分析的文章，需要使用经典的近红外光谱数据集 corn NIR(网址：http://eigenvector.com/)， 但是下载的数据是包含在一个数据集中，无法直接使用，需要进行数据读取，此时有以下学习收获：   1.在读取包含在结构体中的近红外光谱数据之前，需要知道所需数据在结构体内的名称，使用 fieldnames() 函数查看具体名称，以上述数据...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 04 / 学习随记 · 2020.01.11</p>
+          <h1>MATLAB读取结构体中的数据</h1>
+          <p class="article-deck">近期做做一个数据分析的文章，需要使用经典的近红外光谱数据集 corn NIR(网址：http://eigenvector.com/)， 但是下载的数据是包含在一个数据集中，无法直接使用，需要进行数据读取，此时有以下学习收获：   1.在读取包含在结构体中的近红外光谱数据之前，需要知道所需数据在结构体内的名称，使用 fieldnames() 函数查看具体名称，以上述数据...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.01.11</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;近期做一个数据分析的文章，需要使用经典的近红外光谱数据集 corn NIR&nbsp;(网址：&nbsp;<a href="http://eigenvector.com/" rel="noreferrer" target="_blank">http://eigenvector.com/</a>)， 但是下载的数据是包含在一个数据集中，无法直接使用，需要进行数据读取，此时有以下学习收获：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;1.在读取包含在结构体中的近红外光谱数据之前，需要知道所需数据在结构体内的名称，使用 fieldnames() 函数查看具体名称，以上述数据集为例，在MATLAB中演示为：</p> 
+<pre><code>&gt;&gt; fieldnames(m5spec)
+
+ans = 
+
+    'name'
+    'type'
+    'author'
+    'date'
+    'moddate'
+    'imagesize'
+    'imagemode'
+    'data'
+    'label'
+    'axisscale'
+    'title'
+    'class'
+    'include'
+    'description'
+    'userdata'
+    'datasetversion'
+    'history'
+</code></pre> 
+<p>此时可以看到所需数据在该数据中的名称为“data”，其实此处完全可以双击结构体名就会显示结构体内部的具体信息，只是有的结构体设计不合理打开后超过显示范围导致无法显示，如果双击，则显示为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="443" src="https://i-blog.csdnimg.cn/blog_migrate/d06800edad099820a8344944843cecc0.png" width="317" loading="lazy"></p> 
+<p>这个就可以完全看到数据的大小，也知道所需数据的具体名称，下面需要对结构体数据进行提取；</p> 
+<p>2. 使用 getfield(m5spec, 'data')，获取数据。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;一般需要加一个名称方便后续运算，如 DATA = getfield (m5spec, 'data')。即可获得所需数据。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="158" src="https://i-blog.csdnimg.cn/blog_migrate/085e05a3746576bcefe0d1983ac5ece3.png" width="228" loading="lazy"></p> 
+<p>ok，至此完成相关操作。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 共同学习，共同进步！</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2020年1月11日</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/103937393" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

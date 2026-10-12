@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱分析的统计学角度-1-统计学导论｜谱见</title>
+  <meta name="description" content="按照数据的收集方法，可分为观测数据和实验数据，两者的区别在于前者没有人为控制的条件设置，例如社会经济现象，自然条件下的样品属性，实际案例包括松茸蛋白质含量检测，此处的松茸指野生的松茸，不是载育的姬松茸，而后者则是在实验中控制实验对象而收集到的数据，例如重金属胁迫下的光谱残留检测等。（2）样本（sample）则指的是从总体中抽取的一部分元素的集合，对应的数目就是样本量，在光谱分析中，抽样的目的是样本提供的信息推断总体的特征，也就是根据选择的样本的信息推断未选择样本。比如，苹果的糖度、茶叶的茶多酚含量等。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2023.06.26</p>
+          <h1>光谱分析的统计学角度-1-统计学导论</h1>
+          <p class="article-deck">按照数据的收集方法，可分为观测数据和实验数据，两者的区别在于前者没有人为控制的条件设置，例如社会经济现象，自然条件下的样品属性，实际案例包括松茸蛋白质含量检测，此处的松茸指野生的松茸，不是载育的姬松茸，而后者则是在实验中控制实验对象而收集到的数据，例如重金属胁迫下的光谱残留检测等。（2）样本（sample）则指的是从总体中抽取的一部分元素的集合，对应的数目就是样本量，在光谱分析中，抽样的目的是样本提供的信息推断总体的特征，也就是根据选择的样本的信息推断未选择样本。比如，苹果的糖度、茶叶的茶多酚含量等。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2023.06.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp; 统计分析以可见或不可见的形式存在于我们生活的各个方面，其可见的形式有数字化、图形化等分析方法，不可见的形式包括经验、常识和感觉。对于以实验数据为基础的光谱分析方法，统计分析是其理论分析和工程应用的基础，如何从统计学的角度去收集、处理、分析和理解光谱数据是每一位光谱学习者的最终目的，也是基本要求。从本期开始，作者从个人理解出发，以统计学原理为指导，从统计学角度去理解实际观测中的光谱分析，期待跟广大读者互相学习，共同进步，若存在不足，欢迎私信或者联系个人邮箱yql025@foxmail.com。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1. 统计及其应用领域</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 统计是收集、处理、分析、解释数据并从数据中得出结论的科学。其中数据收集是指设计实验或者自然采样取得统计数据；数据处理是将数据用图表等形式呈现出来；数据分析则是选择合适的统计方法研究数据，并从数据中提取有用信息进而得出关键结论。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于光谱分析而言，数据收集包括试验设计、过程\自然采样，还包括理化指标分析等；数据处理包括数据格式转换、异常值分析、预处理、光谱融合和光谱增强等；数据分析则指光谱降维、特征选择、特征融合、建模、预测、模型维护等工作，同时还包括根据数据分析结果获得相关结果。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 值得一提的是，数据分析方法可分为描述统计方法和推断统计方法，其中描述统计研究的是数据收集、处理、汇总、图表可视化、概况与分析等统计方法，比如收集样本的理化指标分布，光谱特征峰的耦合关系等；推断统计方法研究的是如何利用现有样本推断总体特征的统计方法，比如一批次苹果的糖度，这只能从已采集的有限样本来推断整体，无法做到整体样本的抽取，一是实际成本，二是这样做从统计学角度来说是不可行的。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 统计分析已被应用于光谱分析的各个环节，包括数据分析、建模、应用等。但是在将统计学方法用于光谱分析过程时，需要注意以下两点：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 统计分析是方法，不是结论，不能为自己想要的结论寻找方法；<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2. 统计分析需要专业知识才能发挥最大作用，一个结果的解释是多方面的，也就是多角度的，最可信、最合理、最正确的就是结合分析对象背景的分析和阐述。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 2. 统计数据的类型</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 按照目前所采用的计量尺度的不同，可将统计数据分为以下3大类：<br> &nbsp; &nbsp; &nbsp; &nbsp; （1）分类数据：只能归于某一类别的非数字型数据，它是对事物进行分类的结果，表现形式为类别。例如，对于光谱数据及其属性，太平猴魁茶的主要产地有猴坑、猴岗、颜家等6个地方，某地区主要供应的苹果可分为烟台红富士、阿克苏糖心、静宁红富士3类。为便于统计处理，主要是建模部分，可用数字代码来表示各个类别，例如产业产地依次可表示为1、2、3、4、5和6，当然，你也可以表示为10、20等。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）顺序数据：只能归于某一有序类别的非数字型数据。顺序数据虽然也是类别，但是这些类别市有序的。比如黄山毛峰茶分为特级一等、特级二等、特级三等以及一、二、三等，某市场产品可分为一等品、二等品和三等品等。同样，顺序数据可以用数字代码表示。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （3）数值型数据：按数字尺度测量的观测值，其结果为具体的数值。比如，苹果的糖度、茶叶的茶多酚含量等。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 按照数据的收集方法，可分为观测数据和实验数据，两者的区别在于前者没有人为控制的条件设置，例如社会经济现象，自然条件下的样品属性，实际案例包括松茸蛋白质含量检测，此处的松茸指野生的松茸，不是载育的姬松茸，而后者则是在实验中控制实验对象而收集到的数据，例如重金属胁迫下的光谱残留检测等。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 按照被描述的现象和时间的关系，可分为界面数据和时间序列数据，前者是在相同或者相近的时间点收集的数据，多指不同空间维度，高光谱可理解为此类数据；时间序列是在不同时间收集到的数据，通过按时间顺序收集数据用于描述分析对象随时间变化的情况。光谱分析中的大部分数据是时间序列数据，在部分高光谱、遥感等多维、地空光谱感知领域会涉及到界面数据分析。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 3. 统计学中的基本概念</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; (1) 总体（population）：包含所研究对象的全部个体的集合。根据所包含的单位数目是否可数分为有限总体和无限总体，有限总体指的是总体的范围能够明确确定，而且元素的数目是可数的，例如某批进口商品的属性预测，其是可数的有限样本。无限总体指的是总体所包含的元素是无限的、不可数的，例如，某重金属胁迫下的残留检测中浓度的设置范围是不可数的，所构成的样本总体是无限总体。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）样本（sample）则指的是从总体中抽取的一部分元素的集合，对应的数目就是样本量，在光谱分析中，抽样的目的是样本提供的信息推断总体的特征，也就是根据选择的样本的信息推断未选择样本。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （3）参数（parameter）：用于描述总体特征的概括性数字度量，是我们对总体的特征的某种参数化表征，通常包括总体平均数、总体标准差、总体比例等。值得注意的是，总体参数通常用希腊字母表示，例如平均数用&nbsp;<img alt="\mu" src="https://latex.csdn.net/eq?%5Cmu" loading="lazy">&nbsp;，标准差用&nbsp;<img alt="\sigma" src="https://latex.csdn.net/eq?%5Csigma" loading="lazy">等，通常来说，这些参数是未知的。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （4）统计量（statistic）：用于描述样本特征的概括性数字度量，其基于样本数据进行分析，由于实际分析中抽样是随机进行的，因此统计量是样本的函数，这些统计量通常用英文字母表示。在光谱分析中，我们关心的指标的平均值 <img alt="\bar{x}" src="https://latex.csdn.net/eq?%5Cbar%7Bx%7D" loading="lazy">、标准差<img alt="s" src="https://latex.csdn.net/eq?s" loading="lazy">等都是样本统计量。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 由于参数是未知的，也是不可知的，通常用统计量去近似参数，根据大数定律，当采样数目取决于无穷时，统计量即为参数。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （5）变量（variab）：说明现象的某种特征，其取值可分为分类变量、顺序变量和数值型变量，光谱定性分析中涉及分类变量和顺序变量，而定量分析中则多为数值型变量，例如吸光度大小，糖分浓度等。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 此外，可从其他角度去描述光谱数据，但是为便于后期理解和应用，多采样常规的分析指标和描述参数。</p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/131386118" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

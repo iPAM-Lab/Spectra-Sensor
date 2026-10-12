@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>常见近红外/红外光谱数据预处理方法及MATLAB实现｜谱见</title>
+  <meta name="description" content="在近红外等光谱数据分析建模过程中，最关键的一步除了特征选择之外就是光谱数据预处理，预处理的原因是光谱数据除了纯光谱（pure spectra）之外还包含基线漂移、噪声等信号，与此同时存在着因样本大小以及环境等因素带来的谱线偏移，在进行特征分析前能够最大限度的滤除无用及干扰信号是数据分析及信号处理领域最基本、最热门的方向之一，而常用近红外光谱预处理方法包含SNV，MSC，SG，FT以及求...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2019.10.16</p>
+          <h1>常见近红外/红外光谱数据预处理方法及MATLAB实现</h1>
+          <p class="article-deck">在近红外等光谱数据分析建模过程中，最关键的一步除了特征选择之外就是光谱数据预处理，预处理的原因是光谱数据除了纯光谱（pure spectra）之外还包含基线漂移、噪声等信号，与此同时存在着因样本大小以及环境等因素带来的谱线偏移，在进行特征分析前能够最大限度的滤除无用及干扰信号是数据分析及信号处理领域最基本、最热门的方向之一，而常用近红外光谱预处理方法包含SNV，MSC，SG，FT以及求...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2019.10.16</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; 在近红外等光谱数据分析建模过程中，最关键的一步除了特征选择之外就是光谱数据预处理，预处理的原因是光谱数据除了纯光谱（pure spectra）之外还包含基线漂移、噪声等信号，与此同时存在着因样本大小以及环境等因素带来的谱线偏移，在进行特征分析前能够最大限度的滤除无用及干扰信号是数据分析及信号处理领域最基本、最热门的方向之一，而常用近红外光谱预处理方法包含SNV，MSC，SG，FT以及求导等操作，但是综合分析方法，最有效、最基本的两种是MSC和SNV。</p> 
+<p>&nbsp; &nbsp; &nbsp; 1.SNV：标准正态变化（<strong>Standard Normal Variate</strong>）</p> 
+<p>&nbsp; &nbsp; &nbsp;代码实现（MATLAB）：</p> 
+<pre><code>[m,n] = size(Ynir);
+Ym = mean(Ynir,2);
+dY = Ynir - repmat(Ym,1,n);
+Ysnv = dY./repmat(sqrt(sum(dY.^2,2)/(n-1)),1,n);</code></pre> 
+<p>&nbsp; &nbsp;2.MSC: 多元散射校正（<strong>Multiplicative Scatter Correction</strong>）</p> 
+<p>&nbsp; &nbsp;代码实现：</p> 
+<pre><code> me=mean(X);
+ [m,n]=size(X);
+ for i=1:m,
+     p=polyfit(me,X(i,:),1);
+     Xmsc(i,:)=(X(i,:)-p(2)*ones(1,n))./(p(1)*ones(1,n));
+ end
+</code></pre> 
+<p>3. 导数和平滑滤波</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;导数和平滑滤波方法在进行重叠光谱处理时能够发挥作用，一般不是很常用，但是部分研究学者会将该方法和其他常见建模方法相结合寻找最佳建模方式。</p> 
+<pre><code> X1st = diff(X,1);% 一阶导数
+ X2st = diff(X,2);% 二阶导数
+ Xsmooth=smooth(X,30,'lowess'); %平滑滤波</code></pre> 
+<p>%%%%%%</p> 
+<p>最近有同学问如何确定自己处理后的图形是否正确，我在此贴几幅图供大家参考（不对的地方也欢迎大家指导）。</p> 
+<p>1.原始光谱图（其实不是真正意义的原始光谱，反射光强）</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/67b0716c4fff63e226ad162302ec2b08.png" loading="lazy"></p> 
+<p>2. MSC处理结果</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/61fb1bbfc54da1bea50cfc00988ec0f6.png" loading="lazy"></p> 
+<p>3. SNV处理结果</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/9f6f48dd8a5ec4da534ff2710cdc5d9c.png" loading="lazy"></p> 
+<p>注：SNV和MSC处理结果轮廓基本相似，但是纵轴数值不同，主要原因是SNV是纵向求均值，而MSC是横向求均值。</p> 
+<p>................................................................................................................................................</p> 
+<p>20220503更新</p> 
+<p>我近期更新了近红外光谱分析综述和分析策略，希望能够给大家带来帮助，</p> 
+<p><a href="http://t.csdn.cn/3KF6c" title="http://t.csdn.cn/3KF6c" rel="noreferrer" target="_blank">http://t.csdn.cn/3KF6c</a></p> 
+<p>欢迎关注公众号，光谱学与光谱分析，或联系个人邮箱yql025@foxmail.com，新的交流群</p> 
+<p><img alt="" height="359" src="https://i-blog.csdnimg.cn/blog_migrate/d155bd54f90cabeebcad06d463223f47.jpeg" width="300" loading="lazy"></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/96836670" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

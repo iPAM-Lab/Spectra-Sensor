@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱预测模型性能不佳的几点思考｜谱见</title>
+  <meta name="description" content="近红外光谱主要表征含氢基团（C-H、N-H、O-H等）的倍频和合频信息，结合化学计量学方法能够实现物质组成和含量的预测分析。作为一种间接检测方法，近红外光谱分析技术已被广泛应用于工业生产过程在线分析、品质监测和质量控制。然而，在实际分析过程中，如何建立具有满意预测性能的光谱预测模型是一项具有挑战性的工作，也是目前科研和工程应用中亟待深入研究的内容。本次交流主要分析预测性能不佳存在的几点原因，由于个人认知有限，存在不足欢迎指导交流。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2025.04.25</p>
+          <h1>近红外光谱预测模型性能不佳的几点思考</h1>
+          <p class="article-deck">近红外光谱主要表征含氢基团（C-H、N-H、O-H等）的倍频和合频信息，结合化学计量学方法能够实现物质组成和含量的预测分析。作为一种间接检测方法，近红外光谱分析技术已被广泛应用于工业生产过程在线分析、品质监测和质量控制。然而，在实际分析过程中，如何建立具有满意预测性能的光谱预测模型是一项具有挑战性的工作，也是目前科研和工程应用中亟待深入研究的内容。本次交流主要分析预测性能不佳存在的几点原因，由于个人认知有限，存在不足欢迎指导交流。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2025.04.25</span></div>
+        </header>
+        <div class="article-body">
+                    <svg xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z"></path>
+                    </svg>
+                    <p></p>
+<div>
+ <h4>近红外光谱预测模型性能不佳的几点思考</h4>
+ <ul><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_3" target="_blank" rel="noreferrer">近红外光谱分析的特点</a></li><li><ul><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_7" target="_blank" rel="noreferrer">过程多环节</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_10" target="_blank" rel="noreferrer">干扰因素多</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_15" target="_blank" rel="noreferrer">校正方法复杂化</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_18" target="_blank" rel="noreferrer">理论化程度高</a></li></ul>
+  </li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_21" target="_blank" rel="noreferrer">可能存在的原因</a></li><li><ul><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_23" target="_blank" rel="noreferrer">光谱波长点或者波长区间选择</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_26" target="_blank" rel="noreferrer">光谱预处理方法选择</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_29" target="_blank" rel="noreferrer">特征选择方法</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_32" target="_blank" rel="noreferrer">建模方法选择</a></li><li><a href="https://blog.csdn.net/qq_35667901/article/details/147500517#_34" target="_blank" rel="noreferrer">光谱数据和理化值的准确性</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<p>近红外光谱主要表征含氢基团（C-H、N-H、O-H等）的倍频和合频信息，结合化学计量学方法能够实现物质组成和含量的预测分析。作为一种间接检测方法，近红外光谱分析技术已被广泛应用于工业生产过程在线分析、品质监测和质量控制。然而，在实际分析过程中，如何建立具有满意预测性能的光谱预测模型是一项具有挑战性的工作，也是目前科研和工程应用中亟待深入研究的内容。本次交流主要分析预测性能不佳存在的几点原因，由于个人认知有限，存在不足欢迎指导交流。</p> 
+<h2><a></a>近红外光谱分析的特点</h2> 
+<p>近红外光谱分析属于间接检测方法，其核心是收集分析对象的光谱和理化数据，通过结合合适的数据分析方法挖掘潜在的关联模型，以实现未知油品的预测分析。从整个分析过程看，近红外光谱分析具有以下特点。</p> 
+<h3><a></a>过程多环节</h3> 
+<p>近红外光谱分析建模过程涉及多个环节。由下图可知，近红外光谱分析包括样本收集、数据采集、数据预处理、特征选择、校正建模、模型验证、模型更新等。此外，在实际工业过程分析中，还需要考虑实验装置或分析平台设计、探头选型、在线验证等环节。由此可知，近红外光谱分析过程环节多、耦合性强，不同环节之间的适用性或者协调性对于模型性能产生直接影响。<br> <img src="https://i-blog.csdnimg.cn/direct/6cdc4cad895b44a9ae164d9624dd556b.png" alt="近红外光谱建模流程" loading="lazy"></p> 
+<h3><a></a>干扰因素多</h3> 
+<p>近红外光谱从平台设计、数据获取、数据分析、校正建模及应用过程中，存在多种不确定因素干扰，包括客观和主观。例如，在线数据采集过程中探头堵塞、管道压力、环境温度、流速等，在实验室分析过程中理化测试的人为误差干扰。此外，在光谱数据分析过程中，也存在因方法选择引入干扰的情况，例如，对于含噪声光谱数据，直接采用一阶或二阶导数会降低光谱信号信噪比、放大噪声干扰，而特征选择方法中参数设置、方法针对性和分析光谱的特性之间的关联性等都会显著影响分析结果。<br> <img src="https://i-blog.csdnimg.cn/direct/c9a754dadb6b4983832ffa48ac662c3e.png" alt="原始光谱" loading="lazy"><br> <img src="https://i-blog.csdnimg.cn/direct/18666234940146b4bb9f9b73d83e1b08.png" alt="一阶导数预处理" loading="lazy"></p> 
+<h3><a></a>校正方法复杂化</h3> 
+<p>随着近红外光谱分析理论的深入发展，光谱多元校正模型已从简单的线性方法（例如PLS、PCR等）拓展到复杂的非线性方法（例如CNN、RNN等）。目前来看，近红外光谱分析方法的理论研究热点主要集中在非线性方法，而工业应用则多采用线性方法。非线性方法的引入为近红外光谱数据处理（基于VAE的光谱降噪）、特征选择（基于CNN或者VAE的特征选择）、端到端建模（CNN）提供了新思路，但是非线性方法的突出特点（一般来说）是结构复杂、参数多、数据规模要求高。对于光谱分析而言，复杂的模型结构及参数设置可能带来潜在的主观误差干扰，进而造成模型性能未达到预期程度。</p> 
+<h3><a></a>理论化程度高</h3> 
+<p>经过多年发展，目前已建立了完善的近红外光谱分析理论体系。但是，对于不同环节的不同方法，其方法有效性依赖于理论假设基础，例如光谱信号的稀疏性、噪声水平、基线平滑程度、样本数与光谱维度等。不同方法针对光谱不同特点具有各自的优势，不具有普适性。从理论角度去理解分析方法，并结合分析数据实际特点进行系统性方法构建可能是建立精准预测模型的基础。但是，现有分析方法日益复杂，需要较高的理论理解程度。</p> 
+<h2><a></a>可能存在的原因</h2> 
+<p>我们简单分析近红外光谱分析过程的特点，接下来给出个人认为预测模型性能不佳的潜在因素：</p> 
+<h3><a></a>光谱波长点或者波长区间选择</h3> 
+<p>在含有明显噪声或者两端存在干扰的光谱分析中，剔除潜在干扰并筛选波长区间会显著提高模型性能。</p> 
+<h3><a></a>光谱预处理方法选择</h3> 
+<p>这种情况大多是含噪声光谱数据分析，首先要考虑噪声对光谱特征信息表征的影响，然后考虑预处理、特征选择方法的适用性，例如要不要平滑、参数设置、求导和平滑之间的影响等等。</p> 
+<h3><a></a>特征选择方法</h3> 
+<p>特征选择方法具有明显的适用性，线性或非线性，能不能做共线性、近邻波长选择，高维光谱适用性等等。此外，特征选择方法的参数设置非常非常重要，特别是多个参数之间的交叉验证，具有显著差异。</p> 
+<h3><a></a>建模方法选择</h3> 
+<p>个人推荐用PLS先做测试，然后再去根据需求去探索深度学习等新方法。但是，新方法不一定都好使，特别是涉及网络设计、数据归一化、参数优化等多环节、多参数的复杂方法时，需要很长时间去尝试。</p> 
+<h3><a></a>光谱数据和理化值的准确性</h3> 
+<p>在光谱分析过程中，因为测试成本太高，一般最后才考虑这个问题。在PLS分析中，在多次随机样本划分下一直出现训练集精度显著高于预测集，或者训练集和预测集精度均较低，则需要考虑光谱数据和理化指标的准确性。这个问题不好处理，需要综合考虑。</p> 
+<p>此次简单总结一下个人认为可能存在的问题，后续有精力会继续更新博客，也欢迎有需要交流的小伙伴跟我联系。</p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/147500517" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第二章---近红外光谱分析的光谱组成1｜谱见</title>
+  <meta name="description" content="化学计量学中涉及到的光谱强度通常是指样品的纯光谱数据，但实际分析过程中测量的光谱在包含样品光谱的同时，通常还包含样品的测量参数引起的背景光谱，即所得光谱通常由纯光谱信息叠加背景光谱组成。这两类信息的加载过程、分析原理和提取方法存在本质差异，也分别决定了模型的准确性和稳健性，下面将分别从不同方面进行介绍。    1.1 近红外光谱样本信息的加载    (1) 样品光谱信息加载的物理过程    近红外光谱分析的本质是通过分析物质和光谱信息之间的关联信息建立分析...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 01 / 基础理论 · 2021.10.05</p>
+          <h1>第二章---近红外光谱分析的光谱组成1</h1>
+          <p class="article-deck">化学计量学中涉及到的光谱强度通常是指样品的纯光谱数据，但实际分析过程中测量的光谱在包含样品光谱的同时，通常还包含样品的测量参数引起的背景光谱，即所得光谱通常由纯光谱信息叠加背景光谱组成。这两类信息的加载过程、分析原理和提取方法存在本质差异，也分别决定了模型的准确性和稳健性，下面将分别从不同方面进行介绍。    1.1 近红外光谱样本信息的加载    (1) 样品光谱信息加载的物理过程    近红外光谱分析的本质是通过分析物质和光谱信息之间的关联信息建立分析...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.10.05</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp; 化学计量学中涉及到的光谱强度通常是指样品的纯光谱数据，但实际分析过程中测量的光谱在包含样品光谱的同时，通常还包含样品的测量参数引起的背景光谱，即所得光谱通常由纯光谱信息叠加背景光谱组成。这两类信息的加载过程、分析原理和提取方法存在本质差异，也分别决定了模型的准确性和稳健性，下面将分别从不同方面进行介绍。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1.1 近红外光谱样本信息的加载</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; (1) 样品光谱信息加载的物理过程</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 近红外光谱分析的本质是通过分析物质和光谱信息之间的关联信息建立分析模型，从而实现对待测物质的快速检测分析，其中光谱信息的来源于光子与样品分子的相互作用，其中表征物质类型和含量的特征信息和测量参数等引起的背景信息分别加载到分析光中，形成了样品的真实光谱和表观光谱。根据物质和背景的不同，具体的信息加载过程可表示为图1。</p>
+
+<p><img alt="" height="251" src="https://i-blog.csdnimg.cn/blog_migrate/546a6e477272604a047b888d6bdde8ee.png" width="555" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;图1 近红外光谱样品信息加载过程</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 由图1可知，对于多组分样品，加载的样品化学信息可用于物质的化学分析，而基于散射的物理信息加载可用于样品的物理分析。此外，样品的化学结构、化学成分、物理结构组成的样品背景信息以及由仪器参数、进样参数和环境参数组成的测量背景信息共同组成表观光谱，后续会分别对确定信息和不确定信息加载过程分别进行介绍。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）分析光与物质相互作用的微观过程</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 近红外分析对样品的光谱测量过程主要是指样品信息在光谱信息中的加载过程，即分析光与样品物质的相互作用过程。如图2所示，均匀介质的信息加载主要是样品对分析光的吸收，散射介质的信息加载过程同时包含对分析光的吸收、散射、折射和反射。其中光的吸收过程涉及到能量的交换、而散射和折射过程则不涉及能量交换，而有能量交换的光吸收过程又分为承载样品化学信息的光谱吸收和不承载分析信息的热吸收；无能量交换的散射和折射可分为承载样品物理信息的样品内部散射和不承载分析信息的镜面反射。</p>
+
+<p><img alt="" height="241" src="https://i-blog.csdnimg.cn/blog_migrate/55c26a76cdd78f9c2cd27351c09e3752.png" width="574" loading="lazy"></p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 对上述信息加载过程进行进一步讨论：</p>
+
+<p>A. 样品对光的吸收</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;按照作用对象的不同，物质分子的能量分为：分子平动运动（热运动的能量）和分子内部的能量（能级能量），两者的区别在于前者不具有分子结构的特征，而后者则具有分子结构的特征。按照上述论述，可将光与物质之间能量交换的作用分为热吸收和光谱吸收两类。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; a. 热吸收：光与物质相互作用时部分分析光子的能量转换为分子平动运动的能量（未涉及能量能级变动），这部分即为物质的热吸收。分子在热吸收过程中对不同波长的光都可能无选择地发生热吸收，因此样品对光的热吸收通常不带有样品的结构与组成信息，相反相对于精准的定量分析，此类随机能量转换会干扰样品的光谱分析，在实验过程中尽量避免。此外，深色物体对可见谱区与近红外谱区的光谱具有较强的热吸收作用，在此类物品分析过程中应尽量减少热吸收的影响。</p>
+
+<p>值得补充的是关于光谱仪的预热问题，此问题是任何光谱分析中的一个关键问题，考虑到光源、光纤、检测器及探头的热吸收问题，在测试之前要进行预热处理，具体的时间则需要根据仪器设置操作。此外，在长时间工作条件下的仪器过热也值得考虑，这类问题带来的影响主要有光谱漂移、样品破坏、积分延时等问题。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; b. 光谱吸收：分析光中某些频率成分与样品分子中相同频率的一些结构振动产生共振并吸收能量；按照量子的解释：若光子的能量与分子中某两个能级之间的能量差值相同，则分子可能吸收光子，使分子的能态发生跃迁，形成了在近红外谱区不同波长位置与不同强度（高度）的吸收峰。光谱吸收特征可用吸光稀疏表述：均匀介质表征分子对光吸收特征的吸光系数和散射介质特征分子对光吸收特征的吸光系数。</p>
+
+<p>B.样品对光的镜面反射与散射</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 不涉及能量交换的相互作用主要有：镜面反射与散射。其中镜面反射光谱发生在物体或颗粒表面，并未进入物体内部，因此不带有物体的结构信息，一半不用于分析，并给化学计量学分析带来干扰。光在物体内部的散射含有多种形式，此处仅讨论漫散射：分析光在样品内部颗粒之间的散射可视为样品颗粒表面各点处的镜面反射，并未进入样品颗粒内部，因此不包含化学信息。通常用散射系数S来表征散射特征，其散射过程与颗粒大小、现状、入射角度等具有统计性质的参数有关，因此对于确定物质其散射系数S是具有统计性质的系数。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 在近红外光谱分析过程中的热吸收、镜面散射等干扰，以及化学信息与物理信息在分析过程中互相干扰，使得从采样、制样、测试、环境、分析过程等近红外分析的全过程均发生干扰，这些干扰信息加载到分析光谱中，形成了较强的背景信息。其散射系数S通常为一种统计参数，容易受温度、环境噪声、仪器等环境因素影响，造成了近红外光谱背景的波动，进一步造成了近红外分析的不稳定。</p>
+
+<p></p>
+
+<p><span><strong>欢迎关注个人创建的微信公众号-《光谱学与光谱分析》，相关学习资料共享平台，有事请联系：yql025@foxmail.com</strong></span></p>
+
+<p></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/120616651" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

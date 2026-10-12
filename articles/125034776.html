@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱特征选择---随机蛙跳变量选择RF｜谱见</title>
+  <meta name="description" content="我们已经连续好几期在讲特征变量选择算法，这其中一个很重要的一个原因是：光谱数据的高维冗余性和目标值与少数解释变量之间的相关性，也就是特征解释问题。如何从实际测量的高维光谱数据中选择具有解释能力（特征变量）的变量是目前特征选择或者特征降维的主要研究内容，也是光谱分析建模的关键组成。本期分享的随机蛙跳（Random Frog， RF）主要参考李宏东老师于2012年发表在ACA的论文（题目见文末），区别于由Kevin Lanes和Mustafa Eusuff于2003年提出的随...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2022.05.29</p>
+          <h1>光谱特征选择---随机蛙跳变量选择RF</h1>
+          <p class="article-deck">我们已经连续好几期在讲特征变量选择算法，这其中一个很重要的一个原因是：光谱数据的高维冗余性和目标值与少数解释变量之间的相关性，也就是特征解释问题。如何从实际测量的高维光谱数据中选择具有解释能力（特征变量）的变量是目前特征选择或者特征降维的主要研究内容，也是光谱分析建模的关键组成。本期分享的随机蛙跳（Random Frog， RF）主要参考李宏东老师于2012年发表在ACA的论文（题目见文末），区别于由Kevin Lanes和Mustafa Eusuff于2003年提出的随...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2022.05.29</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们已经连续好几期在讲特征变量选择算法，这其中一个很重要的一个原因是：光谱数据的高维冗余性和目标值与少数解释变量之间的相关性，也就是特征解释问题。如何从实际测量的高维光谱数据中选择具有解释能力（特征变量）的变量是目前特征选择或者特征降维的主要研究内容，也是光谱分析建模的关键组成。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本期分享的随机蛙跳（Random Frog， RF）主要参考李宏东老师于2012年发表在ACA的论文（题目见文末），区别于由Kevin Lanes和Mustafa Eusuff于2003年提出的随机蛙跳算法（Shuffled Frog Leaping Algorithm， SFLA），RF迭代更新过程更加简单直观，而SFLA粒子群优化算法相似，本期就RF在光谱特征分析建模中的应用进行介绍，并以真实数据进行代码解析和结果展示，对于代码在光谱交流群内。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 随机蛙跳RF</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者原文以基因表达过程中的关键变量选择为背景提出了RF算法，结合光谱建模分析应用，我们首先介绍RF的基本原理。对于光谱变量X，其n行表示样本数，p列表示变量，对应的目标矩阵Y由nx1的变量组成，其迭代计算过程主要包括以下三步：</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1）随机生成包含Q个变量的子集V0；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）在V0的基础上提出一个包含Q*个变量的候选变量子集V*，以一定的概率接受V*作为V1，用V1代替V0，循环该过程；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）计算各个变量选择的概率值，以此作为变量重要性评价指标。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在RF算法计算过程中，主要涉及5个关键参数，分别是：</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1）N：迭代次数，一般根据数据规模设置；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）Q：初始数据子集所含变量数；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）<img alt="" height="1" src="https://i-blog.csdnimg.cn/blog_migrate/b7b65448268e919927d7bb320623e145.gif" width="1" loading="lazy"><img alt="\theta" src="https://latex.csdn.net/eq?%5Ctheta" loading="lazy">：控制正态分布方差的因子，用于控制抽取进入候选变量子集的变量数；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）w：用于重采样时调整变量个数；</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（5）<img alt="" height="1" src="https://i-blog.csdnimg.cn/blog_migrate/3a79170fec25193fe0812207037731d3.gif" width="1" loading="lazy"><img alt="\eta" src="https://latex.csdn.net/eq?%5Ceta" loading="lazy">：用于设定接受性能不优于 V0 的候选变量子集 V* 的概率的上限。</p>
+
+<p>上述变量中，除了Q和N外，其余变量均设置为默认值，此外，变量的重要性不再是单纯的以回归系数的大小为依据，而是以N次迭代中变量出现的概率为依据。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 代码分析</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RF的matlab调用如下所示：​​​​​​​</p>
+
+<pre><code>function F=randomfrog_pls(X,Y,A,method,N,Q,criterion)</code><code>%+++ Random Frog for variable selection for high dimensional data.</code><code>%+++ Input:  X: m x n  (Sample matrix)</code><code>%            Y: m x 1  (measured property)</code><code>%            A: The maximal number of latent variables for</code><code>%               cross-validation</code><code>%       method: data pretreat method,'center' or 'autoscaling'</code><code>%            N: The number of Simulation.</code><code>%            Q: Intial number of variables to sample</code><code>%+++ Criterion: index for variable assessment:'RegCoef',or 'sr'</code><code>%+++ Output: Structural data: F</code></pre>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;输出的结构体F包含的主要变量有：​​​​​​​</p>
+
+<pre><code>F.N=N;&nbsp;                  %迭代次数</code><code>F.Q=Q0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%子集变量数</code><code>F.model=model;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%模型参数，此处选PLS</code><code>F.minutes=toc/60;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%计算时间/S</code><code>F.method=method;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%预处理方法</code><code>F.Vrank=Vrank;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%变量序号</code><code>F.Vtop10=Vtop10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;top-10&nbsp;变量</code><code>F.probability=probability;&nbsp;%&nbsp;各变量被选概率</code><code>F.nVar=nVar;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%迭代建模过程中子集变量个数</code><code>F.RMSEP=RMSEP;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%迭代模型RMSEP</code></pre>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;实例分析</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本文以公开数据集Corn进行测试分析，对应下载链接已在前期中给出，原始光谱为：</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/f516808f5d3d4e59ecdc95eee4124dde.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于RF算法，我们选择前60个变量，具体的分布如图所示，其中有部分点分布在起始点附近，而大部分分布在500左右，对于起始点附近的点，可能是我们子集变量个数设置过小，导致这些变量的选择概率较高。</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/3f8f36b5b68e4aca1843dc3c15ef387d.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;各变量在100次迭代循环过程中的选择概率分布如下图所示，对应上图，我们可以看到选择概率大于0的个数较少，而且分布相对集中，对于上图所选前60变量过多，可能需要多次交叉验证才能确定最佳的特征变量个数。</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/948b2070c0e6f2d07f72a6c06e827c9f.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于所选变量所建模型的PLS预测结果如下所示，可知预测结果精度较高，能够实现目标指标的有效预测。</p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/5a299aa5a971879b0f8ed08d85849b98.png" loading="lazy"></p>
+
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/d92e276acfacf129081ed6952b03d454.png" loading="lazy"></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对比发现，RF算法能够有效选择光谱特征变量，其基本分析过程跟iPLS相似，区别在于区间的可变性和变量的随机选择性，也正是这种过程产生了变量的竞争选择机制，进而确保了变量的有效性。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至此，我们简要介绍了RF算法并应用实例数据进行了分析，下期会介绍区间随机蛙跳iRF算法，欢迎大家交流分析，有需要的可通过私信公众号加入光谱交流群。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/125034776" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

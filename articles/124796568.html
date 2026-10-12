@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱特征选择---竞争自适应重加权采样CARS｜谱见</title>
+  <meta name="description" content="多元校正模型是目前多组分光谱分析的主要分析方法，但是实际分析数据存在严重的共线性和冗余干扰问题，此外，如何去解释建模变量对实际分析过程具有重要意义。因此，无论从模型性能提升还是模型变量解释方面都有必要对分析数据进行变量选择。本周跟大家分享一篇经典论文：Hongdong Li, et al. Key wavelengths screening using competitive adaptive reweighted sampling method for multivariate calib...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2022.05.16</p>
+          <h1>光谱特征选择---竞争自适应重加权采样CARS</h1>
+          <p class="article-deck">多元校正模型是目前多组分光谱分析的主要分析方法，但是实际分析数据存在严重的共线性和冗余干扰问题，此外，如何去解释建模变量对实际分析过程具有重要意义。因此，无论从模型性能提升还是模型变量解释方面都有必要对分析数据进行变量选择。本周跟大家分享一篇经典论文：Hongdong Li, et al. Key wavelengths screening using competitive adaptive reweighted sampling method for multivariate calib...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2022.05.16</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;多元校正模型是目前多组分光谱分析的主要分析方法，但是实际分析数据存在严重的共线性和冗余干扰问题，此外，如何去解释建模变量对实际分析过程具有重要意义。因此，无论从模型性能提升还是模型变量解释方面都有必要对分析数据进行变量选择。本周跟大家分享一篇经典论文：Hongdong Li, et al. Key wavelengths screening using competitive adaptive reweighted sampling method for multivariate calibration, Anal Chim Acta 2009, 648(1):77-84。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者基于达尔文“适者生存”的思想，提出基于迭代统计信息的变量选择算法，即竞争自适应重加权采样(Competitive adaptive reweighted sampling, CARS)，值得注意的是，该方法可同时应用于其他领域的变量选择。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;变量选择问题</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现有（2009'）变量选择准则分为基于波长信息容量和基于模型性能相关统计两类，前者主要有信噪比、信息熵、互信息等，后者的统计指标包括决定系数R2、RMSE、NMSE等，代表算法为iPLS、UVE和MC类方法，还有一类比较特殊的方法，就是将寻找特征变量过程看成优化过程，该过程将模型性能看做适应度函数，相关要求作为约束条件，最后结合优化方法，例如遗传算法GA、粒子群优化算法PSO和模拟退火算法SA等确定最佳的变量组合，不同方法有不同的优缺点，此处不做详细讨论。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.CARS算法</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARS算法的分析过程主要分为：</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1）蒙特卡罗模型采样</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MC模型采样是指随机划分数据集进行建模分析，划分比例为80%-90%（该比例偏大，实际分析一般选75%-85%，特殊数据可能需要特殊的比例）。对于建模方法，作者选择简单方便的PLS进行分析，并将回归系数绝对值的百分比作为变量的重要性或对目标变量的解释性，这种方法的理论基础是线性回归分析，也是目前模型解释的主要做法之一。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）指数衰减波长选择</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARS算法首次采用全部变量进行建模，N次迭代过程中确定的变量是逐次递减的，第i次采样确定的变量个数比例根据下式确定：</p> 
+<p><img alt="r_i=ae^{-ki}" src="https://latex.csdn.net/eq?r_i%3Dae%5E%7B-ki%7D" loading="lazy"></p> 
+<p>&nbsp;上式的约束条件为<img alt="r_1=P,r_N=2/P" src="https://latex.csdn.net/eq?r_1%3DP%2Cr_N%3D2/P" loading="lazy">，可求得指数递减函数参数为:</p> 
+<p><img alt="a=(P/2)^{1/(N-1)}" src="https://latex.csdn.net/eq?a%3D%28P/2%29%5E%7B1/%28N-1%29%7D" loading="lazy"></p> 
+<p><img alt="k=ln(p/2)/(N-1)" src="https://latex.csdn.net/eq?k%3Dln%28p/2%29/%28N-1%29" loading="lazy"></p> 
+<p>作者在原文中间递减函数分布两部分，第一部分（i&lt;n）为“快速选择”阶段，大量变量被快速剔除；第二阶段（n&lt;i&lt;N）为“精选阶段”，每次删除的变量较少，即变量精准分析阶段。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）自适应重加权采样</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据（2）确定的迭代采样变量个数进行变量剔除，即重采样，权表示变量出现的频率，然后建立基于筛选变量的分析预测模型，并计算其RMSE，此处为验证模型的有效性，采用RMSECV。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）循环迭代</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据设置的循环迭代次数进行循环计算，根据最小的RMSECV确定最佳的变量集合，即为所求特征变量。相关函数及算法的流程图请参考原文。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;仿真验证</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此处以某油掺假比例预测数据为例，光谱数据为39x256，波长范围为897-2124 nm，根据前期之前分享的<a href="https://mp.weixin.qq.com/s?__biz=Mzg4NTc1Mjg2Mg==&amp;mid=2247483719&amp;idx=1&amp;sn=5500b0dd95c137303d918aae17ae76c7&amp;chksm=cfa55436f8d2dd208451e60b8b3d9a0a831231a5a38668e4b5e0ae368b6566a1e82f03a28daf&amp;scene=21#wechat_redirect" title="光谱预处理" rel="noreferrer" target="_blank">光谱预处理</a>（点击链接访问），我们选择SNV进行分析，分析结果如图1所示：</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/e2d66514b776de0119dc470e54d66e7c.png" loading="lazy"></p> 
+<p>&nbsp;&nbsp;图1 原始数据与SNV预处理</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对Xsnv数据进行CARS分析，其中CARS函数的关键参数设置如下所示（方便展示，做部分删减）：</p> 
+<pre><code>function CARS=carspls(X,y,A,fold,method,num,selectLV,originalVersion,order) </code><code>%+++ CARS: Competitive Adaptive Reweighted Sampling method for variable selection.</code><code>%+++ X: The data matrix of size m x p</code><code>%+++ y: The reponse vector of size m x 1</code><code>%+++ A: the maximal principle to extract.</code><code>%+++ fold: the group number for cross validation.</code><code>%+++ method: pretreatment method.</code><code>%+++ num: the  number of Monte Carlo Sampling runs.</code><code>%+++ selectLV:     0: selecting the optimal LV achieving the global minimum of RMSECV curves</code><code>%                  1: selecting the optimal LV achieving the maximum RMSECV within the range of global minimum + 1 standard deviation.</code><code>%+++ originalVersion:  1: using the original version of CARS </code><code>%                      0: using a simplified version of CARS </code><code>%+++ order:  0: samples are sorted based on y values</code><code>%            1: samples are randomly ordered</code><code>%            2: samples are in the same order as in the orginal input</code></pre> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关键参数主要有fold（交叉验证对折次数，10）、num（MC采样次数，40）和selectLV（选择最佳变量的标准，0），括号内数字表示本实验设置参数。40次迭代过程中变量保留率、RMSECV和变量系数变化如图2所示。</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/740cff758516082a3c907b27d2f6e54a.png" loading="lazy"></p> 
+<p>图2 迭代过程相关参数变化</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实验结果表明（图显示大概在第12-18次之间，可通过查看CARS结构体数据查看最小RMSECV对应的迭代次数及对应的变量集合）最佳迭代次数为14，对应所选变量个数为51，在光谱中的对应位置如图3所示。</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/ad388d5bdc8af13a647dc7adbf61afa3.png" loading="lazy"></p> 
+<p>图3&nbsp;所选特征变量对应位置</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值得一提的是，所选变量分布大多集中在1850nm和2100nm处，这个可能跟分析对象的结构特征有关，局限于专业背景，此处不展开讨论。对应的分析结果如图4所示，可以发现模型的预测结果很好，此处没有贴原始光谱模型的分析结果，理由是CARS选择过程中已经对比了RMSECV。</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/87438bb12354cd00de6151f57759e599.png" loading="lazy"></p> 
+<p>图4&nbsp;模型分析结果</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至此，我们分析CARS算法的基本过程，并应用一个实例数据进行了分析测试，分析结果表明CARS的有效性！</p> 
+<p><img alt="" height="354" src="https://i-blog.csdnimg.cn/blog_migrate/0d606251ea81a3f3779238a42e47f3b9.png" width="281" loading="lazy"></p> 
+<p></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/124796568" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python学习（3）---主成分分析（PCA）的基本原理及其Python实现｜谱见</title>
+  <meta name="description" content="一、降维的基本概念对于实际分析过程中的高维数据，在进行具体的数据分析和特征建模之前，需要进行数据降维处理。降维是指通过某种方法从原始数据的N个特征中选取K个（K&lt;N）进行数据表示，在减少数据信息丢失的前提下实现原始数据的压缩表示，其主要目的包括以下几点：    （1）提高数据的使用率；    （2）减低算法的计算开销（软件和硬件）；    （3）去除干扰噪声；    （4）提高分析结果的解释性。 现...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 04 / 学习随记 · 2021.09.06</p>
+          <h1>Python学习（3）---主成分分析（PCA）的基本原理及其Python实现</h1>
+          <p class="article-deck">一、降维的基本概念对于实际分析过程中的高维数据，在进行具体的数据分析和特征建模之前，需要进行数据降维处理。降维是指通过某种方法从原始数据的N个特征中选取K个（K&lt;N）进行数据表示，在减少数据信息丢失的前提下实现原始数据的压缩表示，其主要目的包括以下几点：    （1）提高数据的使用率；    （2）减低算法的计算开销（软件和硬件）；    （3）去除干扰噪声；    （4）提高分析结果的解释性。 现...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.09.06</span></div>
+        </header>
+        <div class="article-body">
+                    <p></p> 
+<p>&nbsp; &nbsp; &nbsp;一、降维的基本概念</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于实际分析过程中的高维数据，在进行具体的数据分析和特征建模之前，需要进行数据降维处理。降维是指通过某种方法从原始数据的N个特征中选取K个（K&lt;N）进行数据表示，在减少数据信息丢失的前提下实现原始数据的压缩表示，其主要目的包括以下几点：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （1）提高数据的使用率；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）减低算法的计算开销（软件和硬件）；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （3）去除干扰噪声；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （4）提高分析结果的解释性。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 现有的数据降维方法很多，按照个人的了解（存在认识不足），根据输入变量X和目标变量的关联关系，可分为：输入变量数据降维（主成分分析PCA、独立主成分分析ICA、因子分析FA等）和关联数据降维（偏最小二乘PLS、Lasso、逐步线性回归、回归数（回归数也可以做数据降维）等），在上述方法中应用最广、传播度最大的属于PCA，本次仅对其基本原理和分析思路进行介绍，最后通过python编程，感受一下其巨大的魅力，最后分析过程的局限性。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 二、PCA</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 在周志华老师的《机器学习》书中写到：方差越大，数据所含表示信息量越多，意味着数据集不同样本、不同维度之间的变化能够完全表征样本特征的可能性越高，反之亦然。这句话是什么意思呢？就是某一维变量的方差越大时，其所能包含的信息量越大，表明其在整个数据中的‘话语权’越大，通俗的说就是见多识广，知识范围越广，越能恰当、清楚地表述一件事物各方面的特征。PCA的主要思想就是基于上述原理，即通过选取K个能够最大量度覆盖原始数据的特征（N个），实现数据降维，进而提高模型解释性及进行可视化分析等工作。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 在分析PCA基本原理之前，需要理解以下几点概念：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1. 向量内积的几何意义</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 假设A<img alt="(x_1, y_1)" src="https://latex.csdn.net/eq?%28x_1%2C%20y_1%29" loading="lazy">、B<img alt="(x_2, y_2)" src="https://latex.csdn.net/eq?%28x_2%2C%20y_2%29" loading="lazy">为二维平面上的两个非零向量，其内积可表示为：</p> 
+<p><img alt="AB = \left | A \right |\left | B \right |cos\theta =x_1 * x_2 + y_1 * y_2" src="https://latex.csdn.net/eq?AB%20%3D%20%5Cleft%20%7C%20A%20%5Cright%20%7C%5Cleft%20%7C%20B%20%5Cright%20%7Ccos%5Ctheta%20%3Dx_1%20*%20x_2%20&amp;plus;%20y_1%20*%20y_2" loading="lazy"></p> 
+<p>坐标轴表示为：</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/ed91558860bbe613aef79d15b7767c43.png" loading="lazy"></p> 
+<p>&nbsp;其中，<img alt="\left | A \right |cos\theta" src="https://latex.csdn.net/eq?%5Cleft%20%7C%20A%20%5Cright%20%7Ccos%5Ctheta" loading="lazy">实际上表示向量A在向量B方向上的投影。当B为单位向量时，A和B的内积表示A向量在B向量上的投影，且满足上式。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 2. 基的变换</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 基变换就是坐标轴变换（PCA的主要操作），通过新的正交轴去代替原始坐标轴（XOY坐标轴）。此处新的坐标轴的基向量的模必须为1且两两正交，主要原因是由两两正交的单位向量组合的正交矩阵在将原始坐标轴正交变换为新坐标轴时，不会改变向量基本特征属性（模、夹角、距离）。此外，正交矩阵的基本特性（<img alt="A^{'}A = I" src="https://latex.csdn.net/eq?A%5E%7B%27%7DA%20%3D%20I" loading="lazy">）便于矩阵归约处理。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 对于向量<img alt="A (x_a, y_a)" src="https://latex.csdn.net/eq?A%20%28x_a%2C%20y_a%29" loading="lazy">，假设新的坐标轴（注：新的坐标轴的基向量表示仍然是基于旧坐标轴而言的）可分别表示为：x轴<img alt="\vec{i}: (x_i, y_i)" src="https://latex.csdn.net/eq?%5Cvec%7Bi%7D%3A%20%28x_i%2C%20y_i%29" loading="lazy">和y轴<img alt="\vec{j}: (x_j, y_j)" src="https://latex.csdn.net/eq?%5Cvec%7Bj%7D%3A%20%28x_j%2C%20y_j%29" loading="lazy">。那么，按照第1节表述的内积的基本应用，向量A在新坐标轴上可表示为：</p> 
+<p><img alt="(x_a, y_a)\begin{pmatrix} x_i &amp;x_j \\ y_i&amp;y_j \end{pmatrix}=(x_a * x_i +y_a * y_i, x_a * x_j +y_a * y_j)=(x_{new}, y_{new})" src="https://latex.csdn.net/eq?%28x_a%2C%20y_a%29%5Cbegin%7Bpmatrix%7D%20x_i%20%26x_j%20%5C%5C%20y_i%26y_j%20%5Cend%7Bpmatrix%7D%3D%28x_a%20*%20x_i%20&amp;plus;y_a%20*%20y_i%2C%20x_a%20*%20x_j%20&amp;plus;y_a%20*%20y_j%29%3D%28x_%7Bnew%7D%2C%20y_%7Bnew%7D%29" loading="lazy"></p> 
+<p>其中，<img alt="\begin{pmatrix} x_i &amp;x_j \\ y_i&amp;y_j \end{pmatrix}" src="https://latex.csdn.net/eq?%5Cbegin%7Bpmatrix%7D%20x_i%20%26x_j%20%5C%5C%20y_i%26y_j%20%5Cend%7Bpmatrix%7D" loading="lazy">为以列向量排列的矩阵，即为变换矩阵；<img alt="(x_{new}, y_{new})" src="https://latex.csdn.net/eq?%28x_%7Bnew%7D%2C%20y_%7Bnew%7D%29" loading="lazy">为在新坐标轴下的坐标表示。式中右乘的原因是因为变换矩阵由列向量组成，每一个列表示一个新的坐标轴，按照内积的计算方法，因此选择右乘。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 举个例子，对于XOY坐标系中的向量（3， 2）, 假设选定新的坐标轴其基向量分别为<img alt="(1/\sqrt{2}, 1/\sqrt{2})" src="https://latex.csdn.net/eq?%281/%5Csqrt%7B2%7D%2C%201/%5Csqrt%7B2%7D%29" loading="lazy">和<img alt="(-1/\sqrt{2}, 1/\sqrt{2})" src="https://latex.csdn.net/eq?%28-1/%5Csqrt%7B2%7D%2C%201/%5Csqrt%7B2%7D%29" loading="lazy">，按照上节表述的内积的意义，可得向量在新的的坐标轴的表示为：</p> 
+<p>&nbsp;<img alt="(x_{new}, y_{new}) =(3, 2 )\begin{pmatrix} 1/\sqrt{2} &amp;-1/\sqrt{2} \\ 1/\sqrt{2}&amp; 1/\sqrt{2} \end{pmatrix}=(5/\sqrt{2}, -1/\sqrt{2})" src="https://latex.csdn.net/eq?%28x_%7Bnew%7D%2C%20y_%7Bnew%7D%29%20%3D%283%2C%202%20%29%5Cbegin%7Bpmatrix%7D%201/%5Csqrt%7B2%7D%20%26-1/%5Csqrt%7B2%7D%20%5C%5C%201/%5Csqrt%7B2%7D%26%201/%5Csqrt%7B2%7D%20%5Cend%7Bpmatrix%7D%3D%285/%5Csqrt%7B2%7D%2C%20-1/%5Csqrt%7B2%7D%29" loading="lazy"></p> 
+<p>具体表示为：</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/2feece4cd111b56c4f9f7b60a4cd8580.png" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 3. 协方差矩阵</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 前面讲到：方差越大，信息量越大，对于下图所示数据，其XOY坐标表示的方向均不是方差最大的方向。结合坐标变换，我们可以重新构建一个基于上述理念的坐标系（红线），让样本信息尽量集中在少数几个坐标轴中，剩余坐标轴几乎不含信息，即可去掉此坐标轴实现特征降维。</p> 
+<p><img alt="" height="480" src="https://i-blog.csdnimg.cn/blog_migrate/6e19577087a9d2417918e6916cb6626b.png" width="640" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 现在的关键问题是如何衡量确定坐标轴所能表示的信息量。首先考虑的是方差，对于转换后的坐标，假设数据在某一坐标轴上的方差越大，则可认为数据在该坐标轴上所含的信息量越大，这样我们就可以根据方差的大小依次选取所需要的的特征（或坐标轴）进行降维。但是（最怕这个），我们在做数据分析的时候不得不考虑一个问题，就是数据的相关性问题。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 假设选择方差最大的轴作为第一维（第一变换方向），当变量之间关联性较低或者不相关时，可考虑依次考虑方差递减对应轴作为候选变换方向；但是当候选第一维和第二维之间存在较强关联性时，即两者表示的信息有很大部分相同的（此处的相同不是说值的大小，而是所表征的样本特征变化情况，例如具有同时变化趋势），此时选择第二维并不能最大化信息表示，反而会降低样本信息的有效表示。因此，需要考虑其他信息考量指标。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 协方差矩阵表征了两两变量之间是否同时偏离均值，其中对角线变量表示每个特征的方差，非对角线变量表示不同特征之间的相关性，绝对值越大，表明变量之间相关性越强。协方差矩阵结合了方差越大，信息量越大的特点，同时表征了不同维度之间的相关性，因此可用于变量信息量度量。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 假设经过归一化处理后的输入数据为<img alt="X\in R^{m\times n}" src="https://latex.csdn.net/eq?X%5Cin%20R%5E%7Bm%5Ctimes%20n%7D" loading="lazy">（归一化用于降低不同维度取值范围差异的干扰），则其协方差矩阵为：</p> 
+<p><img alt="C_X =\frac{1}{m}X^TX =\begin{bmatrix} Cov(x_1, x_1) &amp; Cov(x_1, x_2) &amp; \cdots &amp;Cov(x_1, x_m) \\ Cov(x_2, x_1) &amp; Cov(x_2, x_2) &amp; \cdots &amp; Cov(x_2, x_m)\\ \cdots &amp; \cdots &amp; \cdots&amp; \cdots\\ Cov(x_m, x_1)&amp; Cov(x_m, x_2) &amp; \cdots &amp; Cov(x_m, x_m) \end{bmatrix}" src="https://latex.csdn.net/eq?C_X%20%3D%5Cfrac%7B1%7D%7Bm%7DX%5ETX%20%3D%5Cbegin%7Bbmatrix%7D%20Cov%28x_1%2C%20x_1%29%20%26%20Cov%28x_1%2C%20x_2%29%20%26%20%5Ccdots%20%26Cov%28x_1%2C%20x_m%29%20%5C%5C%20Cov%28x_2%2C%20x_1%29%20%26%20Cov%28x_2%2C%20x_2%29%20%26%20%5Ccdots%20%26%20Cov%28x_2%2C%20x_m%29%5C%5C%20%5Ccdots%20%26%20%5Ccdots%20%26%20%5Ccdots%26%20%5Ccdots%5C%5C%20Cov%28x_m%2C%20x_1%29%26%20Cov%28x_m%2C%20x_2%29%20%26%20%5Ccdots%20%26%20Cov%28x_m%2C%20x_m%29%20%5Cend%7Bbmatrix%7D" loading="lazy"></p> 
+<p>&nbsp;假设有变换矩阵<img alt="P\in R^{n\times k}(k&lt;n)" src="https://latex.csdn.net/eq?P%5Cin%20R%5E%7Bn%5Ctimes%20k%7D%28k%3Cn%29" loading="lazy">，根据矩阵投影，所得<img alt="Y=XP" src="https://latex.csdn.net/eq?Y%3DXP" loading="lazy">可实现n维到k维的降维处理。其中Y矩阵的协方差为：</p> 
+<p><img alt="C_Y=\frac{1}{m}(XP)^T(XP)=\frac{1}{m}P^TX^TXP=P^T(\frac{1}{m}X^TX)P=P^TC_XP" src="https://latex.csdn.net/eq?C_Y%3D%5Cfrac%7B1%7D%7Bm%7D%28XP%29%5ET%28XP%29%3D%5Cfrac%7B1%7D%7Bm%7DP%5ETX%5ETXP%3DP%5ET%28%5Cfrac%7B1%7D%7Bm%7DX%5ETX%29P%3DP%5ETC_XP" loading="lazy"></p> 
+<p>&nbsp;根据矩阵迹以及协方差矩阵的定义，最大化保留数据信息等价于最大化协方差矩阵的迹，即优化目标可表示为：</p> 
+<p><img alt="J=\left\{\begin{matrix} max(tr(P^TC_XP))\\ P^TP=I\end{matrix}\right." src="https://latex.csdn.net/eq?J%3D%5Cleft%5C%7B%5Cbegin%7Bmatrix%7D%20max%28tr%28P%5ETC_XP%29%29%5C%5C%20P%5ETP%3DI%5Cend%7Bmatrix%7D%5Cright." loading="lazy"></p> 
+<p>式中，&nbsp;<img alt="tr(C_Y)=tr(P^TC_XP)=Cov(y_1,y_1)+Cov(y_2,y_2)+\cdots +Cov(y_m,y_m)" src="https://latex.csdn.net/eq?tr%28C_Y%29%3Dtr%28P%5ETC_XP%29%3DCov%28y_1%2Cy_1%29&amp;plus;Cov%28y_2%2Cy_2%29&amp;plus;%5Ccdots%20&amp;plus;Cov%28y_m%2Cy_m%29" loading="lazy">表示变换后坐标协方差矩阵的迹，<img alt="P^TP=I" src="https://latex.csdn.net/eq?P%5ETP%3DI" loading="lazy">是变换矩阵为正交矩阵的约束条件。根据拉格朗日方法，有：</p> 
+<p><img alt="J(P)=tr(P^TC_XP)+\lambda (I-P^TP)" src="https://latex.csdn.net/eq?J%28P%29%3Dtr%28P%5ETC_XP%29&amp;plus;%5Clambda%20%28I-P%5ETP%29" loading="lazy"></p> 
+<p>因为前面我们采用列向量表示样本，此处求导过程采用分母布局，有：</p> 
+<p><img alt="\frac{\partial J}{\partial P}=\frac{\partial tr(P^TC_XP)}{\partial P}+\frac{\partial (-\lambda P^TP)}{\partial P}=\frac{\partial tr(PP^TC_X)}{\partial P}- \lambda P" src="https://latex.csdn.net/eq?%5Cfrac%7B%5Cpartial%20J%7D%7B%5Cpartial%20P%7D%3D%5Cfrac%7B%5Cpartial%20tr%28P%5ETC_XP%29%7D%7B%5Cpartial%20P%7D&amp;plus;%5Cfrac%7B%5Cpartial%20%28-%5Clambda%20P%5ETP%29%7D%7B%5Cpartial%20P%7D%3D%5Cfrac%7B%5Cpartial%20tr%28PP%5ETC_X%29%7D%7B%5Cpartial%20P%7D-%20%5Clambda%20P" loading="lazy"></p> 
+<p>&nbsp;上式用到以下性质：<img alt="\frac{\partial X^TX}{\partial X}=X" src="https://latex.csdn.net/eq?%5Cfrac%7B%5Cpartial%20X%5ETX%7D%7B%5Cpartial%20X%7D%3DX" loading="lazy">，<img alt="tr(AB)=tr(BA)" src="https://latex.csdn.net/eq?tr%28AB%29%3Dtr%28BA%29" loading="lazy">。</p> 
+<p>进一步，有：</p> 
+<p><img alt="\frac{\partial J}{\partial P}=\frac{\partial tr(PP^TC_X)}{\partial P}- \lambda P=(P^TC_X)^T- \lambda P=C_X^TP- \lambda P=C_XP- \lambda P" src="https://latex.csdn.net/eq?%5Cfrac%7B%5Cpartial%20J%7D%7B%5Cpartial%20P%7D%3D%5Cfrac%7B%5Cpartial%20tr%28PP%5ETC_X%29%7D%7B%5Cpartial%20P%7D-%20%5Clambda%20P%3D%28P%5ETC_X%29%5ET-%20%5Clambda%20P%3DC_X%5ETP-%20%5Clambda%20P%3DC_XP-%20%5Clambda%20P" loading="lazy"></p> 
+<p>&nbsp;上式用到的性质有<img alt="\frac{\partial tr(AB)}{\partial A}=B^T" src="https://latex.csdn.net/eq?%5Cfrac%7B%5Cpartial%20tr%28AB%29%7D%7B%5Cpartial%20A%7D%3DB%5ET" loading="lazy">，令偏导表达式为0，则有：</p> 
+<p><img alt="\frac{\partial J}{\partial P}\Rightarrow C_XP-\lambda P=0 \Rightarrow C_XP=\lambda P" src="https://latex.csdn.net/eq?%5Cfrac%7B%5Cpartial%20J%7D%7B%5Cpartial%20P%7D%5CRightarrow%20C_XP-%5Clambda%20P%3D0%20%5CRightarrow%20C_XP%3D%5Clambda%20P" loading="lazy"></p> 
+<p>根据特征值分析定义可知，最终随求结果满足特征向量和特征值的关系表达式，即由<img alt="C_X" src="https://latex.csdn.net/eq?C_X" loading="lazy">矩阵的特征向量组成的基矩阵，就是所求的变换矩阵P。根据特征变换的基本意义（特征值<img alt="\lambda" src="https://latex.csdn.net/eq?%5Clambda" loading="lazy">表示矩阵<img alt="P" src="https://latex.csdn.net/eq?P" loading="lazy">能够将矩阵<img alt="C_X" src="https://latex.csdn.net/eq?C_X" loading="lazy">进行保留特征变换的倍数值），数据降维过程中信息量保存能力最大的基向量一定是输入矩阵X协方差矩阵的最大特征值对应的特征向量，其保持信息量的大小（大小不太准确，应该是比例）就是其对应特征值的绝对值。因此，我们可以对输入矩阵X的协方差矩阵进行特征值求解，根据特征值绝对值大小依次选择对应变换向量，进而实现数据降维处理。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至此，我们介绍了PCA的基本处理过程和分析原理，简单表述如下：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; step1：输入矩阵归一化处理；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; step2：计算样本协方差矩阵；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; step3：求解协方差矩阵指定数目最大特征值对应特征向量；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; step4：确定变换矩阵，求解降维数据。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 三、Python编程实现PCA分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 基于上述步骤，我们依次进行子函数编程（个人喜好matlab，很多表述用于python不太准确，敬请谅解），有：</p> 
+<pre><code>#/usr/nom/env python
+# _*_coding:utf-8_*_
+# @Time      :2021/9/3 10:04
+# @Author    :A bigfish
+# @FileName  :maindemo13.py
+# @Software  :PyCharm
+
+import matplotlib.pyplot as plt
+import numpy as np
+from pylab import *
+
+# 首先导入数据，此部分为从存储列表或单元中读取分析数据
+def loadDataSet(filename, delim='\t'):    #此处的'\t'表示不同变量间的分隔符，t表示tab键键入的空格
+    fr = open(filename)
+    stringArr = [line.strip().split(delim) for line in fr.readlines()]
+    dataArr = [list(map(float, line)) for line in stringArr]
+    return np.mat(dataArr)
+
+
+# 定义pca分析函数
+def pca(dataset, topNfeat = 99999):        #topNfeat最大特征值数目，通常不用设置，因为后续要进行可视化分析                
+    meanVals = np.mean(dataset, axis=0)    #求均值
+    meanRemoved = dataset - meanVals       #预处理
+    covMat = np.cov(meanRemoved, rowvar=0) #求解输入数据协方差矩阵
+    eigVals, eigVects = np.linalg.eig(np.mat(covMat))    #求解特征值，特征向量
+    eigVaInd = np.argsort(eigVals)         #对特征值进行排序处理，默认为升序
+    eigVaInd = eigVaInd[-1:-(topNfeat):-1] #根据指定数目进行逆序处理
+    redEigVects = eigVects[:,eigVaInd]     #选取对应特征向量
+    lowDataMat = meanRemoved * redEigVects #数据降维X*P
+    recontMat = (lowDataMat * redEigVects.T) + meanVals #c处理进行了数据重构，非必须选项
+    return lowDataMat, recontMat, eigVals  #返回数据
+
+# 定义特值值绘制函数
+def plotEig(dataset, numFeat=20):            
+    mpl.rcParams['font.sans-serif'] = ['Times NewRoman']
+    sumData = np.zeros((1, numFeat))
+    dataset = dataset / sum(dataset)
+    for i in range(numFeat):
+        sumData[0, i] = sum(dataset[0:i])
+
+    X = np.linspace(1, numFeat, numFeat)
+    fig = plt.figure()
+    ax = fig.add_subplot(211)
+    ax.plot(X, (sumData*100).T, 'r-+')
+    mpl.rcParams['font.sans-serif'] = ['SimHei']
+    plt.ylabel('累计方差百分比')
+
+    ax2 = fig.add_subplot(212)
+    ax2.plot(X.T, (dataset[0:numFeat].T)*100, 'b-*')
+    plt.xlabel('主成分数')
+    plt.ylabel('方差百分比')
+    plt.show()
+
+# 定义原始数据及第一主成分绘制函数
+def plotData(OrigData, recData):
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.scatter(OrigData[:,0].flatten().A[0], OrigData[:, 1].flatten().A[0], c='blue',marker='^', s=90)
+    ax.scatter(recData[:, 0].flatten().A[0], recData[:, 1].flatten().A[0], c='red', marker='o',s=90)
+    plt.show()</code></pre> 
+<p>在main窗扣，有：</p> 
+<pre><code>
+if __name__ == '__main__':
+    import maindemo13
+    dataMat = maindemo13.loadDataSet('secom.txt', ' ') 
+    newData = maindemo13.replaceNan(dataMat)    #此部分为缺失值Nan处理函数，未在上面进行分析
+    lowData, recData, eigVals = maindemo13.pca(dataMat, 50)    #选取前50个特征
+    maindemo13.plotData(dataMat, recData)    #绘制原始数据及第一主成分方向
+    maindemo13.plotEig(eigVals, 50)    #绘制特征值累计贡献率</code></pre> 
+<p>所得原始数据（蓝色）和第一主成分分析方向（红色）如下：</p> 
+<p><img alt="" height="480" src="https://i-blog.csdnimg.cn/blog_migrate/9282299b04404b05f8ad7835272e15e9.png" width="640" loading="lazy"></p> 
+<p>&nbsp;所得排序后主成分方差百分比以及累计方差百分比</p> 
+<p><img alt="" height="480" src="https://i-blog.csdnimg.cn/blog_migrate/95d34b48a892efaca1371288b48f26fc.png" width="640" loading="lazy"></p> 
+<p>&nbsp;根据上图各主成分的方差百分比及其累计方差可选择合适的主成分数进行测试分析，但最佳的主成分数需要进行交叉验证后确定。</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后，展示一下个人用matlab绘制的pca分析过程动态图，非常好看！</p> 
+<p><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/26b2b69b9a55310a0566c43bbcae56fa.gif" loading="lazy"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;欢迎大家交流学习。</p> 
+<p>&nbsp;参考文献：</p> 
+<p>1. 周志华《机器学习》；</p> 
+<p>2. Peter Harrington《Machine Learning in Action》;</p> 
+<p>3.&nbsp;<a href="https://www.cnblogs.com/DOLFAMINGO/p/9477723.html" rel="noreferrer" target="_blank">https://www.cnblogs.com/DOLFAMINGO/p/9477723.html</a></p> 
+<p>4.&nbsp;<a href="https://blog.csdn.net/a10767891/article/details/80288463" target="_blank" rel="noreferrer">https://blog.csdn.net/a10767891/article/details/80288463</a></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/120126576" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

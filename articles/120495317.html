@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第一章---近红外光谱分析概述1｜谱见</title>
+  <meta name="description" content="1.1 近红外光谱分析的技术特征    按照分析介质或手段的不同，光谱分析属于分析科学中的物理及物理化学分析，按照其采用分析光谱的谱区差异，可分为近红外、中红外和远红外等，其共性特征是：光谱分析的基础信息都是根据分子等微观粒子运动的特点，通过分析分子振动和光源频率的“共振现象”实现分析对象的信息加载，按照光谱的产生过程，可具体分为吸收光谱和发射光谱。考虑到不同物质吸收/发射光谱的差异以及谱区的针对性，近红外光谱分析通常指的是吸收光谱分析。    近红外分析的信息流程：...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 01 / 基础理论 · 2021.09.26</p>
+          <h1>第一章---近红外光谱分析概述1</h1>
+          <p class="article-deck">1.1 近红外光谱分析的技术特征    按照分析介质或手段的不同，光谱分析属于分析科学中的物理及物理化学分析，按照其采用分析光谱的谱区差异，可分为近红外、中红外和远红外等，其共性特征是：光谱分析的基础信息都是根据分子等微观粒子运动的特点，通过分析分子振动和光源频率的“共振现象”实现分析对象的信息加载，按照光谱的产生过程，可具体分为吸收光谱和发射光谱。考虑到不同物质吸收/发射光谱的差异以及谱区的针对性，近红外光谱分析通常指的是吸收光谱分析。    近红外分析的信息流程：...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.09.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp; 1.1 近红外光谱分析的技术特征</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 按照分析介质或手段的不同，光谱分析属于分析科学中的物理及物理化学分析，按照其采用分析光谱的谱区差异，可分为近红外、中红外和远红外等，其共性特征是：光谱分析的基础信息都是根据分子等微观粒子运动的特点，通过分析分子振动和光源频率的“共振现象”实现分析对象的信息加载，按照光谱的产生过程，可具体分为吸收光谱和发射光谱。考虑到不同物质吸收/发射光谱的差异以及谱区的针对性，近红外光谱分析通常指的是吸收光谱分析。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 近红外分析的信息流程：</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （1）信息采集：采集分析数据；</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （2）信息处理与关联：分析数据，建立模型，结果优化；</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; （3）模型应用：应用分析模型，获取待测量分析结果。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 上述过程只是简单的基本流程，实际分析过程较为复杂，比如信息采集环节要考虑样本选择、异常样本处理、理化指标测试、仪器选择以及参数确认等工作，而在信息处理与关联环节要充分分析数据预处理、特征选择、特征建模、模型优化、评价指标等问题，在模型应用过程中则需要考虑预判参数、模型适应度以及子模型分析问题。对于复杂多组分分析对象，近红外光谱数据分析过程是一个复杂、耦合、多变量、非线性的过程，需要综合数据分析、数据挖掘、特征建模、模型优化、模型应用等诸多环节进行考虑。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1.2 近红外光谱数据的多元性</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 按照现有的相关执行标准，近红外光谱区的波长范围通常定义为 780 - 2560 nm， 对应的频率范围是 12820 - 3906&nbsp;<img alt="cm^{-1}" src="https://latex.csdn.net/eq?cm%5E%7B-1%7D" loading="lazy">，通常做取整（10000 - 4000），该谱区加载的分析信息主要是分子含氢基团振动的合频和倍频信息（后期会仔细分析）。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 现有的有机分子，其主要组成成分通常都包含 0-H、C-H和N-H等含氢基团，该基团的不同倍频和合频振动特征以及合频的倍频、倍频的合频等多种组合方式所构成的振动信息表征了有机分子中含氢基团的主要结构信息，而这些信息可通过各自振动频率和光谱波长振动的共振机理，将结构信息加载到光谱信息上，进而使得近红外能够实现物质含量、属性、等级、结构等关键特征预测分析，并被广泛应用于间接关联建模，这也是近红外光谱分析的应用范围较广的主要原因。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 近红外光谱分析还有一个特征就是其具有分析物质层次信息的能力，主要原因是分子的基频、倍频、合频以及其多种组合处于不同谱区，对于光的吸收能力存在较大差异，其中短波吸光度弱，进而分析光程较长，而中长波区间吸光度较强，分析光程较短，因此可根据待测量的结构特征选择对应谱区信息，可实现物质层次化结构分析。此外，根据光在物质内部的光程方向，可综合采用漫反射、漫透射、透反射、反射、透射等不同光谱测量方式，可有效拓展空间层次范围。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 根据上述思路，通常的理解是期待所测的样品光谱是唯一对应于样品的特征光谱，但在实际分析中，某样品在特定仪器和特定条件下的光谱不仅取决于样品本身，还受分析环境、仪器参数等光谱背景的影响，此类所测光谱通常称为表观光谱（Apparent Spectrum）。因此，样品的表观光谱的基本组成为：</p>
+
+<p>表观光谱 = 真实光谱+背景光谱</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 根据上述光谱的基本组成可知，样品的真实光谱是确定的，而背景光谱是不确定的，对应到实际分析过程中的信息表达过程，则有：</p>
+
+<p>表观光谱信息 = 确定信息 + 不确定信息</p>
+
+<p>以实际分析过程为例，确定信息是指样品的真实光谱特征，通常是多组分光谱信息的叠加，表现为基线为0的高斯峰曲线，而不确定信息则是背景信息，是指由测量光谱数据的仪器参数、样品测试环境、进样参数等多方面的背景信息。</p>
+
+<p>&nbsp; &nbsp; &nbsp; <strong><span>&nbsp; 根据近红外光谱分析流程，实测光谱信息中的确定信息和不确定信息分别表征了分析模型的关系信息和范围信息，其中关系信息是指分析模型关联双方的特征，其决定了模型的可靠性；而范围信息是指建模集中不确定信息的变动的范围，其决定了分析模型的应用范围，即模型的稳健性</span></strong>。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 上述这段表述非常重要，是贯彻近红外数据采集、数据分析、特征建模等全过程的基本思想：数据组成是什么？数据结构是什么？怎么去优化？怎么去提高模型精度都依赖于以上思想，有条件的话可以深入了解一下。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1.3 近红外光谱分析的限制性</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 样品信息（含确定信息和不确定信息）和光谱测量信息的多元性（基频、倍频、合频及其组合）形成了实测光谱的复杂、重叠与变动，也决定了实测光谱的表观特征（复杂、重叠、变动、弱信息）。此外，近年来随着高分辨率仪器的广泛使用，实测光谱数据呈现出高维特征（10000以上），相比于样品数目（低于1000），高维特征提取是建模有效分析模型的限制因素之一。其实实际分析中需要考虑数据获取难度、检测成本以及可测条件等，所获得的数据可能只有100个甚至更少，比如化工过程（石油裂解）只能采集50多个数据，因为实验室测量的数据不具备过程特点，而工厂实测周期过长，单批次样品加工过程可能要数月或数年，不可测。此外，实际过程中还存在样品选择的问题，确定分析对象后如何根据特性选择代表性样品需要很高的经验指导，但是实验人员通常不具备该项技能，并且代表性样品运输、存储、分析过程难度较大。</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 总结而言，理想很丰满，现实很骨感。实际分析过程中会遇到各种意料之外的问题，需要自己去总结、分析。</p>
+
+<p><span><strong>欢迎关注个人创建的微信公众号-《光谱学与光谱分析》，相关学习资料共享平台，有事请联系：yql025@foxmail.com</strong></span></p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/120495317" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

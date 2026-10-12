@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>强本固基-8-近红外光谱分析中样本的划分方式及选择依据？｜谱见</title>
+  <meta name="description" content="通常将样本划分为校正集（训练集）和验证集（测试集），但是在机器学习中可能划分为训练集、验证集和测试集，划分比例通常为7:3或者7:1.5:1.5。对于样本的划分，采用方法包括：Kennard-Stone(K-S)、SPXY方法和随机划分方法，K-S方法基于光谱距离排序划分，SPXY同时考虑参考值和光谱的距离，而随机划分则基于随机数，三者的区别在于训练集的样品覆盖范围。此外，对于样本数量对模型影响有相关讨论，以线性模型为例，当参与建模变量为k(k&gt;3)时，默认校正集样品数量一般不低于6k或者5k+1。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2023.08.26</p>
+          <h1>强本固基-8-近红外光谱分析中样本的划分方式及选择依据？</h1>
+          <p class="article-deck">通常将样本划分为校正集（训练集）和验证集（测试集），但是在机器学习中可能划分为训练集、验证集和测试集，划分比例通常为7:3或者7:1.5:1.5。对于样本的划分，采用方法包括：Kennard-Stone(K-S)、SPXY方法和随机划分方法，K-S方法基于光谱距离排序划分，SPXY同时考虑参考值和光谱的距离，而随机划分则基于随机数，三者的区别在于训练集的样品覆盖范围。此外，对于样本数量对模型影响有相关讨论，以线性模型为例，当参与建模变量为k(k&gt;3)时，默认校正集样品数量一般不低于6k或者5k+1。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2023.08.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>A. &nbsp;选择代表性样本并完成剔除异常样本后，需要对样本进行划分（此处不讨论样本划分和预处理顺序问题）。通常将样本划分为校正集（训练集）和验证集（测试集），但是在机器学习中可能划分为训练集、验证集和测试集，划分比例通常为7:3或者7:1.5:1.5。对于样本的划分，采用方法包括：Kennard-Stone(K-S)、SPXY方法和随机划分方法，K-S方法基于光谱距离排序划分，SPXY同时考虑参考值和光谱的距离，而随机划分则基于随机数，三者的区别在于训练集的样品覆盖范围。<br>
+D. 目前光谱分析默认的一种观念是：校正集需要覆盖较广的浓度范围，这导致实际分析中出现训练集性能优于预测集。此外，对于样本数量对模型影响有相关讨论，以线性模型为例，当参与建模变量为k(k&gt;3)时，默认校正集样品数量一般不低于6k或者5k+1。个人认为，如果从公平对比角度分析，随机划分的可靠性更好。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/132507154" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>常见分类模型性能度量指标｜谱见</title>
+  <meta name="description" content="在多分类问题中，如何对分类模型进行综合评价是分析分类模型综合性能的关键，常见的用于评价分类模型性能指标有：准确率(accuracy, A)、精准率（precision, P）、召回率（Recall）、综合评价指标（F1-scrore）.具体计算公式为：式中：TP（ture positives，纳真）表示实际为正类的样本预测为正类的样本数；TN（ture negatives, 去伪）表示实际为负类的样本预测为负类的样本数；FP（false positives, 去伪）表示实际为负类的样...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.10.14</p>
+          <h1>常见分类模型性能度量指标</h1>
+          <p class="article-deck">在多分类问题中，如何对分类模型进行综合评价是分析分类模型综合性能的关键，常见的用于评价分类模型性能指标有：准确率(accuracy, A)、精准率（precision, P）、召回率（Recall）、综合评价指标（F1-scrore）.具体计算公式为：式中：TP（ture positives，纳真）表示实际为正类的样本预测为正类的样本数；TN（ture negatives, 去伪）表示实际为负类的样本预测为负类的样本数；FP（false positives, 去伪）表示实际为负类的样...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.10.14</span></div>
+        </header>
+        <div class="article-body">
+                    <p>在多分类问题中，如何对分类模型进行综合评价是分析分类模型综合性能的关键，常见的用于评价分类模型性能指标有：准确率(accuracy, A)、精准率（precision, P）、召回率（Recall）、综合评价指标（F1-scrore）.具体计算公式为：<img alt="A=\frac{TP+TN}{TP+TN+FP+FN}" src="https://private.codecogs.com/gif.latex?A%3D%5Cfrac%7BTP&amp;plus;TN%7D%7BTP&amp;plus;TN&amp;plus;FP&amp;plus;FN%7D" loading="lazy"></p>
+
+<p><img alt="P=\frac{TP}{TP+FP}" src="https://private.codecogs.com/gif.latex?P%3D%5Cfrac%7BTP%7D%7BTP&amp;plus;FP%7D" loading="lazy">&nbsp;</p>
+
+<p><img alt="R=\frac{TP}{TP+FN}" src="https://private.codecogs.com/gif.latex?R%3D%5Cfrac%7BTP%7D%7BTP&amp;plus;FN%7D" loading="lazy">&nbsp;</p>
+
+<p><img alt="F=\frac{2PR}{P+R}" src="https://private.codecogs.com/gif.latex?F%3D%5Cfrac%7B2PR%7D%7BP&amp;plus;R%7D" loading="lazy">&nbsp;</p>
+
+<p>式中：TP（ture positives，纳真）&nbsp;表示实际为正类的样本预测为正类的样本数；TN（ture negatives, 去伪）表示实际为负类的样本预测为负类的样本数；FP（false positives, 去伪）表示实际为负类的样本预测为正类的样本数；FN（false negatives, 去真）表示实际为正类的样本预测为负类的样本数。</p>
+
+<p>根据上式及附属变量说明，可知不同指标的表示含义有：</p>
+
+<p>准确率（A）：表示所有样本中预测准确样本所占比例；</p>
+
+<p>精准率（P）：表示所预测正类样本中真实正类样本比例；</p>
+
+<p>召回率（R）：表示所有正类样本预测准确样本比例；</p>
+
+<p>准确率可以用于判断指定模型的总分类准确率，但是在<strong>样本不平衡</strong>条件下，单一准确率指标不能作为模型性能指标，例如样本产区分类问题，当核心产区样本比例为90%、非核心产区样本10%时，只需要实现全部核心样本准确预测就可实现90%的准确率，但是对于非核心产区预测准确率可能为0。这表明在未知样本比例或者样本失衡条件，准确率指标失效。</p>
+
+<p>精准率又叫查准率，针对预测结果，表示在所有预测为正的样本中实际为正的样本概率（比例），即表示对于正类预测的准确程度。</p>
+
+<p>召回率又叫查全率，针对原始样本，表示实际为正的样本中被预测为正样本的概率（比例），召回率表示原始样本中正类样本预测准确率。</p>
+
+<p>通过对比上式可以发现，查准率和查全率是一对矛盾指标，如何平衡查准率和查全率是实际检测过程的综合评价指标，因此引入了F1指标。</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/109067144" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

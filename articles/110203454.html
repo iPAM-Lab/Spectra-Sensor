@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>博基计划（1）---粒子群算法｜谱见</title>
+  <meta name="description" content="在满足特定条件的生产下降低生产成本、保障利益最大化的、是目前生产过程主要解决问题之一。而对于实际分析过程中，求解约束条件下目标函数最优也是优化控制的一个重要部分。目前有多中能够计算智能算法被应用到实际生产过程控制和优化问题求解，例如模糊逻辑、神经网络、遗传算法、模拟退火算法等。基于鸟群模型（Boid模型），Kennedy和Eberhart提出了著名的粒子群优化算法（Particle Swarm Optimization，PSO ），也称微粒子群算法。在PSO模型中，每一个粒子的自身状态由一组位置和速度向">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.11.27</p>
+          <h1>博基计划（1）---粒子群算法</h1>
+          <p class="article-deck">在满足特定条件的生产下降低生产成本、保障利益最大化的、是目前生产过程主要解决问题之一。而对于实际分析过程中，求解约束条件下目标函数最优也是优化控制的一个重要部分。目前有多中能够计算智能算法被应用到实际生产过程控制和优化问题求解，例如模糊逻辑、神经网络、遗传算法、模拟退火算法等。基于鸟群模型（Boid模型），Kennedy和Eberhart提出了著名的粒子群优化算法（Particle Swarm Optimization，PSO ），也称微粒子群算法。在PSO模型中，每一个粒子的自身状态由一组位置和速度向</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.11.27</span></div>
+        </header>
+        <div class="article-body">
+                    <p>在满足特定条件的生产下降低生产成本、保障利益最大化的、是目前生产过程主要解决问题之一。而对于实际分析过程中，求解约束条件下目标函数最优也是优化控制的一个重要部分。目前有多中能够计算智能算法被应用到实际生产过程控制和优化问题求解，例如模糊逻辑、神经网络、遗传算法、模拟退火算法等。</p>
+
+<p>一、基本粒子群算法</p>
+
+<p>基于鸟群模型（Boid模型），Kennedy和Eberhart提出了著名的粒子群优化算法（Particle Swarm Optimization，PSO ），也称微粒子群算法。在PSO模型中，每一个粒子的自身状态由一组位置和速度向量描述，对应于参数空间则表示问题的可行解和其在搜索空间的运动方向。粒子通过不断地学习其发现的群体最优解和邻居最优解，实现全局最优搜索。粒子的速度和位置更新方程为：</p>
+
+<p><img alt="v_{ij}(t+1)=v_{ij}(t)+c_1r_1(pbest_{ij}(t)-x_{ij}(t))+c_2r_2(gbest_{j}(t)-x_{ij}(t))" src="https://private.codecogs.com/gif.latex?v_%7Bij%7D%28t&amp;plus;1%29%3Dv_%7Bij%7D%28t%29&amp;plus;c_1r_1%28pbest_%7Bij%7D%28t%29-x_%7Bij%7D%28t%29%29&amp;plus;c_2r_2%28gbest_%7Bj%7D%28t%29-x_%7Bij%7D%28t%29%29" loading="lazy">&nbsp;(1)</p>
+
+<p><img alt="x_{ij}(t+1)=x_{ij}(t)+v_{ij}(t+1)" src="https://private.codecogs.com/gif.latex?x_%7Bij%7D%28t&amp;plus;1%29%3Dx_%7Bij%7D%28t%29&amp;plus;v_%7Bij%7D%28t&amp;plus;1%29" loading="lazy">(2)</p>
+
+<p>式中&nbsp;<img alt="i" src="https://private.codecogs.com/gif.latex?i" loading="lazy">&nbsp;表示第 i 个粒子；<img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;表示粒子的第&nbsp;<img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;维；<img alt="v_{ij}(t)" src="https://private.codecogs.com/gif.latex?v_%7Bij%7D%28t%29" loading="lazy">&nbsp;表示粒子&nbsp;<img alt="i" src="https://private.codecogs.com/gif.latex?i" loading="lazy">&nbsp;在进化到第&nbsp;<img alt="t" src="https://private.codecogs.com/gif.latex?t" loading="lazy">&nbsp;代时的第&nbsp;<img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;维飞行速度分量；<img alt="x_{ij}(t)" src="https://private.codecogs.com/gif.latex?x_%7Bij%7D%28t%29" loading="lazy">表示粒子&nbsp;<img alt="i" src="https://private.codecogs.com/gif.latex?i" loading="lazy">&nbsp;在进化到第&nbsp;<img alt="t" src="https://private.codecogs.com/gif.latex?t" loading="lazy">&nbsp;代时的第&nbsp;<img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;维位置分量；<img alt="pbest_{ij}(t)" src="https://private.codecogs.com/gif.latex?pbest_%7Bij%7D%28t%29" loading="lazy">表示粒子&nbsp;<img alt="i" src="https://private.codecogs.com/gif.latex?i" loading="lazy">&nbsp;在进化到第&nbsp;<img alt="t" src="https://private.codecogs.com/gif.latex?t" loading="lazy">&nbsp;代时的第&nbsp;<img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;维个体最优位置&nbsp;<img alt="pbest_i" src="https://private.codecogs.com/gif.latex?pbest_i" loading="lazy">&nbsp;分量；<img alt="gbest_{ij}(t)" src="https://private.codecogs.com/gif.latex?gbest_%7Bij%7D%28t%29" loading="lazy">表示粒子&nbsp;<img alt="i" src="https://private.codecogs.com/gif.latex?i" loading="lazy">&nbsp;在进化到第&nbsp;<img alt="t" src="https://private.codecogs.com/gif.latex?t" loading="lazy">&nbsp;代时这个粒子群的最优位置<img alt="gbest" src="https://private.codecogs.com/gif.latex?gbest" loading="lazy">&nbsp;的第 <img alt="j" src="https://private.codecogs.com/gif.latex?j" loading="lazy">&nbsp;维分量；<img alt="c_1,c_2" src="https://private.codecogs.com/gif.latex?c_1%2Cc_2" loading="lazy">为加速因子（或学习因子），<img alt="r_1, r_2" src="https://private.codecogs.com/gif.latex?r_1%2C%20r_2" loading="lazy">为<img alt="[0,1]" src="https://private.codecogs.com/gif.latex?%5B0%2C1%5D" loading="lazy">随机数。</p>
+
+<p>PSO算法在运行时首先初始化一群具有一定种群规模的粒子，包括随机初始化每个粒子的位置和速度，并根据适应度函数计算每个粒子的适应值，根据上述公式分别更新不同粒子的速度和位置参数，并根据粒子当前的状态更新自身的pbest和整体的gbest，如果粒子种群位置pbest适应值优于整体gbest，则需要进行位置替换，否则进一步更新种群自身速度和位置参数。式（1）中右侧第二项称为“”表示粒子根据自身认知能力（当前位置和变化情况）进行调整，第三项表示粒子的运动在受自身认知行为影响外，还受到粒子群信息的启发。</p>
+
+<p>二、模型分析</p>
+
+<p>根据式（1），基本粒子群算法模型主要分为以下几类模型</p>
+
+<p>（1）认知模型（<img alt="c_2=0" src="https://private.codecogs.com/gif.latex?c_2%3D0" loading="lazy">）</p>
+
+<p>认知模型表示粒子根据自身飞行能力和经验对目标进行搜索，由于缺乏粒子间信息交流，认知模型搜索性能较差，收敛性较差。</p>
+
+<p>（2）社会模型（<img alt="c_1=0" src="https://private.codecogs.com/gif.latex?c_1%3D0" loading="lazy">）</p>
+
+<p>社会模型仅包含粒子先前的速度项和粒子的社会部分，在粒子间相互作用的影响下收敛速度较快，但由于缺乏粒子自身认识能力，容易陷入局部最优点。</p>
+
+<p>（3）完全模型</p>
+
+<p>完全模型表示方式同式（1），粒子结合自身经验以及群体的社会经验，在有效调整模型参数的条件下，完全模型可实现较快收敛速度的同时，也能有效避免局部最优问题。</p>
+
+<p>（4）自私模型</p>
+
+<p>自私模型在群体最优选择时不比较自身粒子信息，具体表达式:</p>
+
+<p><img alt="v_{ij}(t+1)=v_{ij}(t)+c_1r_1(pbest_{ij}(t)-x_{ij}(t))+c_2r_2(gbest^*_{j}(t)-x_{ij}(t))" src="https://private.codecogs.com/gif.latex?v_%7Bij%7D%28t&amp;plus;1%29%3Dv_%7Bij%7D%28t%29&amp;plus;c_1r_1%28pbest_%7Bij%7D%28t%29-x_%7Bij%7D%28t%29%29&amp;plus;c_2r_2%28gbest%5E*_%7Bj%7D%28t%29-x_%7Bij%7D%28t%29%29" loading="lazy">(3)</p>
+
+<p>其中，<img alt="gbest^*_{j}(t)=min{f(pbest_1(t)),f(pbest_2(t)),...,f(pbest_{i-1}(t)),f(pbest_{i+1}(t)),...,f(pbest_N(t))}(4)" src="https://private.codecogs.com/gif.latex?gbest%5E*_%7Bj%7D%28t%29%3Dmin%7Bf%28pbest_1%28t%29%29%2Cf%28pbest_2%28t%29%29%2C...%2Cf%28pbest_%7Bi-1%7D%28t%29%29%2Cf%28pbest_%7Bi&amp;plus;1%7D%28t%29%29%2C...%2Cf%28pbest_N%28t%29%29%7D%284%29" loading="lazy"></p>
+
+<p>（5）随机模型</p>
+
+<p>随机模型是指在进行速度和位置更新时不包含自身先前速度影响，粒子在搜索空间进行随机移动，表达式为：</p>
+
+<p><img alt="v_{ij}(t+1)=c_1r_1(pbest_{ij}(t)-x_{ij}(t))+c_2r_2(gbest_{j}(t)-x_{ij}(t))" src="https://private.codecogs.com/gif.latex?v_%7Bij%7D%28t&amp;plus;1%29%3Dc_1r_1%28pbest_%7Bij%7D%28t%29-x_%7Bij%7D%28t%29%29&amp;plus;c_2r_2%28gbest_%7Bj%7D%28t%29-x_%7Bij%7D%28t%29%29" loading="lazy"></p>
+
+<p><img alt="x_{ij}(t+1)=x_{ij}(t)+v_{ij}(t+1)" src="https://private.codecogs.com/gif.latex?x_%7Bij%7D%28t&amp;plus;1%29%3Dx_%7Bij%7D%28t%29&amp;plus;v_%7Bij%7D%28t&amp;plus;1%29" loading="lazy"></p>
+
+<p>随机模型算法搜素效率较低，且收敛性差，对于增加局部模型多样性有益，但是不利于全局最优分析。</p>
+
+<p>三、改进粒子群算法</p>
+
+<p>基本粒子群将每一个粒子视为搜索空间的一个隐含解，多个粒子在自身认知能力和相互信息的影响下可实现对目标的并行搜索，但是在粒子搜索后期，所有粒子在群最优的影响下进行趋同搜索时，粒子群的多样性会降低，当此区域为局部最优时，粒子群算法会陷入局部最优，产生早熟现象。因此，保持粒子群多样性或者在搜索后期增加粒子群多样性是增强粒子群算法全局搜索能力、避免陷入局部最优的主要方式。目前主流改进粒子群算法也是基于上述思路实现的，主要有以下几类：</p>
+
+<p>（1）社会粒子群算法</p>
+
+<p>社会粒子群算法（social particle swarm optimizatizer, SPSO）是华东理工大学梁毅老师提出的，主要策略是通过为每个个体设置不同的从众阈值，根据阈值判定粒子个体跟随群行为，间接保持了种群中个体的多样性，避免算法早熟和陷入局部最优。</p>
+
+<p>（2）自适应粒子群算法</p>
+
+<p>该算法首先根据算法收敛情况自适应地确定全局调整概率，并且根据每个粒子与全局最优粒子的距离，对种群中聚集严重的粒子引入交叉和变异算子。然后，引入一个全局最优粒子的变异算子，加强全局最优粒子的局部搜索，并用备份好的原全局最优粒子替换当前种群的适应度差的粒子。</p>
+
+<p>（3）基于扰动变异的粒子群算法</p>
+
+<p>当粒子过于集中时，如何将种群分散，并增加粒子的多样性是避免局部最优的一种有效分析方法。基于扰动变异的粒子群算法将遗传算法中的变异思想和高斯白噪声融入到标准PSO算法中，增强种群多样性，在算法出现早熟时，能够避免局部最优，并且能够保证算法收敛性，实现全局最优搜索。</p>
+
+<p>（4）其他改进粒子群算法</p>
+
+<p>还有混合粒子群算法、协同优化粒子群算法、量子粒子群算法、相位角粒子群算法、载波优化粒子群算法等等，这些方法都得到了广泛的应用，并且随着其他理论体系的完善和计算机智能的不断提高，新的优化算法也在不断提出，也将不断应用于实际过程控制和生产优化。</p>
+
+<p>四、总结</p>
+
+<p>粒子群算法是一种基于生态系统而提出的智能算法，自提出至今，不同改进算法相继被提出并应用于实际过程。该算法的优化主要有两个方面：保持种群多样性和全局最优局部再优化。随着深度学习的发展，PSO等经典算法关注度可能会有所下降，但是，从理论创新和实际应用分析角度看，流程工业过程控制等实际优化问题还需要PSO等算法的不要突破，而视觉处理、智能感知等可能需要深度学习的不断完善。</p>
+
+<p>2020-11-27写</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/110203454" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

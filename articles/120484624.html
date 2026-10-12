@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>近红外光谱分析的原理、技术及其分析方法｜谱见</title>
+  <meta name="description" content="硕士期间对近红外光谱分析技术的基本原理和分析过程进行了简单了解，后期学习发现自己对近红外光谱的原理、技术和主要分析方法了解不够深入，很多分析方法和技巧并未掌握。此外，对于部分分析方法的编程和优化过程不熟悉，上述问题的存在导致后期研究存在较大困难，为弥补自己的心愿，以及提高个人对近红外分析的认识，从今天开始，我将对近红外分析的基本原理、分析技术、主要优化算法、自己实践过程遇到的问题及分析思路进行介绍。欢迎大家一起交流，共同进步。    写作的主要内容包括以下几大板块：   ...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 01 / 基础理论 · 2021.09.26</p>
+          <h1>近红外光谱分析的原理、技术及其分析方法</h1>
+          <p class="article-deck">硕士期间对近红外光谱分析技术的基本原理和分析过程进行了简单了解，后期学习发现自己对近红外光谱的原理、技术和主要分析方法了解不够深入，很多分析方法和技巧并未掌握。此外，对于部分分析方法的编程和优化过程不熟悉，上述问题的存在导致后期研究存在较大困难，为弥补自己的心愿，以及提高个人对近红外分析的认识，从今天开始，我将对近红外分析的基本原理、分析技术、主要优化算法、自己实践过程遇到的问题及分析思路进行介绍。欢迎大家一起交流，共同进步。    写作的主要内容包括以下几大板块：   ...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2021.09.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;硕士期间对近红外光谱分析技术的基本原理和分析过程进行了简单了解，后期学习发现自己对近红外光谱的原理、技术和主要分析方法了解不够深入，很多分析方法和技巧并未掌握。此外，对于部分分析方法的编程和优化过程不熟悉，上述问题的存在导致后期研究存在较大困难，为弥补自己的心愿，以及提高个人对近红外分析的认识，从今天开始，我将对近红外分析的基本原理、分析技术、主要优化算法、自己实践过程遇到的问题及分析思路进行介绍。欢迎大家一起交流，共同进步。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 写作的主要内容包括以下几大板块：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1、近红外光谱分析概述</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 主要分享个人对近红外光谱分析技术的基本原理、思路和要点的认识</p> 
+<p>第一篇：<a href="https://blog.csdn.net/qq_35667901/article/details/120495317" title="第一章---近红外光谱分析概述1_一条大鱼025的博客-CSDN博客" target="_blank" rel="noreferrer"><span><span>第一章---近红外光谱分析概述1_一条大鱼025的博客-CSDN博客</span><span>1.1 近红外光谱分析的技术特征 按照分析介质或手段的不同，光谱分析属于分析科学中的物理及物理化学分析，按照其采用分析光谱的谱区差异，可分为近红外、中红外和远红外等，其共性特征是：光谱分析的基础信息都是根据分子等微观粒子运动的特点，通过分析分子振动和光源频率的“共振现象”实现分析对象的信息加载，按照光谱的产生过程，可具体分为吸收光谱和发射光谱。考虑到不同物质吸收/发射光谱的差异以及谱区的针对性，近红外光谱分析通常指的是吸收光谱分析。 近红外分析的信息流程：...</span><span><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/be19846480ab44ce477585fc567aeaa0.png" loading="lazy">https://blog.csdn.net/qq_35667901/article/details/120495317</span></span></a></p> 
+<p>第二篇：</p> 
+<p><a href="https://blog.csdn.net/qq_35667901/article/details/120507747" title="https://blog.csdn.net/qq_35667901/article/details/120507747" target="_blank" rel="noreferrer"><span><span>https://blog.csdn.net/qq_35667901/article/details/120507747</span><span><img alt="" src="https://i-blog.csdnimg.cn/blog_migrate/dad932ca2c38cf78e5ef19cfc5db654e.png" loading="lazy">https://blog.csdn.net/qq_35667901/article/details/120507747</span></span></a>&nbsp; &nbsp; &nbsp;&nbsp;</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、近红外光谱数据的组成分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 主要分析光谱信息的基本组成（真实光谱、表观光谱），简单介绍测量方式及测量过程注意事项</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 3、近红外光谱数据信息采集和数据流程</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 根据数据来源的不同，分析信息的基本构成及其数据流程</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 4、近红外光谱的测量方式</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 针对分析样品的特性，介绍光谱测量方式、测量参数以及测量仪器的选定问题</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 5、近红外光谱数据的预处理分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 介绍光谱数据预处理方式，并对现有方法进行代码编程实现</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 6、近红外光谱的定量分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 近红外光谱定量分析的基本步骤、模型优化以及常用定量分析模型的基本原理</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 7、近红外光谱的定性分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 定性特征分析、预判方式及常用定性分析模型的基本原理</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 8、近红外分析的限制性因素及预判参数分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 分析近红外分析的主要限制因素及现有的预判参数</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 9、近红外分析模型及结果的评价参数及相关性分析</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 介绍现有的模型评价参数及其相互关系，构建基本的评价体系</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 10、近红外光谱在国内的研究现状及主要研究团队</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 根据自己的了解，简单介绍国内现有的研究方向及主要研究团队，为大家后期学业发展提供帮助。</p> 
+<p></p> 
+<p>更新时间不固定，争取半年内全部写完。</p> 
+<p><span><strong>欢迎关注个人创建的微信公众号-《光谱学与光谱分析》，相关学习资料共享平台，有事请联系：yql025@foxmail.com</strong></span></p> 
+<p></p> 
+<p><img alt="" height="359" src="https://i-blog.csdnimg.cn/blog_migrate/d155bd54f90cabeebcad06d463223f47.jpeg" width="300" loading="lazy"></p> 
+<p></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/120484624" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

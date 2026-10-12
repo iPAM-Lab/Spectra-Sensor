@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>博基计划（2）---软测量建模｜谱见</title>
+  <meta name="description" content="在现代工业控制过程中，提高生产过程控制效益最大化是衡量一个控制系统性能的基本指标。但是由于设备成本和技术等因素限制，很多关键变量（质量参数或质控参数）无法或者难以用传感器进行实时测量。解决该问题的主要途径有：（1）研制新型测量仪表，通过硬件方式进行检测；但是新型仪表研发成本较高，而且对于集成系统而言，新增测量仪表需要生产过程停产改造，这对于大型化工企业而言是无法实现的，最关键的一点是关键变量与容易检测的过程变量一般在不同操作单元，这意味着在线分析仪表分析数据存在分析滞后问题，滞后参数分析影响分析模型准确">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="../index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2020.11.28</p>
+          <h1>博基计划（2）---软测量建模</h1>
+          <p class="article-deck">在现代工业控制过程中，提高生产过程控制效益最大化是衡量一个控制系统性能的基本指标。但是由于设备成本和技术等因素限制，很多关键变量（质量参数或质控参数）无法或者难以用传感器进行实时测量。解决该问题的主要途径有：（1）研制新型测量仪表，通过硬件方式进行检测；但是新型仪表研发成本较高，而且对于集成系统而言，新增测量仪表需要生产过程停产改造，这对于大型化工企业而言是无法实现的，最关键的一点是关键变量与容易检测的过程变量一般在不同操作单元，这意味着在线分析仪表分析数据存在分析滞后问题，滞后参数分析影响分析模型准确</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2020.11.28</span></div>
+        </header>
+        <div class="article-body">
+                    <p>在现代工业控制过程中，提高生产过程控制效益最大化是衡量一个控制系统性能的基本指标。但是由于设备成本和技术等因素限制，很多关键变量（质量参数或质控参数）无法或者难以用传感器进行实时测量。解决该问题的主要途径有：</p>
+
+<p>（1）研制新型测量仪表，通过硬件方式进行检测；但是新型仪表研发成本较高，而且对于集成系统而言，新增测量仪表需要生产过程停产改造，这对于大型化工企业而言是无法实现的，最关键的一点是关键变量与容易检测的过程变量一般在不同操作单元，这意味着在线分析仪表分析数据存在分析滞后问题，滞后参数分析影响分析模型准确性且增加模型复杂度。</p>
+
+<p>（2）软测量（间接测量）：通过容易检测的其他测量信息，实现对难于测量或者无法测量的变量的估计。</p>
+
+<p>软测量的基本思想是对于那些难以测量或者暂时不能测量的关键变量（主导变量），选择一组与主导变量相关的可测变量（辅助变量），通过构建可测变量和关键变量之间的某种数学关系来间接推断或计算关键变量，实现关键变量软测量分析。由于基于可测变量进行建模分析，因此该方法不存在测量延时问题。</p>
+
+<p>软测量分析的主要组成部分：</p>
+
+<p>（1）机理分析与辅助变量选择</p>
+
+<p>首先需要根据分析对象或生产过程确定所需要测量的主导变量；基于现有分析设备或工业流程，通过机理分析初步确定影响主导变量的辅助变量。辅助变量的选择包括变量类型、变量数目和检测点机理模型位置，对于流程工业而言，还需要考虑检测成本、设备维护、数据传输等问题。</p>
+
+<p>（2）数据采集和处理</p>
+
+<p>实际分析过程采集的数据通常包含测量误差，需要对数据进行误差处理，此处的误差处理是指包含测量误差和异常样本处理；此外，还需要考虑测量数据量纲问题，不同辅助变量的范围差异相差较大，需要进行数据变换。</p>
+
+<p>（3）软测量建模</p>
+
+<p>软测量建模按其建模方法分为机理建模和非机理建模（基于过程数据建模）。流程工业或复杂多阶段过程一般采用机理建模分析方法，其他过程一般采用基于测量数据建模方法，常见的过程数据建模包括神经网络、贝叶斯、模糊系统等。</p>
+
+<p>（4）模型校正</p>
+
+<p>在使用过程中，随着分析对象的时变性、非线性和模型的不完整性，需要对模型进行校正以确定模型性能。模型校正分为模型结构校正和模型参数校正，通常根据分析过程只进行模型参数校正。</p>
+
+<p>写于 2020-11-28</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/110259798" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="../index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="../index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="../index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>
