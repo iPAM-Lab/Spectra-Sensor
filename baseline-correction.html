@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>强本固基-10-近红外光谱分析中基线校正的目的/作用？｜谱见</title>
+  <meta name="description" content="简单分析方法包括求导、滤波去噪-求导、多元散射校正、标准状态变换等，基于光谱组成-平滑约束的方法主要基于惩罚最小二乘的校正方法及其延伸方法，例如airPLS、drPLS等，基于光谱组成-稀疏学习的方法通过对光谱组成进行解析实现纯光谱校正，但是此类方法数学内容较多，学习难度较大。基线校正（baseline correction）或者基线漂移（baseline shift）中的基线指的是在光谱图中，样品信号的零点或背景信号的水平线，其表示在未测量样本信息情况下由设备、环境噪音等因素引起的信号。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2025.10.10</p>
+          <h1>强本固基-10-近红外光谱分析中基线校正的目的/作用？</h1>
+          <p class="article-deck">简单分析方法包括求导、滤波去噪-求导、多元散射校正、标准状态变换等，基于光谱组成-平滑约束的方法主要基于惩罚最小二乘的校正方法及其延伸方法，例如airPLS、drPLS等，基于光谱组成-稀疏学习的方法通过对光谱组成进行解析实现纯光谱校正，但是此类方法数学内容较多，学习难度较大。基线校正（baseline correction）或者基线漂移（baseline shift）中的基线指的是在光谱图中，样品信号的零点或背景信号的水平线，其表示在未测量样本信息情况下由设备、环境噪音等因素引起的信号。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2025.10.10</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;在光谱预处理分析中，特别是近红外光谱，基线校正方法是目前应用最为广泛的方法之一，也是光谱分析研究领域较为热门的科学问题。作为光谱分析的第一环节（此处不严谨，很多论文或者分析报告中不涉及基线校正），<u>如何理解光谱分析中基线校正的作用或者基线校正预处理的目的是构建完整分析逻辑的基础。</u>结合个人浅薄学习知识，此次简单阐述相关观点，存在不足敬请批评指正。</p>
+
+<hr>
+<p>一、光谱基线是什么？</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 基线校正（baseline correction）或者基线漂移（baseline shift）中的基线指的是在光谱图中，样品信号的零点或背景信号的水平线，其表示在未测量样本信息情况下由设备、环境噪音等因素引起的信号。基线通常是光谱数据中与样品成分或特征无关的光谱信息，其存在会影响测量的准确性和结果的解析分析。</p>
+
+<hr>
+<p>二、基线漂移的影响</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 在光谱测量过程中，由于设备的稳定性问题（特别是光学器件）、环境变化（温湿度、噪声、压力）或其他外部因素（如样品状态、管道\探头堵塞），基线位置在测量过程中会产生漂移，造成测量光谱的吸收峰位置和吸光度产生偏移。这里面有两个问题需要分析，一是所有样本都具有相同的基线且不存在漂移干扰时，不能称之为基线漂移，此时基线干扰主要影响弱吸光度吸收峰信息，造成光谱信息丢失；二是不同样本间的背景基线产生变化，即光谱数据的一致性较差（直观看数据比较乱，简单表述不严谨），同一批样品有显著的向上或者向下偏移，甚至有左右偏移。在极个别情况下，持续测量过程中获得的光谱数据存在显著的信息丢失现象，例如吸收峰丢失。此类情况下，基线漂移对于光谱分析有显著影响，例如在统计回归分析中，基线漂移的存在直接影响与物性相关特征信息的分布特性，进而影响光谱与物性之间的关联关系，直接结果就是模型性能较低。此外，基线漂移会显著影响弱吸收峰信息，在增加建模复杂度的同时，降低了模型或者特征的可接受性，例如波段与官能团的相关性分析，物理意义解释等。还有一种情况需要分享，基线漂移一般与噪声干扰等干扰因素耦合叠加，降低光谱信息信噪比。</p>
+
+<hr>
+<p>三、基线漂移的分析策略</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 基线校正通过数学模型或者光谱机理实现基线、纯光谱、噪声解析，通过滤出背景基线使得测量的信号更能够反映样品的实际特性。简单分析方法包括求导、滤波去噪-求导、多元散射校正、标准状态变换等，基于光谱组成-平滑约束的方法主要基于惩罚最小二乘的校正方法及其延伸方法，例如airPLS、drPLS等，基于光谱组成-稀疏学习的方法通过对光谱组成进行解析实现纯光谱校正，但是此类方法数学内容较多，学习难度较大。后期可根据需求做一期基线校正方法的分析讨论。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/152891560" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

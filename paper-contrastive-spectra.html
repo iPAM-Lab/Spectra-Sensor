@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>光谱模型为什么需要“看见”更多样本？｜谱见</title>
+  <meta name="description" content="从对比学习出发，讨论如何利用无标签光谱改善小样本建模中的表征质量。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2026.10.10</p>
+          <h1>光谱模型为什么需要“看见”更多样本？</h1>
+          <p class="article-deck">从对比学习出发，讨论如何利用无标签光谱改善小样本建模中的表征质量。</p>
+          <div class="article-meta"><span>李鱼强</span><span>2026.10.10</span></div>
+        </header>
+        <div class="article-body"><aside class="article-takeaway"><span>草稿说明</span><p>以下内容根据首页卡片中的主题撰写，用于搭建阅读页结构；未对应具体论文题录、实验数据或作者结论，替换文献后应逐项校订。</p></aside>
+<h2>问题：标签少，光谱却不少</h2>
+<p>在近红外定量分析中，采集光谱往往比获得可靠的实验室参考值容易。于是数据集可能包含大量未标注光谱，却只有少量样本带有目标成分或性质的标签。若直接从少数标注样本训练预测模型，模型容易把偶然的噪声、散射差异或批次特征当成规律，换一批样品后性能便可能下降。</p>
+<p>这类问题的关键不只是“再换一个回归器”，而是如何让模型先从更多光谱中学到稳定、可迁移的表示，再用有限标签完成目标任务。</p>
+<h2>思路：让同一样本的不同视图彼此靠近</h2>
+<p>对比学习通常从同一条光谱构造两个合理的视图，例如加入幅度有限的噪声、轻微基线变化或经过验证不会改变目标化学信息的增强操作。编码器分别提取两种视图的特征，并通过对比目标让它们在表示空间中更接近；同时，其他样本的表示作为对照，帮助模型区分不同的光谱模式。</p>
+<p>预训练阶段不需要每条光谱都有人工标签。完成表征学习后，可以在少量有标签样本上训练或微调下游模型，再比较它是否比从头监督训练更稳健。</p>
+<h2>为什么可能对小样本有帮助</h2>
+<ul><li>无标签光谱也能参与预训练，扩大模型接触到的样本范围。</li><li>模型学习的是样本之间相对稳定的结构，不必完全依赖有限标签拟合所有参数。</li><li>若增强方式符合测量机理，模型有机会减少对轻微噪声或基线扰动的敏感度。</li></ul>
+<h2>需要核验的边界</h2>
+<p>“看见更多样本”并不自动等于泛化更好。增强操作必须保留与分析目标有关的化学信息；错误的增强可能把真实吸收差异抹掉。训练集与测试集还应按样品、批次或采集时间合理隔离，避免同源光谱泄漏造成过于乐观的结果。</p>
+<p>评价时，除了报告预测误差，也应比较不同标签规模下的性能、随机种子波动、与传统预处理及监督基线的差异，并检查跨仪器、跨批次条件下的迁移表现。只有这些对照成立，才能判断收益来自表征学习本身，而非数据划分或调参偶然性。</p>
+<h2>阅读时我会追问</h2>
+<ol><li>论文如何构造正样本对？每种光谱增强是否有物理依据？</li><li>无标签预训练数据与测试集是否严格隔离？</li><li>在标签数量减少时，提升是否仍稳定，并且超过合适的传统基线？</li></ol>
+<p>补齐具体文献后，可在这里继续加入论文题录、方法流程图、关键实验表格和个人复现记录。</p></div>
+        <p class="article-source">原创文章 · 作者：李鱼强</p>
+        <a class="article-back-link" href="index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

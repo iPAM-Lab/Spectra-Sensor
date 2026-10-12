@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>强本固基-7-如何理解近红外光谱异常样本剔除问题？｜谱见</title>
+  <meta name="description" content="A.  上期分享了近红外光谱分析的基本流程，其中异常样本的存在对于模型的稳定性和泛化性产生重要影响，因此异常样本剔除通常是数据分析的第一步。所谓异常样本一般分为两类：高杠杆值样本和预测明显异常样本，前者指样本的光谱远离整体样本的平均光谱或者指参考值远大于平均值，后者指建立预测模型后多次实验中预测误差较大。目前可通过基于距离或者杠杆统计剔除第一类异常样本，利用统计残差分析剔除第二类异常。其实高杠杆值样本本身不是异常问题，而是实验设计或者样本采集问题，当样本数量较多时反而能够增加样本范围，进而提高模型稳健性。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2023.08.26</p>
+          <h1>强本固基-7-如何理解近红外光谱异常样本剔除问题？</h1>
+          <p class="article-deck">A.  上期分享了近红外光谱分析的基本流程，其中异常样本的存在对于模型的稳定性和泛化性产生重要影响，因此异常样本剔除通常是数据分析的第一步。所谓异常样本一般分为两类：高杠杆值样本和预测明显异常样本，前者指样本的光谱远离整体样本的平均光谱或者指参考值远大于平均值，后者指建立预测模型后多次实验中预测误差较大。目前可通过基于距离或者杠杆统计剔除第一类异常样本，利用统计残差分析剔除第二类异常。其实高杠杆值样本本身不是异常问题，而是实验设计或者样本采集问题，当样本数量较多时反而能够增加样本范围，进而提高模型稳健性。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2023.08.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>A. &nbsp;上期分享了近红外光谱分析的基本流程，其中异常样本的存在对于模型的稳定性和泛化性产生重要影响，因此异常样本剔除通常是数据分析的第一步。所谓异常样本一般分为两类：高杠杆值样本和预测明显异常样本，前者指样本的光谱远离整体样本的平均光谱或者指参考值远大于平均值，后者指建立预测模型后多次实验中预测误差较大。目前可通过基于距离或者杠杆统计剔除第一类异常样本，利用统计残差分析剔除第二类异常。<br>
+D. 目前很多书籍中的异常样本剔除把光谱（X）异常和参考值（Y）异常一起讨论或者部分讨论。其实高杠杆值样本本身不是异常问题，而是实验设计或者样本采集问题，当样本数量较多时反而能够增加样本范围，进而提高模型稳健性。此外，光谱异常和参考值异常的分析方法不同，前者属于多维数据分析，而后者通常是一维的。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/132507153" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

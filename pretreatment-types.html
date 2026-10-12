@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>强本固基-9-近红外光谱预处理方法的主要类别及作用？｜谱见</title>
+  <meta name="description" content="按照作用的不同，预处理方法通常分为基线校正、散射校正、平滑校正以及尺度缩放四大类。基线校正主要用于消除基线漂移的影响，代表性方法有airPLS，arPLS，SSFBCP以及求导处理；平滑校正用于降低光谱的噪声，提高信噪比，常用方法有移动平均平滑、SG卷积平滑、傅立叶变换、EMD分解等；尺度放缩用于消除尺度差异带来的影响（大数吃小数问题），常用方法有归一化、标准化以及中心化等。此外还存在不同预处理的组合问题，例如先平滑去噪再基线校正。上述仅阐述了部分经典方法，很多新的方法不断提出，值得不断学习。">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 02 / 数据处理 · 2023.08.26</p>
+          <h1>强本固基-9-近红外光谱预处理方法的主要类别及作用？</h1>
+          <p class="article-deck">按照作用的不同，预处理方法通常分为基线校正、散射校正、平滑校正以及尺度缩放四大类。基线校正主要用于消除基线漂移的影响，代表性方法有airPLS，arPLS，SSFBCP以及求导处理；平滑校正用于降低光谱的噪声，提高信噪比，常用方法有移动平均平滑、SG卷积平滑、傅立叶变换、EMD分解等；尺度放缩用于消除尺度差异带来的影响（大数吃小数问题），常用方法有归一化、标准化以及中心化等。此外还存在不同预处理的组合问题，例如先平滑去噪再基线校正。上述仅阐述了部分经典方法，很多新的方法不断提出，值得不断学习。</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2023.08.26</span></div>
+        </header>
+        <div class="article-body">
+                    <p>A. &nbsp;如前所述，实测光谱除含有样本物化信息外，通常包含其他因素引起的干扰噪声。在建模前，需要对所采集到的光谱数据进行预处理。按照作用的不同，预处理方法通常分为基线校正、散射校正、平滑校正以及尺度缩放四大类。基线校正主要用于消除基线漂移的影响，代表性方法有airPLS，arPLS，SSFBCP以及求导处理；散射校正用于消除因样本颗粒大小和分布不均匀产生的散射影响，主要有SNV和MSC；平滑校正用于降低光谱的噪声，提高信噪比，常用方法有移动平均平滑、SG卷积平滑、傅立叶变换、EMD分解等；尺度放缩用于消除尺度差异带来的影响（大数吃小数问题），常用方法有归一化、标准化以及中心化等。<br>
+D. 每一类预处理的针对性不同，都值得深入研究。此外还存在不同预处理的组合问题，例如先平滑去噪再基线校正。上述仅阐述了部分经典方法，很多新的方法不断提出，值得不断学习。</p>
+
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/132507155" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>

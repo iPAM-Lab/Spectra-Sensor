@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>常见近红外/红外定量分析指标（论文投稿）｜谱见</title>
+  <meta name="description" content="在前期做近红外定量分析过程中，一般采用决定系数和RMSE作为判定指标，但是在投递论文时发现，国外期刊对于指标的要求不止以上两种。常见的有以下几种：   （1）决定系数                         为第i 个样本的某个组分的标准值；      为第i 个样本的相应组分的预测...">
+  <meta name="author" content="李鱼强">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header article-site-header">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <a class="article-home-link" href="index.html#blog-index">← 返回博客索引</a>
+    </header>
+    <main class="article-page">
+      <article class="article-reader">
+        <header class="article-reader-header">
+          <p class="eyebrow">/ 03 / 建模与论文 · 2019.07.14</p>
+          <h1>常见近红外/红外定量分析指标（论文投稿）</h1>
+          <p class="article-deck">在前期做近红外定量分析过程中，一般采用决定系数和RMSE作为判定指标，但是在投递论文时发现，国外期刊对于指标的要求不止以上两种。常见的有以下几种：   （1）决定系数                         为第i 个样本的某个组分的标准值；      为第i 个样本的相应组分的预测...</p>
+          <div class="article-meta"><span>一条大咸咸鱼</span><span>2019.07.14</span></div>
+        </header>
+        <div class="article-body">
+                    <p>&nbsp; &nbsp; &nbsp; &nbsp;在前期做近红外定量分析过程中，一般采用决定系数和RMSE作为判定指标，但是在投递论文时发现，国外期刊对于指标的要求不止以上两种。常见的有以下几种：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;（1）决定系数</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="R^2=1-\sum_{i=1}^{n}(y_{i}-y_{i}^{\wedge })^{2}/\sum_{i=1}^{n}(y_{i}-y_{i}^{- })^{2}" src="https://private.codecogs.com/gif.latex?R%5E2%3D1-%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%28y_%7Bi%7D-y_%7Bi%7D%5E%7B%5Cwedge%20%7D%29%5E%7B2%7D/%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%28y_%7Bi%7D-y_%7Bi%7D%5E%7B-%20%7D%29%5E%7B2%7D" loading="lazy">&nbsp;</p> 
+<p><img alt="{y}_{i}" src="https://private.codecogs.com/gif.latex?%7By%7D_%7Bi%7D" loading="lazy">&nbsp; 为第<em>i </em>个样本的某个组分的标准值；</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="y_{i}^{\wedge }" src="https://private.codecogs.com/gif.latex?y_%7Bi%7D%5E%7B%5Cwedge%20%7D" loading="lazy">&nbsp; 为第<em>i </em>个样本的相应组分的预测值；&nbsp;</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="y^{-}" src="https://private.codecogs.com/gif.latex?y%5E%7B-%7D" loading="lazy">&nbsp; 为样品集相应组分的平均值。</p> 
+<p>在相同浓度范围的条件下，所建模型的决定系数的值越接近于1其相应模型的仿真效果越好。但是在实际建模过程中，一般设定的阈值为： <em><img alt="\mathit{0.66}\leq R^2\leq\mathit{0.8}" src="https://private.codecogs.com/gif.latex?%5Cmathit%7B0.66%7D%5Cleq%20R%5E2%5Cleq%5Cmathit%7B0.8%7D" loading="lazy">&nbsp;</em>时刚好达到预测效果； 当<em><img alt="\mathit{0.81}\leq R^2\leq\mathit{0.90}" src="https://private.codecogs.com/gif.latex?%5Cmathit%7B0.81%7D%5Cleq%20R%5E2%5Cleq%5Cmathit%7B0.90%7D" loading="lazy"></em>时预测效果较好，当<img alt="R^2\geq 0.90" src="https://private.codecogs.com/gif.latex?R%5E2%5Cgeq%200.90" loading="lazy">时， 预测效果最佳。</p> 
+<p>（2）残差均方根RMSE</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="RMSE = \sqrt{\frac{\sum_{i=1}^n\left(y_i-\hat{y}_i \right )}{n-1}}" src="https://latex.csdn.net/eq?RMSE%20%3D%20%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%5Cleft%28y_i-%5Chat%7By%7D_i%20%5Cright%20%29%7D%7Bn-1%7D%7D" loading="lazy">&nbsp;</p> 
+<p>在实际分析过程中，基本上所有的文献都是将所有数据的分为calibration set 和 validation set 或者prediction set，所以一般RMSE分为RMSEC 和RMSEP.。此外，一般还会选择进行交叉验证：crose validation ，所以还会有RMSECV等情况。</p> 
+<p>（3）标准分析误差SEE</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img alt="SSE=\sqrt{\sum_{i=1}^{n}(d_{i}-d^{-})^{2}/(n-1)}" src="https://private.codecogs.com/gif.latex?SSE%3D%5Csqrt%7B%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%28d_%7Bi%7D-d%5E%7B-%7D%29%5E%7B2%7D/%28n-1%29%7D" loading="lazy"></p> 
+<p><img alt="d_{i}" src="https://private.codecogs.com/gif.latex?d_%7Bi%7D" loading="lazy">为第 i 个样品的残差，即&nbsp;<img alt="d_{i}=y_{i}-{\hat{y}_{i}}" src="https://private.codecogs.com/gif.latex?d_%7Bi%7D%3Dy_%7Bi%7D-%7B%5Chat%7By%7D_%7Bi%7D%7D" loading="lazy">;</p> 
+<p><img alt="\bar{d}" src="https://private.codecogs.com/gif.latex?%5Cbar%7Bd%7D" loading="lazy">为残差的平均值， 即&nbsp;<img alt="\bar{y}=\frac{1}{n}\sum_{i=1}^{n}d_{i}" src="https://private.codecogs.com/gif.latex?%5Cbar%7By%7D%3D%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dd_%7Bi%7D" loading="lazy"></p> 
+<p>（4）相对分析误差 (relative percent deviation)&nbsp;RPD</p> 
+<p>相对分析误差是一种常用不常见的分析指标，为什么说交常用不常见？因为相对分析误差基于决定系数，在统计意义上，其分析指标间接等价于决定系数。其定义公式如下：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="RPD=\frac{1}{\sqrt{1-R^{2}}}" src="https://private.codecogs.com/gif.latex?RPD%3D%5Cfrac%7B1%7D%7B%5Csqrt%7B1-R%5E%7B2%7D%7D%7D" loading="lazy"></p> 
+<p>但是部分文献上将其定义为：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="RPD=\frac{SD}{SEC}" src="https://private.codecogs.com/gif.latex?RPD%3D%5Cfrac%7BSD%7D%7BSEC%7D" loading="lazy"></p> 
+<p>或：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="RPD=\frac{SD}{SEP}" src="https://private.codecogs.com/gif.latex?RPD%3D%5Cfrac%7BSD%7D%7BSEP%7D" loading="lazy"></p> 
+<p>其中SD为分析样本的标准偏差；SEC/SEP为分析样品的均方根误差。</p> 
+<p>相应的评判指标为：</p> 
+<p>&nbsp;RPD &lt; 1.4 : 认为所建模型不可靠；</p> 
+<p>1.4 &lt; RPD &lt; 2.0 : 认为所建模型较可靠；</p> 
+<p>RPD &gt; 2.0 : 则认为所建模型具备较高可靠性，能够用于模型分析。</p> 
+<p></p> 
+<p><span><strong>个人新建立的weixin公众号，光谱学与光谱分析，欢迎大家关注</strong></span></p>
+                </div>
+        <p class="article-source">原文作者：<a href="https://blog.csdn.net/qq_35667901/article/details/95885517" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>。</p>
+        <a class="article-back-link" href="index.html#blog-index">← 返回博客索引</a>
+      </article>
+    </main>
+    <footer class="site-footer article-site-footer">
+      <a class="brand" href="index.html#top"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span><span>谱见 <small>SPECTRA NOTES</small></span></a>
+      <p>© 2026 Li Yuqiang. Built with curiosity.</p>
+      <div class="footer-links"><a href="index.html#blog-index">博客索引</a></div>
+    </footer>
+  </div>
+</body>
+</html>
