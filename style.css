@@ -8,18 +8,19 @@
 
 /* 01. 全站主题：颜色与字体（修改这里即可调整整体风格） */
 :root {
-  --ink: #172c28; /* #172c28主色：正文、标题和深色背景，link的值 */
-  --ink-soft: #0f0f0f; /* 辅助正文颜色 ，上部顶部文字颜色*/
-  --cream: #e4eee6; /* 米白底色：首屏和文章区域 */
-  --paper: #faf6fb; /* 页面浅色背景 */
-  --line: #d6d8cf; /* 边框和分隔线 */
-  --amber: #ff8800e0; /* 强调色：重点文字和光谱曲线 */
-  --cyan: #b9d9d2; /* 青绿色：卡片和个人介绍背景 */
-  --lime: #dbe7bd; /* 深色区域的浅绿按钮 */
-  --white: #fffdf8; /* 深色背景上的文字 */
-  --mono: 'DM Mono',monospace; /* 代码、日期和标签字体 */
-  --sans: 'Manrope','Noto Sans SC',sans-serif; /* 正文和导航字体 */
-  --serif: 'Noto Serif SC',serif; /* 标题字体 */
+  --ink: #172c28;
+  --ink-soft: #263b35;
+  --cream: #edf2ec;
+  --tsinghua-purple: #660874;
+  --paper: #fbf8fc;
+  --line: #d8d8cf;
+  --amber: #d97816;
+  --cyan: #a8d9d0;
+  --lime: #d9ec99;
+  --white: #fffefa;
+  --mono: 'Times New Roman','DM Mono',monospace; /* 英文和数字优先使用 Times New Roman */
+  --sans: 'Times New Roman','Manrope','Noto Sans SC',sans-serif; /* 英文和数字优先使用 Times New Roman */
+  --serif: 'Times New Roman','DM Mono',serif; /* 英文和数字优先使用 Times New Roman */
 }
 
 /* 02. 基础样式与公共布局 */
@@ -44,7 +45,7 @@ body {
 
 /* 设置 .page-shell 对应的页面组件样式 */
 .page-shell {
-  overflow: hidden;/* 设置内容超出容器时的处理方式；当前值：hidden */
+  overflow: clip;
 }
 
 /* 公共左右留白：clamp(最小值, 随屏幕变化值, 最大值)。 */
@@ -62,13 +63,17 @@ a {
 
 /* 03. 顶部导航与品牌标识 */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   height: 82px; /* 设置元素高度；当前值：82px */
-  border-bottom: 1px solid var(--line); /* 设置下边框；当前值：1px solid var(--line) */
+  border-bottom: 1px solid rgba(36,51,47,.1); /* 设置下边框；当前值：1px solid var(--line) */
   display: flex;/* 设置元素的显示/布局方式；当前值：flex */
   align-items: center; /* 设置交叉轴方向的对齐方式；当前值：center */
   gap: 44px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：44px */
   padding: 0 clamp(24px,7vw,112px); /* 设置内边距；当前值：0 clamp(24px,7vw,112px) */
-  background: var(--paper); /* 设置背景颜色或背景效果；当前值：var(--paper) */
+  color: var(--ink);
+  background: linear-gradient(to bottom, rgba(255,255,255,.9) 0%, rgba(247,249,246,.9) 58%, rgba(255,255,255,.9) 100%);
 }
 
 .brand {
@@ -83,7 +88,7 @@ a {
 
 .brand small {
   display: block; /* 设置元素的显示/布局方式；当前值：block */
-  color: #83918b; /* 设置文字颜色；当前值：#83918b */
+  color: #68766e; /* 设置文字颜色；当前值：#83918b */
   font-family: var(--mono); /* 设置字体系列；当前值：var(--mono) */
   font-size: 8px; /* 设置字体大小；当前值：8px */
   letter-spacing: .16em; /* 设置字符间距；当前值：.16em */
@@ -128,7 +133,7 @@ a {
   display: flex; /* 设置元素的显示/布局方式；当前值：flex */
   gap: 30px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：30px */
   margin-left: auto; /* 设置 CSS 属性 margin-left 的值；当前值：auto */
-  color: var(--ink-soft); /* 设置文字颜色；当前值：var(--ink-soft) */
+  color: var(--ink);
   font-size: 15px; /* 设置字体大小；当前值：15px */
 }
 
@@ -139,7 +144,7 @@ a {
 
 .nav-cta {
   font-size: 15px;
-  border-left: 1px solid var(--line);
+  border-left: 1px solid rgba(36,51,47,.24);
   padding-left: 28px;
 }
 
@@ -159,17 +164,18 @@ a {
   gap: clamp(42px,7vw,112px);
   padding-top: clamp(28px,3.5vw,54px);
   padding-bottom: clamp(29px,3.5vw,56px);
-  background: var(--cream);
+  background: #dcefe2;
 }
 
 .hero-copy {
   min-width: 0;
 }
 
+/*每个板块标题字体大小 */
 .eyebrow {
-  font: 500 11px var(--mono);
+  font: 700 22px var(--mono);
   letter-spacing: .13em;
-  color: #7d8b82;
+  color: #000000; /*字体颜色*/
   text-transform: uppercase;
   margin: 0 0 24px;
 }
@@ -178,6 +184,7 @@ a {
   display: inline-block;
   width: 7px;
   height: 7px;
+  vertical-align: middle;
   background: var(--amber);
   border-radius: 50%;
   margin-right: 9px;
@@ -396,7 +403,7 @@ a {
 
 .section-note {
   color: #77857d;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.8;
   text-align: right;
   margin: 0;
@@ -410,8 +417,8 @@ a {
 }
 
 .topic-card {
-  min-height: 258px;
-  padding: 24px;
+  min-height: 200px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -423,36 +430,46 @@ a {
 }
 
 .topic-dark {
-  background: rgba(1, 62, 117, .82);
+  background: rgba(71, 88, 241, 0.9);
   color: var(--white);
 }
 
 .topic-cream {
-  background: rgba(127, 169, 33, .82);
-}
-
-.topic-cyan {
-  background: rgba(164, 36, 35, .82);
+  background: rgba(81, 158, 66, 0.9); /*内容地图 卡片2颜色*/
   color: var(--white);
 }
 
-.card-index {
-  font: 15px var(--mono);
-  opacity: .7;
+.topic-cream h3,
+.topic-cream ul {
+  color: var(--white);
+}
+
+.topic-cyan {
+  background: rgba(189,75,69,.9);
+  color: var(--white);
 }
 
 .topic-card h3 {
   font-family: var(--serif);
-  font-size: 35px;
+  font-size: 25px;
   margin: 0 0 9px;
 }
 
-.topic-card p {
+.topic-card ul {
   margin: 0;
+  padding-left: 1.1em;
   max-width: 245px;
-  font-size: 16px;
+  font-size: 20px; /*三个卡片内部的字体大小*/
   line-height: 1.7;
   opacity: .76;
+}
+
+.topic-cream ul {
+  opacity: 1;
+}
+
+.topic-card li {
+  padding-left: 2px;
 }
 
 .card-arrow {
@@ -483,18 +500,26 @@ a {
 
 .article-image {
   height: 275px;
-  background: #213a35;
+  background: #fff;
   position: relative;
   overflow: hidden;
-  padding: 25px;
+}
+
+.article-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .image-label {
   position: absolute;
   top: 21px;
   right: 21px;
-  color: #adc5b5;
-  font: 9px var(--mono);
+  padding: 5px 8px;
+  color: var(--ink);
+  background: rgba(255,255,255,.86);
+  font: 11px var(--mono);
 }
 
 .absorption-map {
@@ -533,7 +558,7 @@ a {
 }
 
 .article-tag {
-  font: 10px var(--mono);
+  font: 15px var(--mono); /*代码、时间字体大小*/
   letter-spacing: .04em;
   color: #8c988e;
   margin: 0 0 13px;
@@ -551,7 +576,7 @@ a {
 .article-content>p:not(.article-tag),
 .paper-body>p:not(.article-tag) {
   color: #697970;
-  font-size: 13px;
+  font-size: 15px; /*图片下方文字大小*/
   line-height: 1.8;
   margin: 0 0 22px;
 }
@@ -615,12 +640,12 @@ a {
 
 .list-number {
   color: #a3aaa0;
-  font: 11px var(--mono);
-  padding-top: 5px;
+  font: 14px var(--mono);/*item字体大小*/
+  padding-top: 0px; /*item上部空间*/
 }
 
 .list-item h3 {
-  font-size: 17px;
+  font-size: 20px; /*右侧条目内字体大小*/
   margin-bottom: 6px;
 }
 
@@ -629,7 +654,7 @@ a {
 }
 
 .date {
-  font: 10px var(--mono);
+  font: 14px var(--mono);
   color: #9aa59e;
   margin: 0;
 }
@@ -650,8 +675,12 @@ a {
   gap: clamp(46px,9vw,140px);
   padding-top: 55px;
   padding-bottom: 56px;
-  background: #29443d;
+  background: #28765f;
   color: var(--white);
+}
+
+.code-section .eyebrow {
+  color: #e0ebe5;
 }
 
 .code-intro h2 {
@@ -659,7 +688,7 @@ a {
 }
 
 .code-intro>p:not(.eyebrow) {
-  color: #adc0b7;
+  color: #e0ebe5;
   line-height: 1.85;
   font-size: 14px;
   max-width: 335px;
@@ -672,9 +701,9 @@ a {
 }
 
 .code-window {
-  background: #10211d;
+  background: #173a30;
   align-self: center;
-  box-shadow: 13px 13px 0 rgba(7,15,13,.35);
+  box-shadow: 13px 13px 0 rgba(7,15,13,.2);
   min-width: 0;
 }
 
@@ -684,9 +713,9 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 13px 17px;
-  color: #87a097;
+  color: #b9cec4;
   font: 10px var(--mono);
-  border-bottom: 1px solid #2d4640;
+  border-bottom: 1px solid #3a574e;
 }
 
 .window-dots {
@@ -709,7 +738,7 @@ a {
 .code-toolbar button {
   background: transparent;
   border: 0;
-  color: #b5cbc0;
+  color: #d0dfd7;
   font: 10px var(--mono);
   cursor: pointer;
 }
@@ -745,7 +774,7 @@ a {
 }
 
 .code-status {
-  border-top: 1px solid #2d4640;
+  border-top: 1px solid #3a574e;
   border-bottom: 0;
   padding-top: 11px;
   padding-bottom: 11px;
@@ -778,9 +807,9 @@ a {
 }
 
 .paper-top>p {
-  max-width: 310px;
+  max-width: 380px;
   color: #6c7b71;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.85;
   margin: 0;
 }
@@ -793,7 +822,7 @@ a {
 }
 
 .paper-cover {
-  background: #29443c;
+  background: #245640;
   color: #e7f0dd;
   padding: 25px;
   display: flex;
@@ -848,7 +877,7 @@ a {
   padding-top: 17px;
   margin: 28px 0 23px;
   color: #6e7b72;
-  font: 10px var(--mono);
+  font: 18px var(--mono);
 }
 
 .paper-notes b {
@@ -856,56 +885,33 @@ a {
   margin-right: 6px;
 }
 
-/* 12. 个人介绍 */
+/* 关于我 */
 .about-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(50px,11vw,170px);
-  padding-top: 52px;
+  grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);
+  gap: clamp(40px,7vw,100px);
+  padding-top: 50px;
   padding-bottom: 58px;
   background: var(--cyan);
   align-items: center;
 }
 
 .about-portrait {
-  min-height: 360px;
-  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.portrait-shape {
-  width: min(68%,340px);
-  aspect-ratio: 1/1.13;
-  background: var(--amber);
-  position: relative;
-  display: grid;
-  place-items: center;
+.portrait-image {
+  width: min(88%,420px);
+  aspect-ratio: 4 / 4.7;
+  object-fit: cover;
+  object-position: 50% 36%;
 }
 
-.portrait-shape:before {
-  content: '';
-  position: absolute;
-  width: 70%;
-  height: 70%;
-  border: 1px solid rgba(23,44,40,.45);
-  transform: rotate(12deg);
-}
-
-.portrait-shape span {
-  font-family: var(--serif);
-  font-size: 72px;
-  z-index: 1;
-}
-
-.portrait-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  font: 10px var(--mono);
-  letter-spacing: .08em;
-  color: #607b72;
+.about-email {
+  margin-top: 16px;
 }
 
 .about-copy h2 {
@@ -915,13 +921,15 @@ a {
 .about-copy>p:not(.eyebrow) {
   color: #536d64;
   line-height: 1.9;
-  max-width: 410px;
+  max-width: 750px;
   margin: 27px 0;
 }
 
 .about-facts {
-  display: flex;
-  gap: 28px;
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 18px;
+  align-items: start;
   border-top: 1px solid rgba(23,44,40,.22);
   padding-top: 17px;
   margin-bottom: 28px;
@@ -935,6 +943,17 @@ a {
   font: 28px var(--serif);
 }
 
+.project-list {
+  margin: 10px 0 0;
+  padding-left: 1.1em;
+  color: #536d64;
+  font: 18px/1.7 var(--sans);
+}
+
+.project-list li+li {
+  margin-top: 3px;
+}
+
 /* 13. 订阅表单 */
 /* 订阅区域布局；邮箱提交行为由 script.js 设置。 */
 .subscribe {
@@ -943,7 +962,7 @@ a {
   gap: 80px;
   padding-top: 39px;
   padding-bottom: 39px;
-  background: rgba(255, 136, 0, .75);
+  background: #eee7dc;
   align-items: end;
 }
 
@@ -991,23 +1010,29 @@ a {
 /* 14. 页脚 */
 .site-footer {
   padding: 28px clamp(24px,7vw,112px);
-  background: var(--paper);
+  color: var(--ink);
+  background: linear-gradient(to top, rgba(255,255,255,.9) 0%, rgba(247,249,246,.9) 58%, rgba(255,255,255,.9) 100%);
   display: flex;
   align-items: center;
   gap: 30px;
 }
 
+.site-footer .brand small {
+  color: #68766e;
+  font-size: 9px;
+}
+
 .site-footer>p {
   margin: 0 auto;
-  color: #8b968e;
-  font: 10px var(--mono);
+  color: rgba(36,51,47,.78);
+  font: 12px var(--mono);
 }
 
 .footer-links {
   display: flex;
   gap: 20px;
-  color: #68766e;
-  font: 11px var(--mono);
+  color: var(--ink);
+  font: 13px var(--mono);
 }
 
 /* 15. 平板布局：屏幕宽度不超过 900px 时生效 */
@@ -1058,7 +1083,7 @@ a {
   }
 
   .about-facts {
-    gap: 17px;
+    gap: 12px;
   }
 
   .subscribe {
@@ -1095,6 +1120,7 @@ a {
     z-index: 3;
     flex-direction: column;
     gap: 15px;
+    color: var(--ink-soft);
   }
 
   .hero {
@@ -1136,7 +1162,7 @@ a {
   }
 
   .topic-card {
-    min-height: 190px;
+    min-height: 350px;
   }
 
   .latest-layout {
@@ -1204,12 +1230,16 @@ a {
     gap: 42px;
   }
 
-  .about-portrait {
-    min-height: 285px;
+  .about-facts {
+    grid-template-columns: repeat(2,minmax(0,1fr));
   }
 
-  .portrait-shape {
-    width: 65%;
+  .project-fact {
+    grid-column: 1 / -1;
+  }
+
+  .portrait-image {
+    width: 72%;
   }
 
   .subscribe {
@@ -1238,7 +1268,7 @@ a {
 .blog-index {
   padding-top: 39px;
   padding-bottom: 43px;
-  background: #ebe5d9;
+  background: #f0eee7;
 }
 
 /* 博客分类列数：手机上由媒体查询改为一列。 */
@@ -1267,7 +1297,7 @@ a {
 }
 
 .index-label {
-  font: 16px var(--mono);
+  font: 20px var(--mono);
   color: #8a9187;
   letter-spacing: .05em;
   margin: 0;
@@ -1284,7 +1314,7 @@ a {
   align-items: center;
   gap: 5px;
   color: #65786f;
-  font-size: 13px;
+  font-size: 15px;
   cursor: pointer;
   list-style: none;
 }
@@ -1373,8 +1403,8 @@ a {
 }
 
 .archive-heading .eyebrow {
-  color: #b76b23;
-  font: 11px var(--mono);
+  color: var(--amber);
+  font: 700 22px var(--mono);
 }
 
 .archive-heading h1 {
@@ -1473,7 +1503,7 @@ a {
 
 .article-home-link,
 .article-back-link {
-  color: #65786f;
+  color: #e5cde9;
   font-size: 13px;
 }
 
@@ -1498,8 +1528,8 @@ a {
 }
 
 .article-reader-header .eyebrow {
-  color: #b76b23;
-  font: 11px var(--mono);
+  color: var(--amber);
+  font: 700 22px var(--mono);
 }
 
 .article-reader-header h1 {
