@@ -70,7 +70,7 @@ a {
   border-bottom: 1px solid rgba(36,51,47,.1); /* 设置下边框；当前值：1px solid var(--line) */
   display: flex;/* 设置元素的显示/布局方式；当前值：flex */
   align-items: center; /* 设置交叉轴方向的对齐方式；当前值：center */
-  gap: 44px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：44px */
+  gap: 24px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：44px */
   padding: 0 clamp(24px,7vw,112px); /* 设置内边距；当前值：0 clamp(24px,7vw,112px) */
   color: var(--ink);
   background: linear-gradient(to bottom, rgba(255,255,255,.9) 0%, rgba(247,249,246,.9) 58%, rgba(255,255,255,.9) 100%);
@@ -90,7 +90,7 @@ a {
   display: block; /* 设置元素的显示/布局方式；当前值：block */
   color: #68766e; /* 设置文字颜色；当前值：#83918b */
   font-family: var(--mono); /* 设置字体系列；当前值：var(--mono) */
-  font-size: 8px; /* 设置字体大小；当前值：8px */
+  font-size: 12px; /* 设置字体大小；当前值：8px */
   letter-spacing: .16em; /* 设置字符间距；当前值：.16em */
   font-weight: 500; /* 设置字体粗细；当前值：500 */
 }
@@ -98,43 +98,43 @@ a {
 .brand-mark {
   display: flex; /* 设置元素的显示/布局方式；当前值：flex */
   align-items: flex-end; /* 设置交叉轴方向的对齐方式；当前值：flex-end */
-  height: 22px; /* 设置元素高度；当前值：22px */
+  height: 38px; /* 设置元素高度；当前值：22px */
   gap: 2px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：2px */
 }
 
 .brand-mark i {
   display: block; /* 设置元素的显示/布局方式；当前值：block */
-  width: 3px; /* 设置元素宽度；当前值：3px */
+  width: 5px; /* 设置元素宽度；当前值：3px */
   background: var(--amber); /* 设置背景颜色或背景效果；当前值：var(--amber) */
 }
 
 .brand-mark i:nth-child(1) {
-  height: 8px;/* 设置元素高度；当前值：8px */
+  height: 20px;/* 设置元素高度；当前值：8px */
 }
 
 .brand-mark i:nth-child(2) {
-  height: 14px;  /* 设置元素高度；当前值：14px */
+  height: 28px;  /* 设置元素高度；当前值：14px */
 }
 
 .brand-mark i:nth-child(3) {
-  height: 22px;/* 设置元素高度；当前值：22px */
+  height: 36px;/* 设置元素高度；当前值：22px */
   background: var(--ink); /* 设置背景颜色或背景效果；当前值：var(--ink) */
 }
 
 .brand-mark i:nth-child(4) {
-  height: 16px; /* 设置元素高度；当前值：16px */
+  height: 30px; /* 设置元素高度；当前值：16px */
 }
 
 .brand-mark i:nth-child(5) {
-  height: 10px; /* 设置元素高度；当前值：10px */
+  height: 22px; /* 设置元素高度；当前值：10px */
 }
 
 .main-nav {
   display: flex; /* 设置元素的显示/布局方式；当前值：flex */
-  gap: 30px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：30px */
+  gap: 35px; /* 设置弹性布局或网格布局中项目之间的间距；当前值：30px */
   margin-left: auto; /* 设置 CSS 属性 margin-left 的值；当前值：auto */
   color: var(--ink);
-  font-size: 15px; /* 设置字体大小；当前值：15px */
+  font-size: 20px; /* 设置字体大小；当前值：15px */
 }
 
 .main-nav a:hover,
@@ -261,6 +261,13 @@ a {
   color: var(--amber);
 }
 
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
 /* 06. 首屏研究信息 */
 .hero-meta {
   display: flex;
@@ -268,7 +275,7 @@ a {
   gap: 11px;
   margin-top: 66px;
   color: #89958e;
-  font: 10px var(--mono);
+  font: 16px var(--mono);
   flex-wrap: wrap;
 }
 
@@ -477,11 +484,11 @@ a {
   align-self: flex-end;
 }
 
-/* 09. 精选文章与文章列表 */
+/* 最新更新 */
 .latest {
   padding-top: 46px;
   padding-bottom: 60px;
-  background: var(--cream);
+  background:  rgba(252, 251, 251, 0.9);/*var(--cream);*/
 }
 
 .compact {
@@ -550,7 +557,7 @@ a {
   height: var(--h);
   width: 2px;
   background: var(--cyan);
-  box-shadow: 0 0 18px rgba(185,217,210,.5);
+  box-shadow: 0 0 18px rgba(244, 247, 246, 0.5);
 }
 
 .article-content {
@@ -926,15 +933,15 @@ a {
 }
 
 .about-facts {
-  display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: 18px;
   align-items: start;
   border-top: 1px solid rgba(23,44,40,.22);
   padding-top: 17px;
   margin-bottom: 28px;
   color: #5b756c;
   font: 10px var(--mono);
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 18px;
 }
 
 .about-facts b {
@@ -1133,7 +1140,7 @@ a {
   }
 
   .hero-intro {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .hero-meta {
@@ -1268,7 +1275,7 @@ a {
 .blog-index {
   padding-top: 39px;
   padding-bottom: 43px;
-  background: #f0eee7;
+  background: #e2cff1c5;
 }
 
 /* 博客分类列数：手机上由媒体查询改为一列。 */
@@ -1518,6 +1525,8 @@ a {
 }
 
 .article-reader {
+  width: 100%;
+  min-width: 0;
   max-width: 780px;
   margin: 0 auto;
 }
@@ -1557,6 +1566,8 @@ a {
 }
 
 .article-body {
+  width: 100%;
+  min-width: 0;
   max-width: 680px;
   padding: 28px 0 36px;
 }
@@ -1599,8 +1610,59 @@ a {
 
 .article-body figure {
   max-width: 100%;
-  margin: 24px auto;
+  margin: 30px auto;
   text-align: center;
+}
+
+.article-body figcaption {
+  max-width: 620px;
+  margin: 10px auto 0;
+  color: #7a8982;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.article-body :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #ece8dc;
+  color: #69476e;
+  font: 0.88em var(--mono);
+}
+
+.article-body blockquote {
+  margin: 24px 0;
+  padding: 2px 0 2px 20px;
+  border-left: 3px solid #7457a4;
+}
+
+.article-body blockquote p {
+  margin: 0;
+  color: #64756d;
+  font-style: italic;
+}
+
+.article-body hr {
+  margin: 34px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.article-equation {
+  max-width: 100%;
+  margin: 26px 0;
+  padding: 18px 14px;
+  overflow-x: auto;
+  border: 1px solid #ded8ca;
+  border-radius: 8px;
+  background: #f8f5ed;
+}
+
+.article-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  margin: 26px 0 32px;
+  overflow-x: auto;
 }
 
 .article-body pre {
@@ -1614,10 +1676,27 @@ a {
 }
 
 .article-body table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
+  width: 100%;
+  min-width: 640px;
   border-collapse: collapse;
+}
+
+.article-body th,
+.article-body td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #d8d2c5;
+  color: #4f6259;
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-body th {
+  background: #20372e;
+  color: #f5f1e7;
+  font-size: 12px;
+  letter-spacing: .04em;
 }
 
 .article-takeaway {
@@ -1643,9 +1722,66 @@ a {
   border-top: 1px solid var(--line);
 }
 
+.article-edit-actions {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0 24px;
+  flex-wrap: wrap;
+}
+
+.article-edit-actions a {
+  padding: 10px 14px;
+  border: 1px solid #cfc7d2;
+  border-radius: 5px;
+  color: #684b70;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.article-edit-actions a:first-child {
+  border-color: var(--ink);
+  color: var(--white);
+  background: var(--ink);
+}
+
+.article-edit-actions a:hover {
+  border-color: var(--amber);
+  color: var(--white);
+  background: var(--amber);
+}
+
 @media(max-width:640px) {
+  .article-site-header {
+    gap: 14px;
+  }
+
+  .article-site-header .brand {
+    font-size: 17px;
+  }
+
+  .article-home-link {
+    color: #745d79;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
   .article-page {
     padding: 52px 24px 68px;
+  }
+
+  .section-actions {
+    margin-top: 18px;
+    gap: 14px;
+  }
+
+  .article-edit-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .article-edit-actions a {
+    text-align: center;
   }
 
   .article-reader-header h1 {

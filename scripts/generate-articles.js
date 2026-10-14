@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const { loadMarkdownArticles } = require('./markdown-posts.js');
 
 const root = path.resolve(__dirname, '..');
 const dataDir = path.join(root, 'data');
@@ -10,6 +11,9 @@ const exportPath = fs.existsSync(tempExportPath) ? tempExportPath : archivePath;
 const articleDir = path.join(root, 'articles');
 const indexPath = path.join(root, 'index.html');
 const directoryPath = path.join(root, 'all-articles.html');
+const postDir = path.join(root, 'posts');
+const githubRepositoryUrl = 'https://github.com/iPAM-Lab/Spectra-Sensor';
+const githubBranch = 'main';
 
 const existingPages = {
   'author-paper-contrastive-spectra': 'paper-contrastive-spectra.html',
@@ -53,6 +57,10 @@ function relativeTarget(pagePath, targetPath) {
   return path.relative(from, targetPath).split(path.sep).join('/') || path.basename(targetPath);
 }
 
+function githubFileUrl(action, repositoryPath) {
+  return `${githubRepositoryUrl}/${action}/${githubBranch}/${repositoryPath.split('/').map(encodeURIComponent).join('/')}`;
+}
+
 function replaceElementText(html, tagName, id, value) {
   const pattern = new RegExp(`(<${tagName}\\b[^>]*\\bid="${id}"[^>]*>)[\\s\\S]*?(</${tagName}>)`);
   if (!pattern.test(html)) throw new Error(`Featured card element #${id} is missing from index.html.`);
@@ -63,6 +71,21 @@ function replaceElementHref(html, id, href) {
   const pattern = new RegExp(`(<a\\b[^>]*\\bid="${id}"[^>]*\\bhref=")[^"]*(")`);
   if (!pattern.test(html)) throw new Error(`Featured card link #${id} is missing from index.html.`);
   return html.replace(pattern, (match, beforeHref, afterHref) => `${beforeHref}${escapeHtml(href)}${afterHref}`);
+}
+
+function estimateReadMinutes(record) {
+  const plainText = String(record.html || '')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&[a-zA-Z0-9#]+;/g, ' ')
+    .replace(/\s+/g, '');
+  return Math.max(3, Math.ceil(plainText.length / 500));
+}
+
+function formatShortDate(date) {
+  const match = String(date || '').match(/^(\d{4})[.-](\d{1,2})[.-](\d{1,2})$/);
+  return match ? `${match[1]}.${match[2].padStart(2, '0')}.${match[3].padStart(2, '0')}` : String(date || '');
 }
 
 function renderAuthorBody(blocks, slug) {
@@ -91,8 +114,9 @@ fs.mkdirSync(articleDir, { recursive: true });
 if (!fs.existsSync(authorArchivePath)) fs.writeFileSync(authorArchivePath, JSON.stringify({ records: [] }, null, 2) + '\n', 'utf8');
 const authorData = JSON.parse(fs.readFileSync(authorArchivePath, 'utf8'));
 if (!Array.isArray(authorData.records)) throw new Error('data/author-articles.json must contain a records array.');
+const markdownArticles = loadMarkdownArticles(postDir);
 const authorSlugs = new Set();
-const authorRecords = authorData.records.map(article => {
+const authorRecords = [...authorData.records, ...markdownArticles].map(article => {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug || '')) throw new Error(`Invalid author article slug: ${article.slug}`);
   if (authorSlugs.has(article.slug)) throw new Error(`Duplicate author article slug: ${article.slug}`);
   authorSlugs.add(article.slug);
@@ -111,7 +135,7 @@ const authorRecords = authorData.records.map(article => {
     source: 'author',
     date: article.date || new Date().toISOString().slice(0, 10).replaceAll('-', '.'),
     description: article.description || `${article.title}，李鱼强的原创文章。`,
-    html: article.page ? null : renderAuthorBody(article.body, article.slug)
+    html: article.page ? null : (article.html || renderAuthorBody(article.body, article.slug))
   };
 });
 const records = [
@@ -135,6 +159,12 @@ for (const record of records) {
   const source = record.source === 'author'
     ? `<p class="article-source">原创文章 · 作者：${escapeHtml(record.author || '李鱼强')}</p>`
     : `<p class="article-source">原文作者：<a href="${escapeHtml(record.url)}" target="_blank" rel="noreferrer">一条大咸咸鱼 · CSDN 原文</a>${record.license ? `。许可：<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>` : ''}。</p>`;
+  const githubActions = record.source === 'author' && record.markdownFile
+    ? `<nav class="article-edit-actions" aria-label="文章编辑入口">
+          <a href="${escapeHtml(githubFileUrl('edit', record.markdownFile))}" target="_blank" rel="noreferrer">在 GitHub 编辑本文 <span>↗</span></a>
+          <a href="${escapeHtml(githubFileUrl('blob', record.markdownFile))}" target="_blank" rel="noreferrer">查看 Markdown 原稿 <span>↗</span></a>
+        </nav>`
+    : '';
   const document = `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -146,6 +176,7 @@ for (const record of records) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="${relativeTarget(pagePath, path.join(root, 'vendor', 'katex', 'katex.min.css'))}">
   <link rel="stylesheet" href="${relativeTarget(pagePath, path.join(root, 'style.css'))}">
 </head>
 <body>
@@ -164,6 +195,7 @@ for (const record of records) {
         </header>
         <div class="article-body">${body}</div>
         ${source}
+        ${githubActions}
         <a class="article-back-link" href="${indexPathFromArticle}#blog-index">← 返回博客索引</a>
       </article>
     </main>
@@ -245,10 +277,39 @@ if (featuredRecords.length === 1) {
   indexWithFeatured = replaceElementText(indexWithFeatured, 'p', 'featuredArticleDescription', featured.featuredDescription || featured.description || '');
   indexWithFeatured = replaceElementHref(indexWithFeatured, 'featuredArticleLink', entry.href);
 }
+const featuredId = featuredRecords.length === 1 ? featuredRecords[0].id : null;
+const latestRecords = [...records]
+  .sort((first, second) => Date.parse(String(second.date).replaceAll('.', '-')) - Date.parse(String(first.date).replaceAll('.', '-')))
+  .filter(record => record.id !== featuredId)
+  .slice(0, 3);
+const latestListMarkup = latestRecords.map((record, index) => {
+  const categoryId = record.category || classify(record.title);
+  const category = categories.find(item => item.id === categoryId);
+  const entry = groups[categoryId].find(article => article.id === record.id);
+  if (!entry) throw new Error(`Latest article was not added to category ${categoryId}: ${record.id}`);
+  const label = category.label.replace(/^\d+\s*\/\s*/, '');
+  return `              <article class="list-item">
+                <span class="list-number">${String(index + 2).padStart(2, '0')}</span>
+                <div>
+                  <p class="article-tag">${escapeHtml(label)} · ${estimateReadMinutes(record)} min read</p>
+                  <h3>${escapeHtml(record.title)}</h3>
+                  <p class="date">${escapeHtml(formatShortDate(record.date))}</p>
+                </div>
+                <a class="round-arrow" href="${escapeHtml(entry.href)}" aria-label="阅读：${escapeHtml(record.title)}">↗</a>
+              </article>`;
+}).join('\n');
+const latestStart = '<!-- AUTO_LATEST_ARTICLES_START -->';
+const latestEnd = '<!-- AUTO_LATEST_ARTICLES_END -->';
+const latestStartAt = indexWithFeatured.indexOf(latestStart);
+const latestEndAt = indexWithFeatured.indexOf(latestEnd);
+if (latestStartAt < 0 || latestEndAt < latestStartAt) throw new Error('Latest article markers are missing from index.html.');
+indexWithFeatured = indexWithFeatured.slice(0, latestStartAt + latestStart.length)
+  + '\n' + latestListMarkup + '\n              '
+  + indexWithFeatured.slice(latestEndAt);
 const publicArticleCountPattern = /(<b id="publicArticleCount">)\d+(<\/b>)/;
 if (!publicArticleCountPattern.test(indexWithFeatured)) throw new Error('Public article count marker is missing from index.html.');
 const indexWithUpdatedCount = indexWithFeatured.replace(publicArticleCountPattern, (match, before, after) => `${before}${records.length}${after}`);
 fs.writeFileSync(indexPath, indexWithUpdatedCount, 'utf8');
 
 if (exportPath === tempExportPath) fs.renameSync(tempExportPath, archivePath);
-console.log(JSON.stringify({ generated: records.length, csdn: exportData.records.length, original: authorRecords.length, categories: Object.fromEntries(categories.map(category => [category.label, groups[category.id].length])), archive: path.relative(root, archivePath), authorArchive: path.relative(root, authorArchivePath) }, null, 2));
+console.log(JSON.stringify({ generated: records.length, csdn: exportData.records.length, original: authorRecords.length, markdown: markdownArticles.length, categories: Object.fromEntries(categories.map(category => [category.label, groups[category.id].length])), archive: path.relative(root, archivePath), authorArchive: path.relative(root, authorArchivePath) }, null, 2));

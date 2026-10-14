@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">模拟近红外光谱的基线估计与校正</title>
+  <desc id="desc">上图显示带弯曲基线的原始模拟光谱及估计基线，下图显示扣除基线后的光谱。</desc>
+  <rect width="960" height="560" rx="22" fill="#f4f1e8"/>
+  <g font-family="Arial, Noto Sans SC, sans-serif">
+    <text x="58" y="45" font-size="19" font-weight="700" fill="#182821">模拟光谱 / 基线校正示意</text>
+    <text x="902" y="44" text-anchor="end" font-size="11" letter-spacing="1.4" fill="#728078">SYNTHETIC DATA</text>
+    <g stroke="#d9d5ca" stroke-width="1">
+      <path d="M70 94H910M70 154H910M70 214H910M70 274H910M70 350H910M70 410H910M70 470H910"/>
+      <path d="M70 78V284M280 78V284M490 78V284M700 78V284M910 78V284M70 334V490M280 334V490M490 334V490M700 334V490M910 334V490" opacity=".65"/>
+    </g>
+    <g fill="#65756c" font-size="12">
+      <text x="68" y="306">900</text><text x="271" y="306">1200</text><text x="481" y="306">1500</text><text x="691" y="306">1800</text><text x="881" y="306">2100 nm</text>
+      <text x="68" y="516">900</text><text x="271" y="516">1200</text><text x="481" y="516">1500</text><text x="691" y="516">1800</text><text x="881" y="516">2100 nm</text>
+      <text x="70" y="72" font-weight="700" fill="#34493f">原始信号与估计基线</text>
+      <text x="70" y="328" font-weight="700" fill="#34493f">扣除基线后的信号</text>
+    </g>
+    <path d="M70 242 C132 238 182 228 236 220 C300 209 356 197 414 184 C477 170 535 154 594 139 C665 121 725 106 790 98 C835 92 872 91 910 92" fill="none" stroke="#d7902f" stroke-width="4" stroke-dasharray="9 8"/>
+    <path d="M70 242 C118 237 145 225 172 200 C194 179 218 164 242 213 C263 237 300 212 330 194 C356 176 376 134 400 107 C420 84 443 114 457 165 C471 205 500 198 525 168 C548 140 574 127 596 147 C622 170 652 136 680 113 C704 92 733 109 756 125 C790 147 824 109 854 95 C875 86 895 90 910 92" fill="none" stroke="#1b6d5a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M70 448 C118 443 145 431 172 406 C194 385 218 370 242 419 C263 443 300 418 330 400 C356 382 376 340 400 313 C420 290 443 320 457 371 C471 411 500 404 525 374 C548 346 574 333 596 353 C622 376 652 342 680 319 C704 298 733 315 756 331 C790 353 824 315 854 301 C875 292 895 296 910 298" fill="none" stroke="#7457a4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <g font-size="12">
+      <rect x="662" y="67" width="14" height="4" rx="2" fill="#1b6d5a"/><text x="684" y="74" fill="#34493f">原始模拟光谱</text>
+      <path d="M786 69h18" stroke="#d7902f" stroke-width="3" stroke-dasharray="5 4"/><text x="813" y="74" fill="#34493f">估计基线</text>
+      <rect x="782" y="318" width="14" height="4" rx="2" fill="#7457a4"/><text x="804" y="325" fill="#34493f">校正后光谱</text>
+    </g>
+  </g>
+</svg>

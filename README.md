@@ -27,16 +27,60 @@ python -m http.server 4173
 ## 发布到 GitHub Pages
 
 1. 在 GitHub 新建公开仓库。
-2. 上传 `index.html`、`all-articles.html`、`articles/`、根目录独立文章页、`data/`、`style.css`、`script.js`、`.nojekyll` 和 `README.md`。
+2. 上传整个网站项目，尤其不要遗漏 `.github/workflows/pages.yml`、`posts/`、`scripts/`、`data/`、`images/` 和 `vendor/`。
 3. 打开仓库的 `Settings → Pages`。
-4. 选择 `Deploy from a branch`、`main` 分支和 `/ (root)` 目录。
-5. 保存后等待 GitHub 生成网站地址。
+4. 在 `Build and deployment → Source` 中选择 `GitHub Actions`。
+5. 提交到 `main` 分支后，GitHub 会自动生成博文并发布网站。
 
 如果使用 GitHub Copilot，可以在仓库中打开这些文件，让 Copilot 按文件注释协助修改；修改后提交到 `main` 分支，GitHub Pages 会自动更新。
 
-## 更新文章页面
+## 一键发布 Markdown 博文（推荐）
 
-在 `data/author-articles.json` 的 `records` 数组中新增一篇原创文章。`slug` 使用小写英文和连字符且必须唯一；`category` 使用 `theory`、`processing`、`modeling` 或 `notes`。正文块支持 `p`、`h2`、`h3`、`quote`、`note`、`ul` 和 `ol`。`note` 块可用于带标签提示框。示例：
+1. 复制 `posts/示例文章.md`，或直接在 `posts/` 中新建一个 `.md` 文件。
+2. 填写文件顶部的标题、英文短名、分类、日期和摘要，然后用 Markdown 写正文。
+3. 双击根目录的 `一键生成博文.cmd`。它会更新独立文章页、首页索引和全部文章目录，并打开首页。
+
+生成器还会按日期自动更新首页“最近更新”右侧的 3 篇文章；标记为 `featured: true` 的文章继续显示在左侧精选主卡片中，不会在右侧重复出现。
+
+### 在 GitHub 网页中一键生成并发布
+
+1. 在仓库中打开 `posts/`，点击 `Add file → Create new file`，或打开现有 Markdown 后点击铅笔按钮编辑。
+2. 写完后点击 `Commit changes`，提交到 `main`。这次提交会自动触发生成和发布。
+3. 如果只是想重新生成一次，打开仓库的 `Actions`，选择左侧的“一键生成并发布博文”，点击 `Run workflow → Run workflow`。
+4. 等待任务显示绿色对勾；页面会使用新生成的文章、首页目录和“最近更新”板块。
+
+GitHub Actions 只在发布任务中生成网页，不会把生成后的 HTML 再提交回仓库；线上网站会是最新版本。Markdown 原稿和图片仍需先提交到仓库。若文章引用图片，请将图片同时上传到 `images/`。
+
+网站首页提供“在 GitHub 写新博文”入口；每篇由 `posts/*.md` 生成的文章底部提供“在 GitHub 编辑本文”和“查看 Markdown 原稿”。编辑链接固定指向 `iPAM-Lab/Spectra-Sensor` 的 `main` 分支。GitHub 登录账号需要拥有仓库写入权限；否则 GitHub 会提示通过 Fork 和 Pull Request 提交修改。
+
+在 VS Code 中也可以按 `Ctrl+Shift+B`，运行默认任务“一键生成博文”。支持二、三级标题、段落、粗体、斜体、链接、图片、引用、提示框、列表、表格、代码块，以及 `$行内公式$` 和独占一行的 `$$` 公式块。公式由网站内置的 KaTeX 在生成时排版，离线打开也能正常显示。
+
+文章开头示例：
+
+```markdown
+---
+slug: nir-calibration-basics
+title: 近红外模型校准的基本思路
+category: theory
+date: 2026.10.13
+description: 从样本、参考值和光谱关系理解校准模型。
+author: 李鱼强
+---
+
+这里开始写正文。行内公式写成 `$y=ax+b$`。
+
+$$
+\hat{y}=\mathbf{x}^{\mathsf T}\boldsymbol{\beta}
+$$
+
+![图片说明](../images/example.svg "图注")
+```
+
+`slug` 只能使用小写英文、数字和连字符，并且不能重复。`category` 可用 `theory`、`processing`、`modeling` 或 `notes`。不想发布的文章可在顶部加入 `draft: true`。
+
+## 旧版 JSON 写作方式
+
+原来的写作方式仍然保留：在 `data/author-articles.json` 的 `records` 数组中新增一篇原创文章。`slug` 使用小写英文和连字符且必须唯一；`category` 使用 `theory`、`processing`、`modeling` 或 `notes`。正文块支持 `p`、`h2`、`h3`、`quote`、`note`、`ul` 和 `ol`。`note` 块可用于带标签提示框。示例：
 
 ```json
 {
